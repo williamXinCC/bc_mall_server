@@ -1,0 +1,14 @@
+{
+    "cmsName": "layui后台管理模版",
+    "version": "v1.0.1",
+    "author": "william: 信闯",
+    "homePage": "http://117.50.22.58:8555/index/toLogin",
+    "server": "Linux",
+    "dataBase": "mysql 5.60",
+    "maxUpload": "2M",
+    "userRights": "总工程师,联系电话18701192829",
+    "description": "电商后台管理系统,电商大数据系统,欢迎接洽:18701192829",
+    "powerby": "copyright @2018 william:信",
+    "record": "京ICP备14040xxx号-1",
+    "keywords": "william 信闯"
+}
