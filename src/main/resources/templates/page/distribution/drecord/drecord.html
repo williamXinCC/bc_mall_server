@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>分销收益记录</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/dtree.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/font/dtreefont.css" media="all" />
+
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote">
+<form action="" method="post" id="searchFrm" lay-filter="searchFrm" class="layui-form layui-form-pane">
+	<div class="layui-form-item layui-inline">
+		<div class="layui-inline">
+			<label class="layui-form-label">推荐人姓名</label>
+			<div class="layui-input-inline" >
+				<input type="text" name="customerName" autocomplete="off" class="layui-input">
+			</div>
+			<label class="layui-form-label">客户姓名</label>
+			<div class="layui-input-inline">
+				<input type="text" name="customerPhone" autocomplete="off" class="layui-input">
+			</div>
+			<label class="layui-form-label">支付金额</label>
+			<div class="layui-input-inline">
+				<input type="text" name="customerPhone" autocomplete="off" class="layui-input">
+			</div>
+			<label class="layui-form-label">创建时间</label>
+			<div class="layui-input-inline">
+				<input type="text" name="createTime" autocomplete="off" placeholder="创建时间" class="layui-input createTime">
+			</div>
+		</div>
+		<!--<div class="layui-inline">-->
+
+		<!--</div>-->
+	</div>
+	<div class="layui-input-inline" style="text-align: right;">
+		<button type="button" class="layui-btn layui-btn-sm" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
+		<button type="reset"  class="layui-btn layui-btn-sm layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+	</div>
+</form>
+</blockquote>
+<!-- 查询条件结束-->
+
+
+<!-- 数据表格开始 -->
+<div>
+	<table class="layui-hide" id="drecordTable" lay-filter="drecordTable"></table>
+	<!--<div id="drecordToolBar" style="display: none;">-->
+		<!--<button type="button" lay-event="add" class="layui-btn layui-btn-sm"><span class="layui-icon layui-icon-add-1"></span>添加</button>-->
+	<!--</div>-->
+	<div id="drecordRowBar" style="display: none;">
+		<button type="button" lay-event="update" class="layui-btn layui-btn-sm layui-btn-normal"><span class="layui-icon layui-icon-edit layui-bg-blue"></span>详情</button>
+	</div>
+</div>
+
+<!-- 数据表格结束 -->
+
+<!-- 添加和修改的弹出层开始 -->
+<div style="display: none;padding: 5px" id="addOrUpdateDiv">
+	<form action="" method="post" class="layui-form layui-form-pane" id="dataFrm" lay-filter="dataFrm">
+		<input type="hidden" name="id">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">推荐人ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="upVipCustomerId" readonly lay-verify="required" autocomplete="off" placeholder="平台佣金比例" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">推荐人姓名</label>
+				<div class="layui-input-inline">
+					<input type="text" name="upVipCustomerName" lay-verify="required" readonly autocomplete="off" placeholder="上级佣金比例" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">支付用户ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="payCustomerId" lay-verify="required" readonly autocomplete="off" placeholder="上级佣金比例" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">支付用户ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="payCustomerName" lay-verify="required" readonly autocomplete="off" placeholder="上级佣金比例" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">订单ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="payOrderId" autocomplete="off" readonly placeholder="自己佣金比例" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">支付总价</label>
+				<div class="layui-input-inline">
+					<input type="text" name="payTotal" autocomplete="off" readonly placeholder="分销级别 默认为2级" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">上级佣金</label>
+				<div class="layui-input-inline">
+					<input type="text" name="upRebate" autocomplete="off" readonly placeholder="分销级别 默认为2级" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">平台佣金</label>
+				<div class="layui-input-inline">
+					<input type="text" name="platformRebate" autocomplete="off" readonly placeholder="分销级别 默认为2级" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">自己佣金</label>
+				<div class="layui-input-inline">
+					<input type="text" name="ownRebate" autocomplete="off" readonly placeholder="分销级别 默认为2级" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">创建时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="createTime" readonly autocomplete="off" placeholder="创建时间" class="layui-input createTime">
+				</div>
+			</div>
+		</div>
+ 	   <!--<div class="layui-form-item">-->
+		    <!--<div class="layui-input-block" style="text-align: center;">-->
+		      	<!--<button type="button" class="layui-btn" lay-submit="" lay-filter="doSubmit" ><span class="layui-icon layui-icon-add-1"></span>提交</button>-->
+      			<!--<button type="reset" onclick="javascript:document.getElementById('deptId').value=''" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>-->
+		     <!--</div>-->
+ 	   <!--</div>-->
+	</form>
+</div>
+<!-- 添加和修改的弹出层结束 -->
+
+
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/js/user/address.js"></script>
+<script type="text/javascript">
+var tableIns;
+var areaData = address;
+layui.extend({
+    dtree: '/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+  }).use(['jquery','form','table','layer','dtree','laydate'],function(){
+		var $=layui.jquery;
+		var form=layui.form;
+		var table=layui.table;
+		var layer=layui.layer;
+		var dtree=layui.dtree;
+    	$form = $('form');
+    	var laydate = layui.laydate;
+		// 渲染日期
+		laydate.render({
+			elem: '.createTime'
+		});
+
+
+		//加载 数据
+		 tableIns=table.render({
+			 elem: '#drecordTable'
+		    ,url:'/william-vip-rebate-record/getVipRebateRecord'
+		    ,toolbar: '#drecordToolBar' //开启头部工具栏，并为其绑定左侧模板
+		    ,title: '用户数据表'
+		    ,height:'full-155'
+		    ,page: true
+		    ,cols: [ [
+               {field:'upVipCustomerId', title:'推荐人ID',align:'center'}
+		      ,{field:'upVipCustomerName', title:'推荐人姓名',align:'center'}
+              ,{field:'payCustomerId', title:'客户ID',align:'center'}
+		      ,{field:'payCustomerName', title:'客户姓名',align:'center'}
+		      ,{field:'payOrderId', title:'订单ID',align:'center'}
+              ,{field:'upRebate', title:'上级佣金',align:'center'}
+              ,{field:'platformRebate', title:'平台佣金',align:'center',sort: true}
+              ,{field:'ownRebate', title:'自己佣金',align:'center'}
+              ,{field:'createTime', title:'创建时间',align:'center'}
+		      ,{fixed: 'right', title:'操作', toolbar: '#drecordRowBar',align:'center'}
+		    ] ]
+		    ,done: function(res, curr, count){ //处理删除某一页最后一条数据的BUG
+		        if(res.data.length== 0 && curr!=1){
+		        	tableIns.reload({
+		        		page:{
+		        			curr:(curr-1)
+		        		}
+		        	});
+		        }
+		      }
+		});
+
+
+		//监听工具条的事件
+		table.on("toolbar(drecordTable)",function(obj){
+			switch(obj.event){
+				case 'add':
+					openAddLayer();
+					break;
+			};
+		});
+		
+		//监听行工具条的事件
+		table.on("tool(drecordTable)",function(obj){
+			  var data = obj.data; //获得当前行数据
+			 switch(obj.event){
+			    case 'update':
+			   		openUpdateUserLayer(data);
+			    break;
+			  };
+		});
+		
+		var mainIndex;
+		var url;
+
+		//打开添加的弹出层
+		function openAddLayer(data){
+			mainIndex=layer.open({
+                skin: 'layui-layer-molv',
+				type:1,
+				content:$("#addOrUpdateDiv"),
+//				customerDistricts:['800px','1300px'],
+				area: ['80%','80%'],
+				title:'添加用户',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					url="/william-rebate/addRebate";
+					form.render("select");
+				}
+			});
+		}
+		
+		//打开修改的弹出层
+		function openUpdateUserLayer(data){
+			mainIndex=layer.open({
+                skin: 'layui-layer-molv',
+				type:1,
+				content:$("#addOrUpdateDiv"),
+//				customerDistricts:['800px','1300px'],
+                area: ['80%','80%'],
+				title:'修改用户',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					//装载新的数据
+					form.val("dataFrm",data);
+					url="/william-rebate/updateRebate";
+				}
+			});
+		}
+
+		form.on("submit(doSubmit)",function(data){
+		    // checkBox
+            var checkBoxValue = $("input:checkbox[name='asManager']:checked").val();
+            data.field.asManager = checkBoxValue != null ? 1 : 2;
+			 $.post(url,data.field,function(res){
+					if(res.code==200){
+						tableIns.reload();
+					}
+					layer.msg(res.msg);
+					layer.close(mainIndex);
+				});
+			return false;
+		});
+
+	});
+</script>
+
+</body>
+</html>

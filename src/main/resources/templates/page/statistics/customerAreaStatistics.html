@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"  style="height: 100%;width: 100%">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/css/public.css" media="all" />
+    <title>客户地域统计</title>
+</head>
+<body style="height: 100%; margin: 0">
+<div id="charts" style="height: 80%;width: 100%"></div>
+</body>
+<script type="text/javascript" src="/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script>
+    layui.use('jquery',function () {
+        var $ = layui.jquery;
+        $.get('/william-statistics/getCustomerAreaStatisticsData',function (data) {
+            var dom = document.getElementById("charts");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            option = {
+                title : {
+                    text: '用户区域访问统计',
+                    subtext: '纯属虚构',
+                    x:'center'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: data
+                },
+                series : [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['50%', '60%'],
+                        data:data,
+                        itemStyle: {
+//                            shadowBlur: 200,
+//                            shadowColor: 'rgba(0, 0, 0, 0.5)',
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ],
+                color: ['rgb(55,162,218)','rgb(103,224,227)','rgb(247,212,89)','rgb(243,152,121)','rgb(222,97,173)']
+            };
+
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+            }
+
+            sessionStorage.clear();
+        });
+    });
+</script>
+</html>

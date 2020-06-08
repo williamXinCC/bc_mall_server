@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>优惠券配置</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/dtree.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/font/dtreefont.css" media="all" />
+
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote">
+	<form action="" method="post" id="searchFrm" lay-filter="searchFrm" class="layui-form layui-form-pane">
+		<div class="layui-form-item layui-inline">
+		    <div class="layui-inline">
+		      <label class="layui-form-label">所属平台</label>
+		      <div class="layui-input-inline">
+				<select name="platform" autocomplete="on" class="layui-input">
+					<option value="">所属平台</option>
+					<option value="1">移动APP</option>
+					<option value="2">小程序</option>
+					<option value="3">PC</option>
+				</select>
+			  </div>
+				<label class="layui-form-label">开始日期</label>
+				<div class="layui-input-inline">
+					<input type="text" name="startTime" id="startTime" autocomplete="off" placeholder="开始日期" class="layui-input">
+				</div>
+				<label class="layui-form-label">领取时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="enableTime" id="enableTime" autocomplete="off" placeholder="开始日期" class="layui-input">
+				</div>
+			</div>
+		  </div>
+			<div class="layui-input-inline" style="text-align: right;">
+				<button type="button" class="layui-btn layui-btn-sm" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
+				<button type="reset"  class="layui-btn layui-btn-sm layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+			</div>
+	</form>
+</blockquote>
+<!-- 查询条件结束-->
+
+
+<!-- 数据表格开始 -->
+<div>
+	<table class="layui-hide" id="couponTable" lay-filter="couponTable"></table>
+	<div id="couponToolBar" style="display: none;">
+		<button type="button" lay-event="add" class="layui-btn layui-btn-sm"><span class="layui-icon layui-icon-add-1"></span>添加用户</button>
+	</div>
+	<div id="couponRowBar" style="display: none;">
+		<button type="button" lay-event="update" class="layui-btn layui-btn-sm layui-btn-normal"><span class="layui-icon layui-icon-edit layui-bg-blue"></span>更新</button>
+		<button type="button" lay-event="info" class="layui-btn layui-btn-sm layui-btn-warm"><span class="layui-icon layui-icon-note"></span>详情</button>
+	</div>
+</div>
+
+<!-- 数据表格结束 -->
+
+<!-- 添加和修改的弹出层开始 -->
+<div style="display: none;padding: 5px" id="addOrUpdateDiv">
+	<form action="" method="post" class="layui-form layui-form-pane" id="dataFrm" lay-filter="dataFrm">
+		<input type="hidden" name="createId" id="createId">
+		<input type="hidden" name="modId" id="modId">
+		<input type="hidden" name="couponId">
+		<div class="layui-form-item">
+			<input type="hidden" name="couponId">
+			<div class="layui-inline">
+				<label class="layui-form-label">类型</label>
+				<div class="layui-input-inline">
+					<select name="type" autocomplete="on" class="layui-input">
+						<option value="">类型</option>
+						<option value="1">全场赠卷</option>
+						<option value="2">会员赠券</option>
+						<option value="3">购物赠券</option>
+						<option value="4">注册赠券</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">名称</label>
+				<div class="layui-input-inline">
+					<input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="数量" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+			<label class="layui-form-label">所属平台</label>
+				<div class="layui-input-inline">
+					<select name="platform" autocomplete="on" class="layui-input">
+						<option value="">所属平台</option>
+						<option value="1">移动APP</option>
+						<option value="2">小程序</option>
+						<option value="3">PC</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">数量</label>
+				<div class="layui-input-inline">
+					<input type="text" name="count" lay-verify="required" autocomplete="off" placeholder="数量" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">金额</label>
+				<div class="layui-input-inline">
+					<input type="text" name="amount" lay-verify="required" autocomplete="off" placeholder="金额" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">每人限领</label>
+				<div class="layui-input-inline">
+					<input type="text" name="perLimit" autocomplete="off" placeholder="每人限领" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">使用门槛</label>
+				<div class="layui-input-inline">
+					<input type="text" name="minPoint" autocomplete="off" placeholder="使用门槛" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">开始日期</label>
+				<div class="layui-input-inline">
+					<input type="text" name="startTime" id="formStartTime" autocomplete="off" placeholder="开始日期" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">结束时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="endTime" id="formEndTime" autocomplete="off" placeholder="开始日期" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">使用类型</label>
+				<div class="layui-input-inline">
+					<select name="useType" autocomplete="on" class="layui-input">
+						<option value="">类型</option>
+						<option value="1">全场通用</option>
+						<option value="2">指定分类</option>
+						<option value="3">指定商品</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">备注</label>
+				<div class="layui-input-inline">
+					<input type="text" name="remark" autocomplete="off" placeholder="备注" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">发行数量</label>
+				<div class="layui-input-inline">
+					<input type="text" name="publishCount" autocomplete="off" placeholder="发行数量" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">已使用数量</label>
+				<div class="layui-input-inline">
+					<input type="text" name="useCount" autocomplete="off" placeholder="已使用数量" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">领取数量</label>
+				<div class="layui-input-inline">
+					<input type="text" name="recevieCount" autocomplete="off" placeholder="领取数量" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">领取日期</label>
+				<div class="layui-input-inline">
+					<input type="text" name="enableTime" id="senableTime" autocomplete="off" placeholder="开始日期" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">优惠码</label>
+				<div class="layui-input-inline">
+					<input type="text" name="code" autocomplete="off" placeholder="优惠码" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">可领取会员类型</label>
+				<div class="layui-input-inline">
+					<select name="memberLevel" autocomplete="on" class="layui-input">
+						<option value="">类型</option>
+						<option value="0">无限制</option>
+						<option value="1">一级会员</option>
+						<option value="2">二级会员</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">所属店铺</label>
+				<div class="layui-input-inline">
+					<input type="text" name="storeId" autocomplete="off" placeholder="优惠码" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">创建人</label>
+				<div class="layui-input-inline">
+					<input type="text" name="createName" autocomplete="off"  disabled placeholder="创建人" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">创建时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="createTime" id="createTime" disabled placeholder="创建时间" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">修改人</label>
+				<div class="layui-input-inline">
+					<input type="text" name="modName" autocomplete="off" disabled placeholder="修改人" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">修改时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="modTime" id="modTime" disabled placeholder="修改时间" class="layui-input">
+				</div>
+			</div>
+		</div>
+ 	   <div class="layui-form-item">
+		    <div class="layui-input-block" style="text-align: center;">
+		      	<button type="button" class="layui-btn" lay-submit="" lay-filter="doSubmit" ><span class="layui-icon layui-icon-add-1"></span>提交</button>
+      			<button type="reset" onclick="javascript:document.getElementById('deptId').value=''" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+		     </div>
+ 	   </div>
+	</form>
+</div>
+<!-- 添加和修改的弹出层结束 -->
+
+<!-- 详情-->
+<div style="display: none;padding: 5px" id="infoDiv">
+	<form action="" method="post" class="layui-form layui-form-pane" id="infoFrm" lay-filter="infoFrm">
+		<div class="layui-form-item">
+			<input type="hidden" name="couponId">
+			<div class="layui-inline">
+				<label class="layui-form-label">类型</label>
+				<div class="layui-input-inline">
+					<select name="type" autocomplete="on" class="layui-input">
+						<option value="">类型</option>
+						<option value="1">全场赠卷</option>
+						<option value="2">会员赠券</option>
+						<option value="3">购物赠券</option>
+						<option value="4">注册赠券</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">名称</label>
+				<div class="layui-input-inline">
+					<input type="text" name="name" lay-verify="required" disabled autocomplete="off" placeholder="数量" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">所属平台</label>
+				<div class="layui-input-inline">
+					<select name="platform" autocomplete="on" class="layui-input" >
+						<option value="">所属平台</option>
+						<option value="1">移动APP</option>
+						<option value="2">小程序</option>
+						<option value="3">PC</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">数量</label>
+				<div class="layui-input-inline">
+					<input type="text" name="count" lay-verify="required" autocomplete="off" placeholder="数量" class="layui-input" disabled>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">金额</label>
+				<div class="layui-input-inline">
+					<input type="text" name="amount" lay-verify="required" autocomplete="off" placeholder="金额" class="layui-input" disabled>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">每人限领</label>
+				<div class="layui-input-inline">
+					<input type="text" name="perLimit" autocomplete="off" placeholder="每人限领" class="layui-input" disabled>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">使用门槛</label>
+				<div class="layui-input-inline">
+					<input type="text" name="minPoint" autocomplete="off" placeholder="使用门槛" class="layui-input" disabled>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">开始日期</label>
+				<div class="layui-input-inline">
+					<input type="text" name="startTime" autocomplete="off" placeholder="开始日期" class="layui-input" disabled>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">结束时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="endTime" autocomplete="off" placeholder="开始日期" class="layui-input" disabled>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">使用类型</label>
+				<div class="layui-input-inline">
+					<select name="useType" autocomplete="on" class="layui-input" >
+						<option value="">类型</option>
+						<option value="1">全场通用</option>
+						<option value="2">指定分类</option>
+						<option value="3">指定商品</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">备注</label>
+				<div class="layui-input-inline">
+					<input type="text" name="remark" autocomplete="off" placeholder="备注" class="layui-input" disabled>
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">发行数量</label>
+				<div class="layui-input-inline">
+					<input type="text" name="publishCount" autocomplete="off" placeholder="发行数量" class="layui-input" disabled>
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">已使用数量</label>
+				<div class="layui-input-inline">
+					<input type="text" name="useCount" autocomplete="off" placeholder="已使用数量" class="layui-input" disabled>
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">领取数量</label>
+				<div class="layui-input-inline">
+					<input type="text" name="recevieCount" autocomplete="off" placeholder="领取数量" class="layui-input" disabled>
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">领取日期</label>
+				<div class="layui-input-inline">
+					<input type="text" name="enableTime" autocomplete="off" placeholder="开始日期" class="layui-input" disabled>
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">优惠码</label>
+				<div class="layui-input-inline">
+					<input type="text" name="code" autocomplete="off" placeholder="优惠码" class="layui-input" disabled>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">可领取会员类型</label>
+				<div class="layui-input-inline">
+					<select name="memberLevel" autocomplete="on" class="layui-input" >
+						<option value="">类型</option>
+						<option value="0">无限制</option>
+						<option value="1">一级会员</option>
+						<option value="2">二级会员</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">所属店铺</label>
+				<div class="layui-input-inline">
+					<input type="text" name="storeId" autocomplete="off" placeholder="优惠码" class="layui-input" disabled>
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label">创建人</label>
+				<div class="layui-input-inline">
+					<input type="text" name="createName" autocomplete="off"  disabled placeholder="创建人" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">创建时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="createTime" disabled placeholder="创建时间" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">修改人</label>
+				<div class="layui-input-inline">
+					<input type="text" name="modName" autocomplete="off" disabled placeholder="修改人" class="layui-input" />
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">修改时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="modTime" disabled placeholder="修改时间" class="layui-input" />
+				</div>
+			</div>
+		</div>
+		<!--<div class="layui-form-item">-->
+			<!--&lt;!&ndash;<div class="layui-input-block" style="text-align: center;">&ndash;&gt;-->
+				<!--&lt;!&ndash;<button type="button" class="layui-btn" lay-submit="" lay-filter="doSubmit" ><span class="layui-icon layui-icon-add-1"></span>提交</button>&ndash;&gt;-->
+				<!--&lt;!&ndash;<button type="reset" onclick="javascript:document.getElementById('deptId').value=''" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>&ndash;&gt;-->
+			<!--&lt;!&ndash;</div>&ndash;&gt;-->
+		<!--</div>-->
+	</form>
+</div>
+<!-- 详情结束 -->
+
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/js/user/address.js"></script>
+<script type="text/javascript">
+var tableIns;
+var areaData = address;
+layui.extend({
+    dtree: '/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+  }).use(['jquery','form','table','layer','dtree','laydate'],function(){
+		var $=layui.jquery;
+		var form=layui.form;
+		var table=layui.table;
+		var layer=layui.layer;
+		var dtree=layui.dtree;
+    	$form = $('form');
+    	var laydate = layui.laydate;
+		// 渲染日期
+		laydate.render({
+			elem: '#startTime'
+		});
+
+		// 渲染日期
+		laydate.render({
+			elem: '#formStartTime'
+		});
+
+		// 渲染日期
+		laydate.render({
+			elem: '#formEndTime'
+		});
+
+
+		// 渲染日期
+		laydate.render({
+			elem: '#enableTime'
+		});
+
+
+		// 渲染日期
+		laydate.render({
+			elem: '#senableTime'
+		});
+
+
+		//加载 数据
+		 tableIns=table.render({
+			 elem: '#couponTable'
+		    ,url:'/william-coupon/getCouponList'
+		    ,toolbar: '#couponToolBar' //开启头部工具栏，并为其绑定左侧模板
+		    ,title: '优惠券'
+		    ,height:'full-155'
+		    ,page: true
+		    ,cols: [ [
+		      {field:'type', title:'类型',align:'center',width:'120',templet:function(d){
+                  var r = d.type
+				  if(r == 1){
+                      return "<font color=#1e90ff>全场赠送</font>"
+				  }else if(2 == r){
+                      return "<font color=#1e90ff>会员赠送</font>"
+				  }else if(3 == r){
+				      return "<font color=#1e90ff>购物赠送</font>"
+				  }else if(4 == r){
+				      return  "<font color=#1e90ff>注册赠券</font>"
+				  }else{
+				      return ''
+				  }
+              }}
+		      ,{field:'name', title:'名称',align:'center',width:'120'}
+              ,{field:'platform', title:'平台',align:'center',width:'120',templet:function(d){
+                     var r = d.platform;
+                     if(r == 1){
+                         return "<font color=orange>移动APP</font>"
+                     }else if(2 == r){
+                         return "<font color=orange>小程序</font>"
+                     }else if(3 == r){
+                         return "<font color=orange>PC</font>"
+                     }else{
+                         return ''
+                     }
+                 }}
+			  ,{field:'count', title:'数量',align:'center',width:'80',sort: true}
+		      ,{field:'amount', title:'金额',align:'center',width:'100',sort: true}
+		      ,{field:'perLimit', title:'每人限领数',align:'center',width:'110',sort: true}
+//		      ,{field:'couponGender', title:'性别',align:'center',width:'80',templet:function(d){
+//		    	  return d.couponGender == 1?'<font color=blue>男</font>':'<font color=red>女</font>';
+//		      }}
+//			 ,{field:'officialStatus', title:'客户类型',align:'center',width:'120',templet:function(d){
+//				 return d.officialStatus == 1?'<font color=blue>普通客户</font>':'<font color=red>分销客户</font>';
+//			 }}
+			  ,{field:'minPoint', title:'使用门槛',align:'center',width:'120'}
+              ,{field:'startTime', title:'开始时间',align:'center',width:'140',sort: true}
+              ,{field:'endTime', title:'结束时间',align:'center',width:'140',sort: true}
+			  ,{field:'useType', title:'使用类型',align:'center',width:'120',templet:function(d){
+				 var r = d.useType
+				 if(r == 1){
+					 return "<font color=red>全场通用</font>"
+				 }else if(2 == r){
+					 return "<font color=red>指定分类</font>"
+				 }else if(3 == r){
+					 return "<font color=red>指定商品</font>"
+				 }else{
+					 return ''
+				 }
+			  }}
+              ,{field:'remark', title:'备注',align:'center',width:'120'}
+              ,{field:'publishCount', title:'发行数量',align:'center',width:'80',sort: true}
+		      ,{field:'useCount', title:'已使用数量',align:'center',width:'80',sort: true}
+		      ,{field:'recevieCount', title:'领取数量',align:'center',width:'80',sort: true}
+		      ,{field:'enableTime', title:'可领取日期',align:'center',width:'140',sort: true}
+              ,{field:'code', title:'优惠码',align:'center',width:'120'}
+			 ,{field:'memberLevel', title:'领取会员类型',align:'center',width:'120',templet:function(d){
+				 return "<font color=blue>无限制</font>"
+			 }}
+			 ,{field:'createName', title:'创建人',align:'center',width:'120'}
+			 ,{field:'createTime', title:'创建时间',align:'center',width:'140',sort: true}
+			 ,{field:'modName', title:'修改人',align:'center',width:'120'}
+			 ,{field:'modTime', title:'修改时间',align:'center',width:'140',sort: true}
+		      ,{fixed: 'right', title:'操作', toolbar: '#couponRowBar',align:'center',width:'200'}
+		    ] ]
+		    ,done: function(res, curr, count){ //处理删除某一页最后一条数据的BUG
+		        if(res.data.length== 0 && curr!=1){
+		        	tableIns.reload({
+		        		page:{
+		        			curr:(curr-1)
+		        		}
+		        	});
+		        }
+		      }
+			});
+
+		//模糊查询
+		form.on("submit(doSearch)",function(data){
+		    console.log(data.field)
+			tableIns.reload({
+				where:data.field,
+				page:{
+					curr:1
+				}
+			});
+			return false;
+		});
+		
+		//监听工具条的事件
+		table.on("toolbar(couponTable)",function(obj){
+			 switch(obj.event){
+			    case 'add':
+			     openAddLayer();
+			    break;
+			  };
+		});
+		
+		//监听行工具条的事件
+		table.on("tool(couponTable)",function(obj){
+			  var data = obj.data; //获得当前行数据
+			 switch(obj.event){
+			    case 'update':
+			   		openUpdateUserLayer(data);
+			    break;
+			    case 'info':
+                    openInfoLayer(data);
+			    break;
+			  };
+		});
+		
+		var mainIndex;
+		var url;
+
+		//打开添加的弹出层
+		function openAddLayer(data){
+			mainIndex=layer.open({
+                skin: 'layui-layer-molv',
+				type:1,
+				content:$("#addOrUpdateDiv"),
+//				couponDistricts:['800px','1300px'],
+				area: ['80%','80%'],
+				title:'添加优惠券',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					url="/william-coupon/addCoupon";
+					form.render("select");
+				}
+			});
+		}
+		
+		//打开修改的弹出层
+		function openUpdateUserLayer(data){
+			mainIndex=layer.open({
+                skin: 'layui-layer-molv',
+				type:1,
+				content:$("#addOrUpdateDiv"),
+//				couponDistricts:['800px','1300px'],
+                area: ['80%','80%'],
+				title:'修改优惠券',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					//装载新的数据
+					form.val("dataFrm",data);
+					url="/william-coupon/updateCoupon";
+				}
+			});
+		}
+
+		//打开详情弹出层
+		function openInfoLayer(data){
+			mainIndex = layer.open({
+				skin: 'layui-layer-molv',
+				type:1,
+				content:$("#infoDiv"),
+				area: ['80%','80%'],
+				title:'优惠券详情',
+				success:function(){
+					$("#infoFrm")[0].reset();
+					//装载新的数据
+					form.val("infoFrm",data);
+				}
+			});
+		}
+
+
+    	form.on("submit(doSubmit)",function(data){
+		    // checkBox
+            var checkBoxValue = $("input:checkbox[name='asManager']:checked").val();
+            data.field.asManager = checkBoxValue != null ? 1 : 2;
+			 $.post(url,data.field,function(res){
+					if(res.code==200){
+						tableIns.reload();
+					}
+					layer.msg(res.msg);
+					layer.close(mainIndex);
+				});
+			return false;
+		});
+
+
+	});
+</script>
+
+</body>
+</html>

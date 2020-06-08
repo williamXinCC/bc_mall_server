@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>订单管理</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/dtree.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/font/dtreefont.css" media="all" />
+
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote">
+	<form action="" method="post" id="searchFrm" lay-filter="searchFrm" class="layui-form layui-form-pane">
+		<div class="layui-form-item layui-inline">
+		    <div class="layui-inline">
+		      <label class="layui-form-label">订单ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="customerOrderId" autocomplete="off" class="layui-input">
+				</div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">订单编号</label>
+		      <div class="layui-input-inline">
+		        <input type="text" name="orderCode" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">创建时间</label>
+		      <div class="layui-input-inline">
+				  <input name="createTime" id="createTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+			<div class="layui-inline">
+				<label class="layui-form-label">付款时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="payTime" id="payTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		  </div>
+		  <div class="layui-form-item layui-inline">
+		      <div class="layui-input-block" style="text-align: center;">
+		      	<button type="button" class="layui-btn" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
+      			<button type="reset"  class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+		      </div>
+		  </div>
+	</form>
+</blockquote>
+<!-- 查询条件结束-->
+
+
+<!-- 数据表格开始 -->
+<div>
+	<table class="layui-hide" id="orderTable" lay-filter="orderTable"></table>
+	<!--<div id="orderToolBar" style="display: none;">-->
+		<!--<button type="button" lay-event="update" class="layui-btn layui-btn-sm layui-btn-normal"><span class="layui-icon layui-icon-edit layui-bg-blue"></span>更新</button>-->
+		<!--<button type="button" lay-event="delete" class="layui-btn layui-btn-sm layui-btn-danger"><span class="layui-icon layui-icon-delete"></span>删除</button>-->
+	<!--</div>-->
+
+	<div id="orderRowBar" style="display: none;">
+		<button type="button" lay-event="update" class="layui-btn layui-btn-sm layui-btn-normal"><span class="layui-icon layui-icon-edit"></span>更新</button>
+		<button type="button" lay-event="delete" class="layui-btn layui-btn-sm layui-btn-danger"><span class="layui-icon layui-icon-delete"></span>删除</button>
+	</div>
+</div>
+
+<!-- 数据表格结束 -->
+
+<!-- 添加和修改的弹出层开始 -->
+<div style="display: none;padding: 5px" id="addOrUpdateDiv">
+	<form action="" method="post" class="layui-form layui-form-pane" id="dataFrm" lay-filter="dataFrm">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">订单ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="customerOrderId" id="customerOrderId" lay-verify="required" disabled autocomplete="off" class="layui-input">
+				</div>
+			</div>
+	 	</div>
+	 	<div class="layui-form-item">
+		    <div class="layui-inline">
+			   <label class="layui-form-label">订单编号</label>
+		    	<div class="layui-input-inline">
+		      		<input type="text" name="orderCode" id="orderCode" lay-verify="required" disabled autocomplete="off" class="layui-input">
+		   		</div>
+		    </div>
+			<div class="layui-inline">
+				<label class="layui-form-label">订单名称</label>
+				<div class="layui-input-inline">
+					<input type="text" name="orderName" id="orderName" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+	 	</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">订单状态</label>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">创建时间</label>
+				<div class="layui-input-block">
+					<input type="text" name="createTime" id="updateCreateTime" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">关闭时间</label>
+				<div class="layui-input-block">
+					<input type="text" name="closeTime" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">订单类型</label>
+				<div class="layui-input-inline">
+					<input type="text" name="orderType" id="orderType" autocomplete="off"  class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">快递类型</label>
+				<div class="layui-input-inline">
+					<input type="text" name="emsType" id="emsType" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">订单备注</label>
+		    <div class="layui-input-block">
+		    	 <textarea class="layui-textarea" name="con_content" id="con_content"></textarea>
+		    </div>
+ 	   </div>
+ 	   <div class="layui-form-item">
+		    <div class="layui-input-block" style="text-align: center;">
+		      	<button type="button" class="layui-btn" lay-submit="" lay-filter="doSubmit" ><span class="layui-icon layui-icon-add-1"></span>提交</button>
+      			<button type="reset"  class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+		     </div>
+ 	   </div>
+	</form>
+</div>
+<!-- 添加和修改的弹出层结束 -->
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript">
+var tableIns;
+layui.use(['jquery','form','table','layer','laydate'],function(){
+		var $=layui.jquery;
+		var form=layui.form;
+		var table=layui.table;
+		var layer=layui.layer;
+		var dtree=layui.dtree;
+    	var laydate = layui.laydate;
+
+		// 渲染日期
+		laydate.render({
+			elem: '#createTime'
+		});
+
+		// 渲染日期
+		laydate.render({
+			elem: '#updateCreateTime'
+		});
+
+		// 渲染日期
+		laydate.render({
+			elem: '#closeTime'
+		});
+
+		laydate.render({
+			elem: '#payTime'
+		});
+
+		//加载 数据
+		 tableIns=table.render({
+			 elem: '#orderTable'
+		    ,url:'/william-customer-order/getOrderList'
+		    ,toolbar: '#orderToolBar' //开启头部工具栏，并为其绑定左侧模板
+		    ,title: '订单管理'
+		    ,height:'full-115'
+		    ,page: true
+		    ,cols: [ [
+		      {field:'customerOrderId', title:'订单ID',align:'center',width:'80'}
+              ,{field:'customerId', title:'订单编号',align:'center',width:'120'}
+		      ,{field:'orderCode', title:'订单编号',align:'center',width:'120'}
+		      ,{field:'orderGoodsType', title:'物品类型',align:'center',width:'120',templet:function(d){
+        		return d.orderType == 1?'<font color=blue>非实物</font>':'<font color=red>实物</font>';
+	          }}
+                 ,{field:'orderAmount', title:'订单总价',align:'center',width:'120',sort: true}
+                 ,{field:'orderDiscountAmount', title:'订单优惠金额',align:'center',width:'120',sort: true}
+                 ,{field:'orderPayAmount', title:'订单实际金额',align:'center',width:'120',sort: true}
+                 ,{field:'payTime', title:'付款时间',align:'center',width:'120',sort: true}
+                 ,{field:'orderStatus', title:'订单状态',align:'center',width:'80',sort: true,templet:function(d){
+//                     1- 等待付款,
+//                     2- 交易成功,
+//                     3- 订单关闭(客户未付款24小时,或用户手动取消),
+//                     4- 退款成功,
+//                     5 - 等待发货
+//                     6- 等待收货
+//                     7-退货申请,
+//                     8- 退货处理,
+//                     9 - 退款处理,
+//                     10-退款失败
+                     var orderstatus =  d.orderStatus;
+                     if(orderstatus == 1){
+                         return '<font color=blue>等待付款</font>'
+                     }else if(orderstatus == 2){
+                         return '<font color=blue>交易成功</font>'
+                     }else if(orderstatus == 3){
+                         return '<font color=blue>订单关闭</font>'
+                     }else if(orderstatus == 4){
+                         return '<font color=blue>退款成功</font>'
+                     }else if(orderstatus == 5){
+                         return '<font color=blue>等待发货</font>'
+                     }else if(orderstatus == 6){
+                         return '<font color=blue>等待收货</font>'
+                     }else if(orderstatus == 7){
+                         return '<font color=blue>退货申请</font>'
+                     }else if(orderstatus == 8){
+                         return '<font color=blue>退货处理</font>'
+                     }else if(orderstatus == 9){
+                         return '<font color=blue>退款处理</font>'
+                     }else if(orderstatus == 10){
+                         return '<font color=blue>退款失败</font>'
+                     }else{
+                         return '<font color=blue>无状态</font>'
+                     }
+                 }}
+                 ,{field:'payId', title:'支付ID',align:'center',width:'120'}
+                 ,{field:'payChannelId', title:'支付渠道',align:'center',width:'120'}
+                 ,{field:'createTime', title:'创建时间',align:'center',width:'120',sort: true}
+                 ,{field:'closeTime', title:'关闭时间',align:'center',width:'120',sort: true}
+//		      ,{field:'emsType', title:'快递方式',align:'center',width:'160',templet:function(d){
+//                     return d.orderStatus == 1?'<font color=blue>顺丰</font>':'<font color=red>圆通</font>';
+//              }}
+              ,{fixed: 'right', title:'操作', toolbar: '#orderRowBar',align:'center',width:'200'}
+		    ] ]
+		    ,done: function(res, curr, count){ //处理删除某一页最后一条数据的BUG
+		        if(res.data.length== 0 && curr!=1){
+		        	tableIns.reload({
+		        		page:{
+		        			curr:(curr-1)
+		        		}
+		        	});
+		        }
+		      }
+		});
+
+		//模糊查询
+		form.on("submit(doSearch)",function(data){
+			tableIns.reload({
+				where:data.field,
+				page:{
+					curr:1
+				}
+			});
+			return false;
+		});
+		
+		//监听工具条的事件
+		table.on("toolbar(orderTable)",function(obj){
+			 switch(obj.event){
+			    case 'add':
+			     openAddLayer();
+			    break;
+			  }
+		});
+		
+		//监听行工具条的事件
+		table.on("tool(orderTable)",function(obj){
+			  var data = obj.data; //获得当前行数据
+			 switch(obj.event){
+			    case 'update':
+			   		openUpdateUserLayer(data);
+			    break;
+			    case 'delete':
+			   		deleteUser(data);
+			    break;
+			  }
+		});
+		
+		var mainIndex;
+		var url;
+
+		//打开修改的弹出层
+		function openUpdateUserLayer(data){
+			mainIndex=layer.open({
+                skin: 'layui-layer-molv',
+				type:1,
+				content:$("#addOrUpdateDiv"),
+				area:['800px','600px'],
+				title:'订单修改',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					$("#deptId").val("");
+					//装载新的数据
+					form.val("dataFrm",data);
+					url="/william-customer-order/updateUser";
+				}
+			});
+		}
+
+		form.on("submit(doSubmit)",function(data){
+		    // checkBox
+            var checkBoxValue = $("input:checkbox[name='asManager']:checked").val();
+            data.field.asManager = checkBoxValue != null ? 1 : 2;
+			 $.post(url,data.field,function(res){
+					if(res.code==200){
+						tableIns.reload();
+					}
+					layer.msg(res.msg);
+					layer.close(mainIndex);
+				});
+			return false;
+		});
+
+		//删除
+		function deleteUser(data){
+			layer.confirm('你确定要删除【'+ data.customerOrderId +'】 这条订单吗?', {icon: 3, title:'提示',skin: 'layui-layer-molv'}, function(index){
+				$.post("/william-customer-order/deleteUser",{id:data.id},function(res){
+					if(res.code == 200){
+						tableIns.reload();
+					}
+					layer.msg(res.msg);
+				});
+			   layer.close(index);
+			});
+		}
+	
+	});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>支付管理</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/dtree.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/font/dtreefont.css" media="all" />
+
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote">
+	<form action="" method="post" id="searchFrm" lay-filter="searchFrm" class="layui-form layui-form-pane">
+		<div class="layui-form-item layui-inline">
+			<div class="layui-inline">
+				<label class="layui-form-label">客户ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="customerId" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">客户姓名</label>
+				<div class="layui-input-inline">
+					<input type="text" name="customerName" autocomplete="off" class="layui-input">
+				</div>
+		    </div>
+			<div class="layui-inline">
+				<label class="layui-form-label">支付渠道</label>
+				<div class="layui-input-inline">
+					<select name="payChannelId" autocomplete="on" class="layui-input">
+						<option value="">支付渠道</option>
+						<option value="1">支付宝</option>
+						<option value="2">微信公众号支付</option>
+						<option value="5">微信APP支付</option>
+						<option value="6">微信H5支付</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">支付状态</label>
+				<div class="layui-input-inline">
+				<select name="payStatus" autocomplete="on" class="layui-input">
+					<option value="">支付状态</option>
+					<option value="0">未支付</option>
+					<option value="1">已支付</option>
+					<option value="2">已退款</option>
+				</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+		      <label class="layui-form-label">支付时间</label>
+		      <div class="layui-input-inline">
+				  <input name="payTime" id="payTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		  </div>
+		  <div class="layui-form-item layui-inline">
+		      <div class="layui-input-block" style="text-align: center;">
+		      	<button type="button" class="layui-btn" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
+      			<button type="reset"  class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+		      </div>
+		  </div>
+	</form>
+</blockquote>
+<!-- 查询条件结束-->
+
+<!-- 添加和修改的弹出层开始 -->
+<div style="display: none;padding: 5px" id="addOrUpdateDiv">
+	<form action="" method="post" class="layui-form layui-form-pane" id="dataFrm" lay-filter="dataFrm">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">支付ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="payId" disabled lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">支付渠道</label>
+				<input type="hidden" name="payChannelId">
+				<div class="layui-input-inline">
+					<input type="text" name="payChannelName" disabled lay-verify="required" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">第三方记录ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="refId" disabled autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">第三方交易ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="outTradeId" disabled autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">用户</label>
+				<div class="layui-input-inline">
+					<input type="text" name="customerName" disabled autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">订单ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="orderId" disabled autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">支付时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="payTime" disabled autocomplete="off"  class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">支付总金额</label>
+				<div class="layui-input-inline">
+					<input type="text" name="payAmount" disabled autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">创建时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="createTime" disabled autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">支付状态</label>
+			<div class="layui-input-block">
+				<input type="radio" name="payStatus" class="layui-input" value="0" title="未支付">
+				<input type="radio" name="payStatus" class="layui-input" value="1" title="已支付">
+				<input type="radio" name="payStatus" class="layui-input" value="2" title="已退款">
+			</div>
+		</div>
+		<!--<div class="layui-form-item">-->
+			<!--<div class="layui-input-block" style="text-align: center;">-->
+				<!--<button type="button" class="layui-btn" lay-submit="" lay-filter="doSubmit" ><span class="layui-icon layui-icon-add-1"></span>提交</button>-->
+				<!--<button type="reset"  class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>-->
+			<!--</div>-->
+		<!--</div>-->
+	</form>
+</div>
+<!-- 添加和修改的弹出层结束 -->
+
+<!-- 数据表格开始 -->
+<div>
+	<table class="layui-hide" id="payTable" lay-filter="payTable"></table>
+	<div id="payToolBar" style="display: none;">
+		<!--<button type="button" lay-event="showInfo" class="layui-btn layui-btn-sm layui-btn-normal"><span class="layui-icon layui-icon-edit"></span>查看详情</button>-->
+	</div>
+	<div id="payRowBar" style="display: none;">
+		<button type="button" lay-event="showInfo" class="layui-btn layui-btn-sm layui-btn-normal"><span class="layui-icon layui-icon-edit"></span>查看详情</button>
+	</div>
+</div>
+
+<!-- 数据表格结束 -->
+
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript">
+var tableIns;
+layui.use(['jquery','form','table','layer','laydate'],function(){
+		var $=layui.jquery;
+		var form=layui.form;
+		var table=layui.table;
+		var layer=layui.layer;
+    	var laydate = layui.laydate;
+		// 渲染日期
+		laydate.render({
+			elem: '#payTime'
+		});
+		// 0-未支付, 1-已支付, 2-已退款
+		//加载 数据
+		 tableIns=table.render({
+			 elem: '#payTable'
+		    ,url:'/william-pay-record/getPayList'
+		    ,toolbar: '#payToolBar' //开启头部工具栏，并为其绑定左侧模板
+		    ,title: '支付管理'
+		    ,height:'full-210'
+		    ,page: true
+		    ,cols: [ [
+		      {field:'payId', title:'订单ID',align:'center',sort: true}
+		      ,{field:'payChannelName', title:'支付渠道',align:'center'}
+              ,{field:'refId', title:'第三方支付记录ID',align:'center'}
+		      ,{field:'outTradeId', title:'交易平台ID',align:'center'}
+		      ,{field:'customerId', title:'客户ID',align:'center'}
+		      ,{field:'customerName', title:'客户姓名',align:'center'}
+		      ,{field:'orderId', title:'订单ID',align:'center',sort: true}
+		      ,{field:'payTime', title:'支付时间',align:'center',sort: true}
+		      ,{field:'payAmount', title:'支付金额',align:'center',sort: true}
+		      ,{field:'payStatus', title:'支付状态',align:'center',sort: true,templet:function(d){
+		          if(d.payStatus == 0){
+		              return '<font color=blue>未支付</font>'
+				  }
+				  if(d.payStatus == 1){
+					 return '<font color=blue>已支付</font>'
+				  }
+				  if(d.payStatus == 2){
+					 return '<font color=blue>已退款</font>'
+				  }
+				  return '';
+              }}
+              ,{field:'createTime', title:'创建时间',align:'center',sort: true}
+              ,{fixed: 'right', title:'操作', toolbar: '#payRowBar',align:'center',width:'100'}
+		    ] ]
+		    ,done: function(res, curr, count){ //处理删除某一页最后一条数据的BUG
+		        if(res.data.length== 0 && curr!=1){
+		        	tableIns.reload({
+		        		page:{
+		        			curr:(curr-1)
+		        		}
+		        	});
+		        }
+		      }
+		});
+
+		//模糊查询
+		form.on("submit(doSearch)",function(data){
+			tableIns.reload({
+				where:data.field,
+				page:{
+					curr:1
+				}
+			});
+			return false;
+		});
+		
+		//监听工具条的事件
+		table.on("toolbar(payTable)",function(obj){
+			 switch(obj.event){
+			    case 'add':
+			     openAddLayer();
+			    break;
+			  }
+		});
+		
+		//监听行工具条的事件
+		table.on("tool(payTable)",function(obj){
+			  var data = obj.data; //获得当前行数据
+			 switch(obj.event){
+			    case 'showInfo':
+                    showInfo(data);
+			    break;
+			  }
+		});
+		
+		var mainIndex;
+		var url;
+
+		//打开修改的弹出层
+		function showInfo(data){
+			mainIndex=layer.open({
+                skin: 'layui-layer-molv',
+				type:1,
+				content:$("#addOrUpdateDiv"),
+				area:['800px','600px'],
+				title:'详情',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					$("#deptId").val("");
+					//装载新的数据
+					form.val("dataFrm",data);
+					url="/william-order/updateUser";
+				}
+			});
+		}
+
+		form.on("submit(doSubmit)",function(data){
+		    // checkBox
+            var checkBoxValue = $("input:checkbox[name='asManager']:checked").val();
+            data.field.asManager = checkBoxValue != null ? 1 : 2;
+			 $.post(url,data.field,function(res){
+					if(res.code==200){
+						tableIns.reload();
+					}
+					layer.msg(res.msg);
+					layer.close(mainIndex);
+				});
+			return false;
+		});
+
+	});
+</script>
+
+</body>
+</html>

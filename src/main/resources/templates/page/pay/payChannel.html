@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>支付渠道</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/dtree.css" media="all" />
+<link rel="stylesheet" href="/layui_ext/dtree/font/dtreefont.css" media="all" />
+
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote">
+	<form action="" method="post" id="searchFrm" lay-filter="searchFrm" class="layui-form layui-form-pane">
+		<div class="layui-form-item layui-inline">
+		    <div class="layui-inline">
+		      <label class="layui-form-label">渠道名称</label>
+		      <div class="layui-input-inline">
+		        <input type="text" name="channelShowName" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		  </div>
+		  <div class="layui-form-item layui-inline">
+		      <div class="layui-input-block" style="text-align: center;">
+		      	<button type="button" class="layui-btn" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
+      			<button type="reset"  class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+		      </div>
+		  </div>
+	</form>
+</blockquote>
+<!-- 查询条件结束-->
+
+
+<!-- 数据表格开始 -->
+<div>
+	<table class="layui-hide" id="payChannelTable" lay-filter="payChannelTable"></table>
+	<div id="payChannelToolBar" style="display: none;">
+		<button type="button" lay-event="add" class="layui-btn layui-btn-sm"><span class="layui-icon layui-icon-add-1"></span>添加</button>
+	</div>
+	
+	<div id="payChannelRowBar" style="display: none;">
+		<button type="button" lay-event="update" class="layui-btn layui-btn-sm layui-btn-normal"><span class="layui-icon layui-icon-edit layui-bg-blue"></span>更新</button>
+		<button type="button" lay-event="delete" class="layui-btn layui-btn-sm layui-btn-danger"><span class="layui-icon layui-icon-delete"></span>删除</button>
+	</div>
+</div>
+
+<!-- 数据表格结束 -->
+
+<!-- 添加和修改的弹出层开始 -->
+<div style="display: none;padding: 5px" id="addOrUpdateDiv">
+	<form action="" method="post" class="layui-form layui-form-pane" id="dataFrm" lay-filter="dataFrm">
+		<input type="hidden" name="payChannelId">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">渠道名称</label>
+				<div class="layui-input-inline">
+					<input type="text" name="channelShowName" id="channelShowName" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
+			    </div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">渠道状态</label>
+				<div class="layui-input-inline">
+					<input type="radio" name="status" value="1" title="可用">
+					<input type="radio" name="status" value="2" title="禁用">
+				</div>
+			</div>
+	 	</div>
+ 	   <div class="layui-form-item">
+		    <div class="layui-input-block" style="text-align: center;">
+		      	<button type="button" class="layui-btn" lay-submit="" lay-filter="doSubmit" ><span class="layui-icon layui-icon-add-1"></span>提交</button>
+      			<button type="reset" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+		     </div>
+ 	   </div>
+	</form>
+</div>
+<!-- 添加和修改的弹出层结束 -->
+
+
+<!-- 用户分配角色弹出层  开始 -->
+<div style="display: none;padding: 5px" id="selectUserRoleDiv">
+	<table class="layui-hide" id="roleTable" lay-filter="roleTable"></table>
+</div>
+
+
+<!-- 用户分配角色弹出层  结束 -->
+
+
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript">
+var tableIns;
+layui.extend({
+    dtree: '/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+  }).use(['jquery','form','table','layer','dtree','laydate'],function(){
+		var $=layui.jquery;
+		var form=layui.form;
+		var table=layui.table;
+		var layer=layui.layer;
+		var dtree=layui.dtree;
+    	var laydate = layui.laydate;
+		// 渲染日期
+		laydate.render({
+			elem: '#entryDate'
+		});
+
+		//加载 数据
+		 tableIns=table.render({
+			 elem: '#payChannelTable'
+		    ,url:'/william-pay-channel/getPayChannelList'
+		    ,toolbar: '#payChannelToolBar' //开启头部工具栏，并为其绑定左侧模板
+		    ,title: '用户管理'
+		    ,height:'full-115'
+		    ,page: true
+		    ,cols: [ [
+		      {field:'payChannelId', title:'ID',align:'center'}
+		      ,{field:'channelCode', title:'渠道编号',align:'center'}
+		      ,{field:'channelName', title:'渠道名称',align:'center'}
+		      ,{field:'channelShowName', title:'渠道展示名称',align:'center'}
+		      ,{field:'refundType', title:'退款类型',align:'center',templet:function(d){
+		    	  return d.refundType == 1?'<font color=blue>自动</font>':'<font color=red>手动</font>';
+		      }}
+                 ,{field:'seq', title:'排序吗',align:'center'}
+                 ,{field:'status', title:'状态',align:'center',templet:function(d){
+		    	  return d.status==1?'<font color=blue>可用</font>':'<font color=red>禁用</font>';
+		      }}
+                 ,{field:'createTime', title:'创建时间',align:'center'}
+                 ,{fixed: 'right', title:'操作', toolbar: '#payChannelRowBar',align:'center',width:'400'}
+		    ] ]
+		    ,done: function(res, curr, count){ //处理删除某一页最后一条数据的BUG
+		        if(res.data.length== 0 && curr!=1){
+		        	tableIns.reload({
+		        		page:{
+		        			curr:(curr-1)
+		        		}
+		        	});
+		        }
+		      }
+		});
+
+		//模糊查询
+		form.on("submit(doSearch)",function(data){
+			tableIns.reload({
+				where:data.field,
+				page:{
+					curr:1
+				}
+			});
+			return false;
+		});
+		
+		//监听工具条的事件
+		table.on("toolbar(payChannelTable)",function(obj){
+			 switch(obj.event){
+			    case 'add':
+			     openAddLayer();
+			    break;
+			  }
+		});
+		
+		//监听行工具条的事件
+		table.on("tool(payChannelTable)",function(obj){
+			  var data = obj.data; //获得当前行数据
+			 switch(obj.event){
+			    case 'update':
+			   		openUpdateUserLayer(data);
+			    break;
+			    case 'delete':
+			   		deleteUser(data);
+			    break;
+			  }
+		});
+		
+		var mainIndex;
+		var url;
+
+		//打开添加的弹出层
+		function openAddLayer(data){
+			mainIndex=layer.open({
+                skin: 'layui-layer-molv',
+				type:1,
+				content:$("#addOrUpdateDiv"),
+				area:['800px','600px'],
+				title:'添加用户',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					$("#orgid").val("");
+					url="/william-pay-channel/addPayChannel";
+//					//初始化排序码
+//					$.get("/william-pay-channel/getUserMaxOrderNum",function(res){
+//						$("#sort").val(res.value);
+//					});
+					var html="<option value='0'>请选择直属领导</option>";
+					$("#managerId").html(html);
+					form.render("select");
+				}
+			});
+		}
+		
+		//打开修改的弹出层
+		function openUpdateUserLayer(data){
+			mainIndex=layer.open({
+                skin: 'layui-layer-molv',
+				type:1,
+				content:$("#addOrUpdateDiv"),
+				area:['800px','600px'],
+				title:'修改用户',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					$("#deptId").val("");
+					//装载新的数据
+					form.val("dataFrm",data);
+					//选中之前的所属部门  nodeId=data.orgid;
+					dtree.dataInit("deptTree", data.deptId);
+   					dtree.setSelectValue("deptTree");
+					url="/william-pay-channel/updatePayChannel";
+				}
+			});
+		}
+
+		form.on("submit(doSubmit)",function(data){
+		    // checkBox
+            var checkBoxValue = $("input:checkbox[name='asManager']:checked").val();
+            data.field.asManager = checkBoxValue != null ? 1 : 2;
+			 $.post(url,data.field,function(res){
+					if(res.code==200){
+						tableIns.reload();
+					}
+					layer.msg(res.msg);
+					layer.close(mainIndex);
+				});
+			return false;
+		});
+
+		//删除
+		function deleteUser(data){
+			layer.confirm('你确定要删除【'+ data.userName +'】 这未用户吗?', {icon: 3, title:'提示',skin: 'layui-layer-molv'}, function(index){
+				$.post("/william-pay-channel/deletePayChannel",{id:data.id},function(res){
+					if(res.code == 200){
+						tableIns.reload();
+					}
+					layer.msg(res.msg);
+				});
+			   layer.close(index);
+			});
+		}
+
+	});
+</script>
+
+</body>
+</html>
