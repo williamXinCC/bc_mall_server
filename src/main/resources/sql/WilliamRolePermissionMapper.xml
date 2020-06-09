@@ -3,7 +3,7 @@
 <mapper namespace="com.william.bc_mall_server.mapper.WilliamRolePermissionMapper" >
   <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamRolePermission" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_code" property="roleCode" jdbcType="CHAR" />
     <result column="permission_id" property="permissionId" jdbcType="INTEGER" />
     <result column="create_id" property="createId" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, role_id, permission_id, create_id, create_time, mod_id, mod_time, tenant_id, 
+    id, role_code, permission_id, create_id, create_time, mod_id, mod_time, tenant_id, 
     client
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamRolePermissionExample" >
@@ -105,11 +105,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.bcpojo.WilliamRolePermission" >
-    insert into william_role_permission (id, role_id, permission_id, 
+    insert into william_role_permission (id, role_code, permission_id, 
       create_id, create_time, mod_id, 
       mod_time, tenant_id, client
       )
-    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{roleCode,jdbcType=CHAR}, #{permissionId,jdbcType=INTEGER}, 
       #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, 
       #{modTime,jdbcType=TIMESTAMP}, #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR}
       )
@@ -120,8 +120,8 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="roleId != null" >
-        role_id,
+      <if test="roleCode != null" >
+        role_code,
       </if>
       <if test="permissionId != null" >
         permission_id,
@@ -149,8 +149,8 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=INTEGER},
+      <if test="roleCode != null" >
+        #{roleCode,jdbcType=CHAR},
       </if>
       <if test="permissionId != null" >
         #{permissionId,jdbcType=INTEGER},
@@ -187,8 +187,8 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.roleId != null" >
-        role_id = #{record.roleId,jdbcType=INTEGER},
+      <if test="record.roleCode != null" >
+        role_code = #{record.roleCode,jdbcType=CHAR},
       </if>
       <if test="record.permissionId != null" >
         permission_id = #{record.permissionId,jdbcType=INTEGER},
@@ -219,7 +219,7 @@
   <update id="updateByExample" parameterType="map" >
     update william_role_permission
     set id = #{record.id,jdbcType=INTEGER},
-      role_id = #{record.roleId,jdbcType=INTEGER},
+      role_code = #{record.roleCode,jdbcType=CHAR},
       permission_id = #{record.permissionId,jdbcType=INTEGER},
       create_id = #{record.createId,jdbcType=CHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -234,8 +234,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.william.bcpojo.WilliamRolePermission" >
     update william_role_permission
     <set >
-      <if test="roleId != null" >
-        role_id = #{roleId,jdbcType=INTEGER},
+      <if test="roleCode != null" >
+        role_code = #{roleCode,jdbcType=CHAR},
       </if>
       <if test="permissionId != null" >
         permission_id = #{permissionId,jdbcType=INTEGER},
@@ -263,7 +263,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamRolePermission" >
     update william_role_permission
-    set role_id = #{roleId,jdbcType=INTEGER},
+    set role_code = #{roleCode,jdbcType=CHAR},
       permission_id = #{permissionId,jdbcType=INTEGER},
       create_id = #{createId,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

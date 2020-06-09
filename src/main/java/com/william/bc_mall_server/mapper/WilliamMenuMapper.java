@@ -11,7 +11,7 @@ public interface WilliamMenuMapper {
 
     int deleteByExample(WilliamMenuExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Integer menuId);
 
     int insert(WilliamMenu record);
 
@@ -19,7 +19,7 @@ public interface WilliamMenuMapper {
 
     List<WilliamMenu> selectByExample(WilliamMenuExample example);
 
-    WilliamMenu selectByPrimaryKey(Integer id);
+    WilliamMenu selectByPrimaryKey(Integer menuId);
 
     int updateByExampleSelective(@Param("record") WilliamMenu record, @Param("example") WilliamMenuExample example);
 

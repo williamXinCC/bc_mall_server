@@ -3,8 +3,10 @@
 <mapper namespace="com.william.bc_mall_server.mapper.WilliamRoleMapper" >
   <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamRole" >
     <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_code" property="roleCode" jdbcType="CHAR" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
     <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+    <result column="delete_type" property="deleteType" jdbcType="INTEGER" />
     <result column="create_id" property="createId" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="mod_id" property="modId" jdbcType="CHAR" />
@@ -72,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    role_id, role_name, role_desc, create_id, create_time, mod_id, mod_time, status, 
-    tenant_id, client
+    role_id, role_code, role_name, role_desc, delete_type, create_id, create_time, mod_id, 
+    mod_time, status, tenant_id, client
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamRoleExample" >
     select
@@ -106,14 +108,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.bcpojo.WilliamRole" >
-    insert into william_role (role_id, role_name, role_desc, 
-      create_id, create_time, mod_id, 
-      mod_time, status, tenant_id, 
-      client)
-    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{roleDesc,jdbcType=VARCHAR}, 
-      #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, 
-      #{modTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{tenantId,jdbcType=CHAR}, 
-      #{client,jdbcType=CHAR})
+    insert into william_role (role_id, role_code, role_name, 
+      role_desc, delete_type, create_id, 
+      create_time, mod_id, mod_time, 
+      status, tenant_id, client)
+    values (#{roleId,jdbcType=INTEGER}, #{roleCode,jdbcType=CHAR}, #{roleName,jdbcType=VARCHAR}, 
+      #{roleDesc,jdbcType=VARCHAR}, #{deleteType,jdbcType=INTEGER}, #{createId,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, #{modTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamRole" >
     insert into william_role
@@ -121,11 +123,17 @@
       <if test="roleId != null" >
         role_id,
       </if>
+      <if test="roleCode != null" >
+        role_code,
+      </if>
       <if test="roleName != null" >
         role_name,
       </if>
       <if test="roleDesc != null" >
         role_desc,
+      </if>
+      <if test="deleteType != null" >
+        delete_type,
       </if>
       <if test="createId != null" >
         create_id,
@@ -153,11 +161,17 @@
       <if test="roleId != null" >
         #{roleId,jdbcType=INTEGER},
       </if>
+      <if test="roleCode != null" >
+        #{roleCode,jdbcType=CHAR},
+      </if>
       <if test="roleName != null" >
         #{roleName,jdbcType=VARCHAR},
       </if>
       <if test="roleDesc != null" >
         #{roleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteType != null" >
+        #{deleteType,jdbcType=INTEGER},
       </if>
       <if test="createId != null" >
         #{createId,jdbcType=CHAR},
@@ -188,17 +202,24 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+
   <update id="updateByExampleSelective" parameterType="map" >
     update william_role
     <set >
       <if test="record.roleId != null" >
         role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
+      <if test="record.roleCode != null" >
+        role_code = #{record.roleCode,jdbcType=CHAR},
+      </if>
       <if test="record.roleName != null" >
         role_name = #{record.roleName,jdbcType=VARCHAR},
       </if>
       <if test="record.roleDesc != null" >
         role_desc = #{record.roleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleteType != null" >
+        delete_type = #{record.deleteType,jdbcType=INTEGER},
       </if>
       <if test="record.createId != null" >
         create_id = #{record.createId,jdbcType=CHAR},
@@ -229,8 +250,10 @@
   <update id="updateByExample" parameterType="map" >
     update william_role
     set role_id = #{record.roleId,jdbcType=INTEGER},
+      role_code = #{record.roleCode,jdbcType=CHAR},
       role_name = #{record.roleName,jdbcType=VARCHAR},
       role_desc = #{record.roleDesc,jdbcType=VARCHAR},
+      delete_type = #{record.deleteType,jdbcType=INTEGER},
       create_id = #{record.createId,jdbcType=CHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       mod_id = #{record.modId,jdbcType=CHAR},
@@ -245,11 +268,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.william.bcpojo.WilliamRole" >
     update william_role
     <set >
+      <if test="roleCode != null" >
+        role_code = #{roleCode,jdbcType=CHAR},
+      </if>
       <if test="roleName != null" >
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
       <if test="roleDesc != null" >
         role_desc = #{roleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteType != null" >
+        delete_type = #{deleteType,jdbcType=INTEGER},
       </if>
       <if test="createId != null" >
         create_id = #{createId,jdbcType=CHAR},
@@ -277,8 +306,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamRole" >
     update william_role
-    set role_name = #{roleName,jdbcType=VARCHAR},
+    set role_code = #{roleCode,jdbcType=CHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
       role_desc = #{roleDesc,jdbcType=VARCHAR},
+      delete_type = #{deleteType,jdbcType=INTEGER},
       create_id = #{createId,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       mod_id = #{modId,jdbcType=CHAR},
@@ -288,4 +319,5 @@
       client = #{client,jdbcType=CHAR}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
+
 </mapper>

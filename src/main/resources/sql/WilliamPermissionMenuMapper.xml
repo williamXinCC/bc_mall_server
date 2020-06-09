@@ -273,4 +273,8 @@
       client = #{client,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getMenuListByPermissionId">
+     select menu_id from william_permission_menu where permission_id = #{permissionId}
+  </select>
 </mapper>

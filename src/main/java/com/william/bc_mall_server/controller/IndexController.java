@@ -190,27 +190,7 @@ public class IndexController {
 //        return Constant.TO_SYSTEM + "role/roleManager";
 //    }
 //
-//    // 登录
-//    @RequestMapping(value = "/toLogin")
-//    public String toLogin(){ return Constant.TO_SYSTEM + "index/login"; }
-//
-//    @RequestMapping(value = "/toMain")
-//    public String toMain(){
-//        return Constant.TO_SYSTEM + "index/main";
-//    }
-//
-//    @RequestMapping(value = "/toIndex")
-//    public String toIndex(Model model){
-//        List<WilliamSysNotice> sysNotices = noticeService.getSysNotices();
-//        model.addAttribute("notic",sysNotices.get(0));
-//        return Constant.TO_SYSTEM + "index/index"; }
-//
-//    // 菜单
-//    @RequestMapping(value = "/toIcon")
-//    public String toIcon(String id,Model model){
-//        model.addAttribute("id",id);
-//        return Constant.TO_SYSTEM + "menu/icon";
-//    }
+
 //
 //
 ////    @RequestMapping(value = "/toMenuEditor")
@@ -338,5 +318,25 @@ public class IndexController {
     }
 
 
+    // 登录
+    @RequestMapping(value = "/toLogin")
+    public String toLogin(){ return Constant.TO_SYSTEM + "index/login"; }
 
+    @RequestMapping(value = "/toMain")
+    public String toMain(){
+        return Constant.TO_SYSTEM + "index/main";
+    }
+
+    @RequestMapping(value = "/toIndex")
+    public String toIndex(Model model){
+//        List<WilliamSysNotice> sysNotices = noticeService.getSysNotices();
+//        model.addAttribute("notic",sysNotices.get(0));
+        return Constant.TO_SYSTEM + "index/index"; }
+
+    // 菜单
+    @RequestMapping(value = "/toIcon")
+    public String toIcon(String id,Model model){
+        model.addAttribute("id",id);
+        return Constant.TO_SYSTEM + "menu/icon";
+    }
 }

@@ -28,4 +28,5 @@ public interface WilliamRoleMapper {
     int updateByPrimaryKeySelective(WilliamRole record);
 
     int updateByPrimaryKey(WilliamRole record);
+
 }

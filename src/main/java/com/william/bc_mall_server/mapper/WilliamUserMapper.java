@@ -28,4 +28,6 @@ public interface WilliamUserMapper {
     int updateByPrimaryKeySelective(WilliamUser record);
 
     int updateByPrimaryKey(WilliamUser record);
+
+    WilliamUser getUserByPhone(String phone);
 }

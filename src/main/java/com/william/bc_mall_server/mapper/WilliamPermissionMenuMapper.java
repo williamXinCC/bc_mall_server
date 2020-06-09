@@ -28,4 +28,6 @@ public interface WilliamPermissionMenuMapper {
     int updateByPrimaryKeySelective(WilliamPermissionMenu record);
 
     int updateByPrimaryKey(WilliamPermissionMenu record);
+
+    List<Integer> getMenuListByPermissionId(Integer permissionId);
 }

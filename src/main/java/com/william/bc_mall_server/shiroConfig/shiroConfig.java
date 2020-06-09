@@ -90,9 +90,9 @@ public class shiroConfig {
         Map<String,String> filterMap = new LinkedHashMap<>();
         // 设置未登陆的时要跳转的页面
         factoryBean.setLoginUrl("/index/toLogin");
-//         认证成功跳转页面
+        // 认证成功跳转页面
         factoryBean.setSuccessUrl("/index/toIndex");
-//         配置未授权提示页面
+        // 配置未授权提示页面
         factoryBean.setUnauthorizedUrl("/404");
         filterMap.put("/static/**","anon");
         filterMap.put("/css/**","anon");

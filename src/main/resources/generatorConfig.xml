@@ -50,7 +50,8 @@
 			<!--<columnOverride column="checked" javaType="java.lang.Integer"/>-->
 			<!--<columnOverride column="status" javaType="java.lang.Integer"/>-->
 		<!--</table>-->
-		<table tableName="william_operation_log" domainObjectName="WilliamOperationLog"></table>
+		<table tableName="william_user" domainObjectName="WilliamUser"></table>
+		<!--<table tableName="william_operation_log" domainObjectName="WilliamOperationLog"></table>-->
 		<!--<table tableName="william_user_role" domainObjectName="WilliamUserRole"></table>-->
 		<!--<table tableName="william_role" domainObjectName="WilliamRole"></table>-->
 		<!--<table tableName="william_role_permission" domainObjectName="WilliamRolePermission"></table>-->

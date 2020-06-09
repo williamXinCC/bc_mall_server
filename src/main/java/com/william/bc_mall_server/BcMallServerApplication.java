@@ -1,9 +1,11 @@
 package com.william.bc_mall_server;
 
 import com.william.bc_mall_server.config.MyDateConvert;
+import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
@@ -13,7 +15,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Date;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class
+		, MybatisAutoConfiguration.class })
 //@EnableDiscoveryClient
 //@EnableFeignClients
 public class BcMallServerApplication implements WebMvcConfigurer {

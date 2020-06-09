@@ -9,6 +9,7 @@ import com.william.constant.Constant;
 import com.william.constant.RespCodeAndMsg;
 import com.william.pojo.Result;
 import com.william.utils.BcCaptchaUtil;
+import com.william.utils.Md5Util;
 import com.william.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -57,10 +58,10 @@ public class WilliamLoginController {
 
     @RequestMapping(value = "/login")
     public Result bcLoginReq(@RequestBody BcLoginReq bcLoginReq, Model model){
-        boolean b = redisService.ishasKey(Constant.CAPTCHA + bcLoginReq.getCaptcha().toUpperCase());
-        if(!b){
-            return Result.getResult(RespCodeAndMsg.CAPTCH_ERROR);
-        }
+//        boolean b = redisService.ishasKey(Constant.CAPTCHA + bcLoginReq.getCaptcha().toUpperCase());
+//        if(!b){
+//            return Result.getResult(RespCodeAndMsg.CAPTCH_ERROR);
+//        }
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(bcLoginReq.getUserPhone(), bcLoginReq.getPassword());
         Subject subject = SecurityUtils.getSubject();
         String token;

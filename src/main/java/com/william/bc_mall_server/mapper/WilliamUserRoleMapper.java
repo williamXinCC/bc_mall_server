@@ -28,4 +28,6 @@ public interface WilliamUserRoleMapper {
     int updateByPrimaryKeySelective(WilliamUserRole record);
 
     int updateByPrimaryKey(WilliamUserRole record);
+
+    List<String> getRoleListByUid(String userId);
 }

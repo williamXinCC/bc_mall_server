@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.william.bc_mall_server.mapper.WilliamMenuMapper" >
-  <resultMap id="BaseResultMap" type="com.william.bc_mall_server.pojo.WilliamMenu" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
+  <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamMenu" >
+    <id column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="pid" property="pid" jdbcType="INTEGER" />
     <result column="root_id" property="rootId" jdbcType="VARCHAR" />
     <result column="system_id" property="systemId" jdbcType="VARCHAR" />
@@ -17,9 +17,8 @@
     <result column="menu_color" property="menuColor" jdbcType="VARCHAR" />
     <result column="show_flag" property="showFlag" jdbcType="INTEGER" />
     <result column="target" property="target" jdbcType="VARCHAR" />
-    <result column="permission" property="permission" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
     <result column="ent_id" property="entId" jdbcType="CHAR" />
     <result column="ent_name" property="entName" jdbcType="VARCHAR" />
     <result column="ent_date" property="entDate" jdbcType="TIMESTAMP" />
@@ -88,11 +87,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, type, pid, root_id, system_id, code, title, icon, icon_color, href, spread, level, 
-    menu_color, show_flag, target, permission, remark, status, ent_id, ent_name, ent_date, 
+    menu_id, type, pid, root_id, system_id, code, title, icon, icon_color, href, spread, 
+    level, menu_color, show_flag, target, remark, status, ent_id, ent_name, ent_date, 
     mod_id, mod_name, mod_date, tenant_id, client
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bc_mall_server.pojo.WilliamMenuExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamMenuExample" >
     select
     <if test="distinct" >
       distinct
@@ -110,43 +109,43 @@
     select 
     <include refid="Base_Column_List" />
     from william_menu
-    where id = #{id,jdbcType=INTEGER}
+    where menu_id = #{menuId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from william_menu
-    where id = #{id,jdbcType=INTEGER}
+    where menu_id = #{menuId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.william.bc_mall_server.pojo.WilliamMenuExample" >
+  <delete id="deleteByExample" parameterType="com.william.bcpojo.WilliamMenuExample" >
     delete from william_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.william.bc_mall_server.pojo.WilliamMenu" >
-    insert into william_menu (id, type, pid, 
+  <insert id="insert" parameterType="com.william.bcpojo.WilliamMenu" >
+    insert into william_menu (menu_id, type, pid, 
       root_id, system_id, code, 
       title, icon, icon_color, 
       href, spread, level, 
       menu_color, show_flag, target, 
-      permission, remark, status, 
-      ent_id, ent_name, ent_date, 
-      mod_id, mod_name, mod_date, 
-      tenant_id, client)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
+      remark, status, ent_id, 
+      ent_name, ent_date, mod_id, 
+      mod_name, mod_date, tenant_id, 
+      client)
+    values (#{menuId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, 
       #{rootId,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{iconColor,jdbcType=VARCHAR}, 
       #{href,jdbcType=VARCHAR}, #{spread,jdbcType=INTEGER}, #{level,jdbcType=VARCHAR}, 
       #{menuColor,jdbcType=VARCHAR}, #{showFlag,jdbcType=INTEGER}, #{target,jdbcType=VARCHAR}, 
-      #{permission,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{entId,jdbcType=CHAR}, #{entName,jdbcType=VARCHAR}, #{entDate,jdbcType=TIMESTAMP}, 
-      #{modId,jdbcType=CHAR}, #{modName,jdbcType=VARCHAR}, #{modDate,jdbcType=TIMESTAMP}, 
-      #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{entId,jdbcType=CHAR}, 
+      #{entName,jdbcType=VARCHAR}, #{entDate,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, 
+      #{modName,jdbcType=VARCHAR}, #{modDate,jdbcType=TIMESTAMP}, #{tenantId,jdbcType=CHAR}, 
+      #{client,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.william.bc_mall_server.pojo.WilliamMenu" >
+  <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamMenu" >
     insert into william_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="menuId != null" >
+        menu_id,
       </if>
       <if test="type != null" >
         type,
@@ -190,9 +189,6 @@
       <if test="target != null" >
         target,
       </if>
-      <if test="permission != null" >
-        permission,
-      </if>
       <if test="remark != null" >
         remark,
       </if>
@@ -225,11 +221,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
-        #{type,jdbcType=VARCHAR},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="pid != null" >
         #{pid,jdbcType=INTEGER},
@@ -270,14 +266,11 @@
       <if test="target != null" >
         #{target,jdbcType=VARCHAR},
       </if>
-      <if test="permission != null" >
-        #{permission,jdbcType=VARCHAR},
-      </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="entId != null" >
         #{entId,jdbcType=CHAR},
@@ -305,7 +298,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.william.bc_mall_server.pojo.WilliamMenuExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.william.bcpojo.WilliamMenuExample" resultType="java.lang.Integer" >
     select count(*) from william_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -314,11 +307,11 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update william_menu
     <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="record.menuId != null" >
+        menu_id = #{record.menuId,jdbcType=INTEGER},
       </if>
       <if test="record.type != null" >
-        type = #{record.type,jdbcType=VARCHAR},
+        type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.pid != null" >
         pid = #{record.pid,jdbcType=INTEGER},
@@ -359,14 +352,11 @@
       <if test="record.target != null" >
         target = #{record.target,jdbcType=VARCHAR},
       </if>
-      <if test="record.permission != null" >
-        permission = #{record.permission,jdbcType=VARCHAR},
-      </if>
       <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null" >
-        status = #{record.status,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.entId != null" >
         ent_id = #{record.entId,jdbcType=CHAR},
@@ -399,8 +389,8 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update william_menu
-    set id = #{record.id,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=VARCHAR},
+    set menu_id = #{record.menuId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
       pid = #{record.pid,jdbcType=INTEGER},
       root_id = #{record.rootId,jdbcType=VARCHAR},
       system_id = #{record.systemId,jdbcType=VARCHAR},
@@ -414,9 +404,8 @@
       menu_color = #{record.menuColor,jdbcType=VARCHAR},
       show_flag = #{record.showFlag,jdbcType=INTEGER},
       target = #{record.target,jdbcType=VARCHAR},
-      permission = #{record.permission,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
       ent_id = #{record.entId,jdbcType=CHAR},
       ent_name = #{record.entName,jdbcType=VARCHAR},
       ent_date = #{record.entDate,jdbcType=TIMESTAMP},
@@ -429,11 +418,11 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.william.bc_mall_server.pojo.WilliamMenu" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.bcpojo.WilliamMenu" >
     update william_menu
     <set >
       <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="pid != null" >
         pid = #{pid,jdbcType=INTEGER},
@@ -474,14 +463,11 @@
       <if test="target != null" >
         target = #{target,jdbcType=VARCHAR},
       </if>
-      <if test="permission != null" >
-        permission = #{permission,jdbcType=VARCHAR},
-      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="entId != null" >
         ent_id = #{entId,jdbcType=CHAR},
@@ -508,11 +494,11 @@
         client = #{client,jdbcType=CHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.william.bc_mall_server.pojo.WilliamMenu" >
+  <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamMenu" >
     update william_menu
-    set type = #{type,jdbcType=VARCHAR},
+    set type = #{type,jdbcType=INTEGER},
       pid = #{pid,jdbcType=INTEGER},
       root_id = #{rootId,jdbcType=VARCHAR},
       system_id = #{systemId,jdbcType=VARCHAR},
@@ -526,9 +512,8 @@
       menu_color = #{menuColor,jdbcType=VARCHAR},
       show_flag = #{showFlag,jdbcType=INTEGER},
       target = #{target,jdbcType=VARCHAR},
-      permission = #{permission,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
       ent_id = #{entId,jdbcType=CHAR},
       ent_name = #{entName,jdbcType=VARCHAR},
       ent_date = #{entDate,jdbcType=TIMESTAMP},
@@ -537,6 +522,6 @@
       mod_date = #{modDate,jdbcType=TIMESTAMP},
       tenant_id = #{tenantId,jdbcType=CHAR},
       client = #{client,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
 </mapper>
