@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
-	<title>后台管理模板</title>
+	<title>william-back-system</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -16,35 +16,36 @@
 	<link rel="stylesheet" href="/css/main.css" media="all" />
 </head>
 <script src="/js/moveobj.js"></script>
-<script type="text/javascript">
-    var flyimage1, flyimage2, flyimage3;
+<!-- 气球-->
+<!--<script type="text/javascript">-->
+    <!--var flyimage1, flyimage2, flyimage3;-->
 
-    function pagestart(){
-        flyimage1=new Chip("flyimage1",47,68);
-        flyimage2=new Chip("flyimage2",47,68);
-        flyimage3=new Chip("flyimage3",47,68);
-        movechip("flyimage1");
-        movechip("flyimage2");
-        movechip("flyimage3");
-    }
-    if (window.addEventListener)
-        window.addEventListener("load", pagestart, false);
-    else if (window.attachEvent)
-        window.attachEvent("onload", pagestart);
-    else if (document.getElementById)
-        window.onload=pagestart
-</script>
-<DIV ID="flyimage1" STYLE="position:absolute; left: -500px; width:47px; height:68px;">
-	<A href="javascript:void(0);"><IMG SRC="/images/1.gif" BORDER=0>william:tel:18701192829</A>
-</DIV>
+    <!--function pagestart(){-->
+        <!--flyimage1=new Chip("flyimage1",47,68);-->
+        <!--flyimage2=new Chip("flyimage2",47,68);-->
+        <!--flyimage3=new Chip("flyimage3",47,68);-->
+        <!--movechip("flyimage1");-->
+        <!--movechip("flyimage2");-->
+        <!--movechip("flyimage3");-->
+    <!--}-->
+    <!--if (window.addEventListener)-->
+        <!--window.addEventListener("load", pagestart, false);-->
+    <!--else if (window.attachEvent)-->
+        <!--window.attachEvent("onload", pagestart);-->
+    <!--else if (document.getElementById)-->
+        <!--window.onload=pagestart-->
+<!--</script>-->
+<!--<DIV ID="flyimage1" STYLE="position:absolute; left: -500px; width:47px; height:68px;">-->
+	<!--<A href="javascript:void(0);"><IMG SRC="/images/1.gif" BORDER=0>william:tel:18701192829</A>-->
+<!--</DIV>-->
 
-<DIV ID="flyimage2" STYLE="position:absolute; left: -500px; width:47px; height:68px;">
-	<A href="javascript:void(0);"><IMG SRC="/images/2.gif" BORDER=0>信闯:tel:18701192829</a>
-</DIV>
+<!--<DIV ID="flyimage2" STYLE="position:absolute; left: -500px; width:47px; height:68px;">-->
+	<!--<A href="javascript:void(0);"><IMG SRC="/images/2.gif" BORDER=0>信闯:tel:18701192829</a>-->
+<!--</DIV>-->
 
-<DIV ID="flyimage3" STYLE="position:absolute; left: -500px; width:47px; height:68px;">
-	<A href="javascript:void(0);"><IMG SRC="/images/3.gif" BORDER=0>tel:18701192829</a>
-</DIV>
+<!--<DIV ID="flyimage3" STYLE="position:absolute; left: -500px; width:47px; height:68px;">-->
+	<!--<A href="javascript:void(0);"><IMG SRC="/images/3.gif" BORDER=0>tel:18701192829</a>-->
+<!--</DIV>-->
 <body class="main_body">
 	<div class="layui-layout layui-layout-admin">
 		<!-- 顶部 -->
@@ -91,7 +92,7 @@
 					tpwidget("show");</script>
 			    </div>
 				<div class="myNotic" style="width: 300px" pc>
-					<marquee scrollamount="2"><p id="notic" th:text="${notic.content}" style="color: #66ffff"></p></marquee>
+					<!--<marquee scrollamount="2"><p id="notic" th:text="${notic.content}" style="color: #66ffff"></p></marquee>-->
 				</div>
 			    <!-- 顶部右侧菜单 -->
 			    <ul class="layui-nav top_menu">
@@ -109,7 +110,7 @@
 					</li>
 					<li class="layui-nav-item" pc>
 						<a href="javascript:;">
-							<img th:src="${session.user.img}" class="layui-circle" width="35" height="35">
+							<img th:src="${session.user.userIcon}" class="layui-circle" width="35" height="35">
 							<cite th:text="${session.user.userName}">William:信</cite>
 						</a>
 						<dl class="layui-nav-child">
@@ -125,7 +126,7 @@
 		<!-- 左侧导航 -->
 		<div class="layui-side layui-bg-black">
 			<div class="user-photo">
-				<a class="img" title="我的头像" ><img th:src="${session.user.img}"></a>
+				<a class="img" title="我的头像" ><img th:src="${session.user.userIcon}"></a>
 				<p>你好！<span class="userName"  th:text="${session.user.userName}">William:信</span>, 欢迎登录</p>
 			</div>
 			<div class="navBar layui-side-scroll"></div>

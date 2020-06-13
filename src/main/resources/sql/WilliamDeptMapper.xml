@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.william.bc_mall_server.mapper.WilliamPermissionMenuMapper" >
-  <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamPermissionMenu" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="menu_id" property="menuId" jdbcType="INTEGER" />
-    <result column="permission_id" property="permissionId" jdbcType="INTEGER" />
+<mapper namespace="com.william.bc_mall_server.mapper.WilliamDeptMapper" >
+  <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamDept" >
+    <id column="dept_id" property="deptId" jdbcType="INTEGER" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="dept_pid" property="deptPid" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="seq" property="seq" jdbcType="INTEGER" />
     <result column="create_id" property="createId" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="mod_id" property="modId" jdbcType="CHAR" />
-    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="CHAR" />
     <result column="tenant_id" property="tenantId" jdbcType="CHAR" />
     <result column="client" property="client" jdbcType="CHAR" />
   </resultMap>
@@ -71,16 +74,18 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, menu_id, permission_id, create_id, create_time, mod_id, mod_time, tenant_id, 
-    client
+    william_dept.dept_id as dept_id, william_dept.dept_name as dept_name, william_dept.dept_pid as dept_pid, 
+    william_dept.remark as remark, william_dept.seq as seq, william_dept.create_id as create_id, 
+    william_dept.create_time as create_time, william_dept.mod_id as mod_id, william_dept.mod_time as mod_time, 
+    william_dept.status as status, william_dept.tenant_id as tenant_id, william_dept.client as client
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamPermissionMenuExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamDeptExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from william_permission_menu
+    from william_dept
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,40 +96,46 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from william_permission_menu
-    where id = #{id,jdbcType=INTEGER}
+    from william_dept
+    where william_dept.dept_id = #{deptId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from william_permission_menu
-    where id = #{id,jdbcType=INTEGER}
+    delete from william_dept
+    where dept_id = #{deptId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.william.bcpojo.WilliamPermissionMenuExample" >
-    delete from william_permission_menu
+  <delete id="deleteByExample" parameterType="com.william.bcpojo.WilliamDeptExample" >
+    delete from william_dept
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.william.bcpojo.WilliamPermissionMenu" >
-    insert into william_permission_menu (id, menu_id, permission_id, 
-      create_id, create_time, mod_id, 
-      mod_time, tenant_id, client
-      )
-    values (#{id,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER}, 
-      #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, 
-      #{modTime,jdbcType=TIMESTAMP}, #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR}
-      )
+  <insert id="insert" parameterType="com.william.bcpojo.WilliamDept" >
+    insert into william_dept (dept_id, dept_name, dept_pid, 
+      remark, seq, create_id, 
+      create_time, mod_id, mod_time, 
+      status, tenant_id, client)
+    values (#{deptId,jdbcType=INTEGER}, #{deptName,jdbcType=VARCHAR}, #{deptPid,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{seq,jdbcType=INTEGER}, #{createId,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, #{modTime,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR}, #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamPermissionMenu" >
-    insert into william_permission_menu
+  <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamDept" >
+    insert into william_dept
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="deptId != null" >
+        dept_id,
       </if>
-      <if test="menuId != null" >
-        menu_id,
+      <if test="deptName != null" >
+        dept_name,
       </if>
-      <if test="permissionId != null" >
-        permission_id,
+      <if test="deptPid != null" >
+        dept_pid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="seq != null" >
+        seq,
       </if>
       <if test="createId != null" >
         create_id,
@@ -138,6 +149,9 @@
       <if test="modTime != null" >
         mod_time,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
       <if test="tenantId != null" >
         tenant_id,
       </if>
@@ -146,14 +160,20 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="deptId != null" >
+        #{deptId,jdbcType=INTEGER},
       </if>
-      <if test="menuId != null" >
-        #{menuId,jdbcType=INTEGER},
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
       </if>
-      <if test="permissionId != null" >
-        #{permissionId,jdbcType=INTEGER},
+      <if test="deptPid != null" >
+        #{deptPid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=INTEGER},
       </if>
       <if test="createId != null" >
         #{createId,jdbcType=CHAR},
@@ -165,7 +185,10 @@
         #{modId,jdbcType=CHAR},
       </if>
       <if test="modTime != null" >
-        #{modTime,jdbcType=TIMESTAMP},
+        #{modTime,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
       </if>
       <if test="tenantId != null" >
         #{tenantId,jdbcType=CHAR},
@@ -175,23 +198,29 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.william.bcpojo.WilliamPermissionMenuExample" resultType="java.lang.Integer" >
-    select count(*) from william_permission_menu
+  <select id="countByExample" parameterType="com.william.bcpojo.WilliamDeptExample" resultType="java.lang.Integer" >
+    select count(*) from william_dept
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update william_permission_menu
+    update william_dept
     <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="record.deptId != null" >
+        dept_id = #{record.deptId,jdbcType=INTEGER},
       </if>
-      <if test="record.menuId != null" >
-        menu_id = #{record.menuId,jdbcType=INTEGER},
+      <if test="record.deptName != null" >
+        dept_name = #{record.deptName,jdbcType=VARCHAR},
       </if>
-      <if test="record.permissionId != null" >
-        permission_id = #{record.permissionId,jdbcType=INTEGER},
+      <if test="record.deptPid != null" >
+        dept_pid = #{record.deptPid,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.seq != null" >
+        seq = #{record.seq,jdbcType=INTEGER},
       </if>
       <if test="record.createId != null" >
         create_id = #{record.createId,jdbcType=CHAR},
@@ -203,7 +232,10 @@
         mod_id = #{record.modId,jdbcType=CHAR},
       </if>
       <if test="record.modTime != null" >
-        mod_time = #{record.modTime,jdbcType=TIMESTAMP},
+        mod_time = #{record.modTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=CHAR},
       </if>
       <if test="record.tenantId != null" >
         tenant_id = #{record.tenantId,jdbcType=CHAR},
@@ -217,28 +249,37 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update william_permission_menu
-    set id = #{record.id,jdbcType=INTEGER},
-      menu_id = #{record.menuId,jdbcType=INTEGER},
-      permission_id = #{record.permissionId,jdbcType=INTEGER},
+    update william_dept
+    set dept_id = #{record.deptId,jdbcType=INTEGER},
+      dept_name = #{record.deptName,jdbcType=VARCHAR},
+      dept_pid = #{record.deptPid,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      seq = #{record.seq,jdbcType=INTEGER},
       create_id = #{record.createId,jdbcType=CHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       mod_id = #{record.modId,jdbcType=CHAR},
-      mod_time = #{record.modTime,jdbcType=TIMESTAMP},
+      mod_time = #{record.modTime,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=CHAR},
       tenant_id = #{record.tenantId,jdbcType=CHAR},
       client = #{record.client,jdbcType=CHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.william.bcpojo.WilliamPermissionMenu" >
-    update william_permission_menu
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.bcpojo.WilliamDept" >
+    update william_dept
     <set >
-      <if test="menuId != null" >
-        menu_id = #{menuId,jdbcType=INTEGER},
+      <if test="deptName != null" >
+        dept_name = #{deptName,jdbcType=VARCHAR},
       </if>
-      <if test="permissionId != null" >
-        permission_id = #{permissionId,jdbcType=INTEGER},
+      <if test="deptPid != null" >
+        dept_pid = #{deptPid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=INTEGER},
       </if>
       <if test="createId != null" >
         create_id = #{createId,jdbcType=CHAR},
@@ -250,7 +291,10 @@
         mod_id = #{modId,jdbcType=CHAR},
       </if>
       <if test="modTime != null" >
-        mod_time = #{modTime,jdbcType=TIMESTAMP},
+        mod_time = #{modTime,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
       </if>
       <if test="tenantId != null" >
         tenant_id = #{tenantId,jdbcType=CHAR},
@@ -259,22 +303,37 @@
         client = #{client,jdbcType=CHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where dept_id = #{deptId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamPermissionMenu" >
-    update william_permission_menu
-    set menu_id = #{menuId,jdbcType=INTEGER},
-      permission_id = #{permissionId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamDept" >
+    update william_dept
+    set dept_name = #{deptName,jdbcType=VARCHAR},
+      dept_pid = #{deptPid,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=INTEGER},
       create_id = #{createId,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       mod_id = #{modId,jdbcType=CHAR},
-      mod_time = #{modTime,jdbcType=TIMESTAMP},
+      mod_time = #{modTime,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR},
       tenant_id = #{tenantId,jdbcType=CHAR},
       client = #{client,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where dept_id = #{deptId,jdbcType=INTEGER}
   </update>
+  <select id="selectPage" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamDeptExample" >
+    select 
+<if test="distinct" > 
+distinct 
+</if> 
+<include refid="Base_Column_List" /> 
+from william_dept
+<if test="_parameter != null" > 
+<include refid="Example_Where_Clause" /> 
+</if> 
+<if test="orderByClause != null" > 
+order by ${orderByClause} 
+</if> 
+limit #{pageSize} offset #{startPos} 
 
-  <select id="getMenuListByPermissionId" resultType="java.lang.Integer">
-     select menu_id from william_permission_menu where permission_id = #{permissionId}
   </select>
 </mapper>

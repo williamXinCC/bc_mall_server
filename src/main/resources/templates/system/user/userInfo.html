@@ -2,7 +2,7 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
-	<title>个人资料--后台管理模板</title>
+	<title>个人资料</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -17,13 +17,13 @@
 
 	<form class="layui-form">
 		<div class="user_left">
-			<div class="layui-form-item">
-			    <label class="layui-form-label">用户名</label>
-				<input type="hidden" th:value="${session.user.id}" name="id" />
-			    <div class="layui-input-block">
-			    	<input type="text"  name="userName" th:value="${session.user.userName}" disabled class="layui-input layui-disabled">
-			    </div>
-			</div>
+			<!--<div class="layui-form-item">-->
+			    <!--<label class="layui-form-label">用户名</label>-->
+				<input type="hidden" th:value="${session.user.userId}" name="id" />
+			    <!--<div class="layui-input-block">-->
+			    	<!--<input type="text"  name="userName" th:value="${session.user.userName}" disabled class="layui-input layui-disabled">-->
+			    <!--</div>-->
+			<!--</div>-->
 			<div class="layui-form-item">
 			    <label class="layui-form-label">用户角色</label>
 			    <div class="layui-input-block">
@@ -31,29 +31,29 @@
 			    </div>
 			</div>
 			<div class="layui-form-item">
-			    <label class="layui-form-label">真实姓名</label>
+			    <label class="layui-form-label">姓名</label>
 			    <div class="layui-input-block">
-			    	<input type="text" value="" name="realName" th:value="${session.user.realName}" placeholder="请输入真实姓名" lay-verify="required" class="layui-input realName">
+			    	<input type="text" value="" name="realName" th:value="${session.user.userName}" placeholder="请输入真实姓名" lay-verify="required" class="layui-input realName">
 			    </div>
 			</div>
 			<div class="layui-form-item" pane="">
 			    <label class="layui-form-label">性别</label>
 			    <div class="layui-input-block">
-			    	<input type="radio" name="sex" value="1" title="男" th:attr ="checked=${session.user.sex == 1 ?true:false}">
-	     			<input type="radio" name="sex" value="2" title="女" th:attr ="checked=${session.user.sex == 2 ?true:false}">
+			    	<input type="radio" name="sex" value="1" title="男" th:attr ="checked=${session.user.gender == 1 ?true:false}">
+	     			<input type="radio" name="sex" value="2" title="女" th:attr ="checked=${session.user.gender == 2 ?true:false}">
 			    </div>
 			</div>
 			<div class="layui-form-item">
 			    <label class="layui-form-label">手机号码</label>
 			    <div class="layui-input-block">
-			    	<input type="tel" value="" placeholder="请输入手机号码" th:value="${session.user.mobile}" lay-verify="required|phone" class="layui-input userPhone">
+			    	<input type="tel" value="" placeholder="请输入手机号码" th:value="${session.user.userPhone}" lay-verify="required|phone" class="layui-input userPhone">
 			    </div>
 			</div>
 			<div class="layui-form-item">
 				<div class="layui-inline">
 					<label class="layui-form-label">出生日期</label>
 					<div class="layui-input-inline">
-						<input type="text" name="date" id="date" lay-verify="date" th:value="${#dates.format(session.user.birthDate,'yyyy-MM-dd')}" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+						<input type="text" name="date" id="date" lay-verify="date" th:value="${#dates.format(session.user.birth,'yyyy-MM-dd')}" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 			</div>
@@ -81,23 +81,23 @@
 			    	<input type="text" value="" name="email" placeholder="请输入邮箱" th:value="${session.user.email}" lay-verify="required|email" class="layui-input userEmail">
 			    </div>
 			</div>
-			<div class="layui-form-item">
-			    <label class="layui-form-label">备注</label>
-			    <div class="layui-input-block">
-			    	<textarea placeholder="请输入内容" name="remark" th:text="${session.user.remark}" class="layui-textarea myself"></textarea>
-			    </div>
-			</div>
+			<!--<div class="layui-form-item">-->
+			    <!--<label class="layui-form-label">备注</label>-->
+			    <!--<div class="layui-input-block">-->
+			    	<!--<textarea placeholder="请输入内容" name="remark" th:text="${session.user.remark}" class="layui-textarea myself"></textarea>-->
+			    <!--</div>-->
+			<!--</div>-->
 			<div class="layui-upload layui-form-item">
 				<label class="layui-form-label">更换头像:</label>
 				 <div class="layui-upload layui-input-block">
-					 <input type="hidden" name="img" id="img" th:value="${session.user.img}" />
+					 <input type="hidden" name="img" id="img" th:value="${session.user.userIcon}" />
 					 <button type="button" class="layui-btn layui-btn-primary" id="fileBtn"><i class="layui-icon">&#xe67c;</i>选择文件</button><button type="button" class="layui-btn layui-btn-warm" id="uploadBtn">开始上传</button>
 				 </div>
 			</div>
 		</div>
 		<div class="user_right">
 			<input type="file" name="userFace" class="layui-upload-file" lay-title="掐指一算，我要换一个头像了">
-			<img th:src="${session.user.img}" class="layui-circle" id="userFace">
+			<img th:src="${session.user.userIcon}" class="layui-circle" id="userFace">
 		</div>
 		<div class="layui-form-item" style="margin-left: 5%;">
 		    <div class="layui-input-block">

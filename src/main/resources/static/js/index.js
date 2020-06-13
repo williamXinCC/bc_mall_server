@@ -188,6 +188,7 @@ layui.config({
 				$(this).siblings(".admin-header-lock-input").val('');
 				layer.closeAll("page");
 			}else{
+				console.log('锁定密码')
 				layer.msg("密码错误，请重新输入！");
 				$(this).siblings(".admin-header-lock-input").val('').focus();
 			}
@@ -222,7 +223,7 @@ layui.config({
 	});
 
 
-    var notic = document.getElementById("notic").innerHTML;
+    // var notic = document.getElementById("notic").innerHTML;
 	//公告层
 	function showNotice(){
 		layer.open({
@@ -254,12 +255,12 @@ layui.config({
 	}
 
 	//判断是否处于锁屏状态(如果关闭以后则未关闭浏览器之前不再显示)
-	if(window.sessionStorage.getItem("lockcms") != "true" && window.sessionStorage.getItem("showNotice") != "true"){
-		showNotice();
-	}
-	$(".showNotice").on("click",function(){
-		showNotice();
-	})
+	// if(window.sessionStorage.getItem("lockcms") != "true" && window.sessionStorage.getItem("showNotice") != "true"){
+	// 	showNotice();
+	// }
+	// $(".showNotice").on("click",function(){
+	// 	showNotice();
+	// })
 
 	//刷新后还原打开的窗口
 	if(window.sessionStorage.getItem("menu") != null){

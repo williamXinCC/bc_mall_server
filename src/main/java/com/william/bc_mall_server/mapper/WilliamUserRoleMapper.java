@@ -1,10 +1,12 @@
 package com.william.bc_mall_server.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import com.william.bcpojo.WilliamUserRole;
 import com.william.bcpojo.WilliamUserRoleExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface WilliamUserRoleMapper {
     int countByExample(WilliamUserRoleExample example);
@@ -29,5 +31,9 @@ public interface WilliamUserRoleMapper {
 
     int updateByPrimaryKey(WilliamUserRole record);
 
-    List<String> getRoleListByUid(String userId);
+    List<String> getRoleCodeListByUid(String userId);
+
+    void inserBatch(@Param("userId") String userId, @Param("list") List<String> strings, @Param("createId") String createId,@Param("createTime") Date date);
+
+    void deleteByUserId(String userId);
 }

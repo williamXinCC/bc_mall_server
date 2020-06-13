@@ -15,16 +15,15 @@
     <result column="spread" property="spread" jdbcType="INTEGER" />
     <result column="level" property="level" jdbcType="VARCHAR" />
     <result column="menu_color" property="menuColor" jdbcType="VARCHAR" />
+    <result column="seq" property="seq" jdbcType="INTEGER" />
     <result column="show_flag" property="showFlag" jdbcType="INTEGER" />
     <result column="target" property="target" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="ent_id" property="entId" jdbcType="CHAR" />
-    <result column="ent_name" property="entName" jdbcType="VARCHAR" />
-    <result column="ent_date" property="entDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="mod_id" property="modId" jdbcType="CHAR" />
-    <result column="mod_name" property="modName" jdbcType="VARCHAR" />
-    <result column="mod_date" property="modDate" jdbcType="TIMESTAMP" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
     <result column="tenant_id" property="tenantId" jdbcType="CHAR" />
     <result column="client" property="client" jdbcType="CHAR" />
   </resultMap>
@@ -88,8 +87,8 @@
   </sql>
   <sql id="Base_Column_List" >
     menu_id, type, pid, root_id, system_id, code, title, icon, icon_color, href, spread, 
-    level, menu_color, show_flag, target, remark, status, ent_id, ent_name, ent_date, 
-    mod_id, mod_name, mod_date, tenant_id, client
+    level, menu_color, seq, show_flag, target, remark, status, create_id, create_time, 
+    mod_id, mod_time, tenant_id, client
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamMenuExample" >
     select
@@ -126,20 +125,20 @@
       root_id, system_id, code, 
       title, icon, icon_color, 
       href, spread, level, 
-      menu_color, show_flag, target, 
-      remark, status, ent_id, 
-      ent_name, ent_date, mod_id, 
-      mod_name, mod_date, tenant_id, 
-      client)
+      menu_color, seq, show_flag, 
+      target, remark, status, 
+      create_id, create_time, mod_id, 
+      mod_time, tenant_id, client
+      )
     values (#{menuId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, 
       #{rootId,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{iconColor,jdbcType=VARCHAR}, 
       #{href,jdbcType=VARCHAR}, #{spread,jdbcType=INTEGER}, #{level,jdbcType=VARCHAR}, 
-      #{menuColor,jdbcType=VARCHAR}, #{showFlag,jdbcType=INTEGER}, #{target,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{entId,jdbcType=CHAR}, 
-      #{entName,jdbcType=VARCHAR}, #{entDate,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, 
-      #{modName,jdbcType=VARCHAR}, #{modDate,jdbcType=TIMESTAMP}, #{tenantId,jdbcType=CHAR}, 
-      #{client,jdbcType=CHAR})
+      #{menuColor,jdbcType=VARCHAR}, #{seq,jdbcType=INTEGER}, #{showFlag,jdbcType=INTEGER}, 
+      #{target,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, 
+      #{modTime,jdbcType=TIMESTAMP}, #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamMenu" >
     insert into william_menu
@@ -183,6 +182,9 @@
       <if test="menuColor != null" >
         menu_color,
       </if>
+      <if test="seq != null" >
+        seq,
+      </if>
       <if test="showFlag != null" >
         show_flag,
       </if>
@@ -195,23 +197,17 @@
       <if test="status != null" >
         status,
       </if>
-      <if test="entId != null" >
-        ent_id,
+      <if test="createId != null" >
+        create_id,
       </if>
-      <if test="entName != null" >
-        ent_name,
-      </if>
-      <if test="entDate != null" >
-        ent_date,
+      <if test="createTime != null" >
+        create_time,
       </if>
       <if test="modId != null" >
         mod_id,
       </if>
-      <if test="modName != null" >
-        mod_name,
-      </if>
-      <if test="modDate != null" >
-        mod_date,
+      <if test="modTime != null" >
+        mod_time,
       </if>
       <if test="tenantId != null" >
         tenant_id,
@@ -260,6 +256,9 @@
       <if test="menuColor != null" >
         #{menuColor,jdbcType=VARCHAR},
       </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=INTEGER},
+      </if>
       <if test="showFlag != null" >
         #{showFlag,jdbcType=INTEGER},
       </if>
@@ -272,23 +271,17 @@
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="entId != null" >
-        #{entId,jdbcType=CHAR},
+      <if test="createId != null" >
+        #{createId,jdbcType=CHAR},
       </if>
-      <if test="entName != null" >
-        #{entName,jdbcType=VARCHAR},
-      </if>
-      <if test="entDate != null" >
-        #{entDate,jdbcType=TIMESTAMP},
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="modId != null" >
         #{modId,jdbcType=CHAR},
       </if>
-      <if test="modName != null" >
-        #{modName,jdbcType=VARCHAR},
-      </if>
-      <if test="modDate != null" >
-        #{modDate,jdbcType=TIMESTAMP},
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
       </if>
       <if test="tenantId != null" >
         #{tenantId,jdbcType=CHAR},
@@ -346,6 +339,9 @@
       <if test="record.menuColor != null" >
         menu_color = #{record.menuColor,jdbcType=VARCHAR},
       </if>
+      <if test="record.seq != null" >
+        seq = #{record.seq,jdbcType=INTEGER},
+      </if>
       <if test="record.showFlag != null" >
         show_flag = #{record.showFlag,jdbcType=INTEGER},
       </if>
@@ -358,23 +354,17 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=INTEGER},
       </if>
-      <if test="record.entId != null" >
-        ent_id = #{record.entId,jdbcType=CHAR},
+      <if test="record.createId != null" >
+        create_id = #{record.createId,jdbcType=CHAR},
       </if>
-      <if test="record.entName != null" >
-        ent_name = #{record.entName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.entDate != null" >
-        ent_date = #{record.entDate,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.modId != null" >
         mod_id = #{record.modId,jdbcType=CHAR},
       </if>
-      <if test="record.modName != null" >
-        mod_name = #{record.modName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.modDate != null" >
-        mod_date = #{record.modDate,jdbcType=TIMESTAMP},
+      <if test="record.modTime != null" >
+        mod_time = #{record.modTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.tenantId != null" >
         tenant_id = #{record.tenantId,jdbcType=CHAR},
@@ -402,16 +392,15 @@
       spread = #{record.spread,jdbcType=INTEGER},
       level = #{record.level,jdbcType=VARCHAR},
       menu_color = #{record.menuColor,jdbcType=VARCHAR},
+      seq = #{record.seq,jdbcType=INTEGER},
       show_flag = #{record.showFlag,jdbcType=INTEGER},
       target = #{record.target,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
-      ent_id = #{record.entId,jdbcType=CHAR},
-      ent_name = #{record.entName,jdbcType=VARCHAR},
-      ent_date = #{record.entDate,jdbcType=TIMESTAMP},
+      create_id = #{record.createId,jdbcType=CHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       mod_id = #{record.modId,jdbcType=CHAR},
-      mod_name = #{record.modName,jdbcType=VARCHAR},
-      mod_date = #{record.modDate,jdbcType=TIMESTAMP},
+      mod_time = #{record.modTime,jdbcType=TIMESTAMP},
       tenant_id = #{record.tenantId,jdbcType=CHAR},
       client = #{record.client,jdbcType=CHAR}
     <if test="_parameter != null" >
@@ -457,6 +446,9 @@
       <if test="menuColor != null" >
         menu_color = #{menuColor,jdbcType=VARCHAR},
       </if>
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
       <if test="showFlag != null" >
         show_flag = #{showFlag,jdbcType=INTEGER},
       </if>
@@ -469,23 +461,17 @@
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="entId != null" >
-        ent_id = #{entId,jdbcType=CHAR},
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=CHAR},
       </if>
-      <if test="entName != null" >
-        ent_name = #{entName,jdbcType=VARCHAR},
-      </if>
-      <if test="entDate != null" >
-        ent_date = #{entDate,jdbcType=TIMESTAMP},
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="modId != null" >
         mod_id = #{modId,jdbcType=CHAR},
       </if>
-      <if test="modName != null" >
-        mod_name = #{modName,jdbcType=VARCHAR},
-      </if>
-      <if test="modDate != null" >
-        mod_date = #{modDate,jdbcType=TIMESTAMP},
+      <if test="modTime != null" >
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
       </if>
       <if test="tenantId != null" >
         tenant_id = #{tenantId,jdbcType=CHAR},
@@ -510,16 +496,15 @@
       spread = #{spread,jdbcType=INTEGER},
       level = #{level,jdbcType=VARCHAR},
       menu_color = #{menuColor,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=INTEGER},
       show_flag = #{showFlag,jdbcType=INTEGER},
       target = #{target,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
-      ent_id = #{entId,jdbcType=CHAR},
-      ent_name = #{entName,jdbcType=VARCHAR},
-      ent_date = #{entDate,jdbcType=TIMESTAMP},
+      create_id = #{createId,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       mod_id = #{modId,jdbcType=CHAR},
-      mod_name = #{modName,jdbcType=VARCHAR},
-      mod_date = #{modDate,jdbcType=TIMESTAMP},
+      mod_time = #{modTime,jdbcType=TIMESTAMP},
       tenant_id = #{tenantId,jdbcType=CHAR},
       client = #{client,jdbcType=CHAR}
     where menu_id = #{menuId,jdbcType=INTEGER}

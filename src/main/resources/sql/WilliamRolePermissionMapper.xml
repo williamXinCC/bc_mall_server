@@ -273,4 +273,10 @@
       client = #{client,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getPermissionListByRoleId" resultType="java.lang.Integer">
+      select permission_id
+      from william_role_permission
+      where role_code = #{roleCode}
+  </select>
 </mapper>

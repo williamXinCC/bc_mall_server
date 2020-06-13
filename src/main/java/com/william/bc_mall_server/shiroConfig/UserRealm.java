@@ -95,11 +95,11 @@ public class UserRealm extends AuthorizingRealm{
             // uid + 角色 + 权限查询
             String uid = williamUser.getUserId();
             // 查询角色
-            List<String> currentRoleIds = userRoleService.getRoleListByUid(uid);
+            List<String> currentRoleCodes = userRoleService.getRoleCodeListByUid(uid);
             // 根据角色查询权限
             Set<Integer> permissionsList = new HashSet<>();
-            for (String currentRoleId : currentRoleIds) {
-                List<Integer> userPermissions = williamRolePermissionService.getPermissionListByRoleId(currentRoleId);
+            for (String currentRoleCode : currentRoleCodes) {
+                List<Integer> userPermissions = williamRolePermissionService.getPermissionListByRoleId(currentRoleCode);
                 if(cn.hutool.core.collection.CollectionUtil.isNotEmpty(userPermissions)){
                     permissionsList.addAll(userPermissions);
                 }
@@ -116,16 +116,10 @@ public class UserRealm extends AuthorizingRealm{
                 }
             }
             List<Integer> menus = new ArrayList<>(menuList);
-//            List<WilliamMenu> list = new ArrayList<>();
-//            // 根据角色ID查询权限
-//            if(menuList.size() > 0){
-//                // 查询菜单
-//                list = menuService.getMenusByIds(menuList,1);
-//            }
             // 用户权限
             activerUser.setPermissions(permissions);
             // 用户角色
-            activerUser.setRoles(currentRoleIds);
+            activerUser.setRoles(currentRoleCodes);
             // 用户菜单
             activerUser.setMenus(menus);
             // 手机号 + 账号ID 为盐

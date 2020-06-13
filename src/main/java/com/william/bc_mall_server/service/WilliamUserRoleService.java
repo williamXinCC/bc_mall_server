@@ -10,5 +10,6 @@ import java.util.List;
  */
 public interface WilliamUserRoleService {
 
-    List<String> getRoleListByUid(String userId);
+    List<String> getRoleCodeListByUid(String userId);
+
 }

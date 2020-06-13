@@ -24,13 +24,13 @@
 		    <div class="layui-inline">
 		      <label class="layui-form-label">角色名称</label>
 		      <div class="layui-input-inline">
-		        <input type="text" name="name"  autocomplete="off" class="layui-input">
+		        <input type="text" name="roleName"  autocomplete="off" class="layui-input">
 		      </div>
 		    </div>
 		    <div class="layui-inline">
 		      <label class="layui-form-label">角色备注</label>
 		      <div class="layui-input-inline">
-		        <input type="text" name="description" autocomplete="off" class="layui-input">
+		        <input type="text" name="roleDesc" autocomplete="off" class="layui-input">
 		      </div>
 		    </div>
 			<div class="layui-inline">
@@ -71,24 +71,26 @@
 <!-- 添加和修改的弹出层开始 -->
 <div style="display: none;padding: 5px" id="addOrUpdateDiv">
 	<form action="" method="post" class="layui-form layui-form-pane" id="dataFrm" lay-filter="dataFrm">
+		<input type="hidden" th:value="${session.user.userId}" name="createId">
+		<input type="hidden" th:value="${session.user.userName}" name="createName">
 		<div class="layui-form-item">
 		    <label class="layui-form-label">角色名称</label>
 		    <div class="layui-input-block">
 		      <input type="hidden" name="id">
-		      <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入标题" class="layui-input">
+		      <input type="text" name="roleName" lay-verify="required" autocomplete="off" placeholder="请输入角色名称" class="layui-input">
 		    </div>
  	   </div>
 		<div class="layui-form-item">
 		    <label class="layui-form-label">角色备注</label>
 		    <div class="layui-input-block">
-		    	 <textarea class="layui-textarea" name="description" id="description"></textarea>
+		    	 <textarea class="layui-textarea" name="roleDesc" id="description"></textarea>
 		    </div>
  	   </div>
  	    <div class="layui-form-item">
 		      <label class="layui-form-label">是否可用</label>
 		      <div class="layui-input-block">
 		      	  <input type="radio" name="status" checked="" value="1" title="可用" >
-	        	  <input type="radio" name="status" value="0" title="不可用" >
+	        	  <input type="radio" name="status" value="2" title="不可用" >
 		      </div>
 		    </div>
  	   <div class="layui-form-item">
@@ -121,20 +123,21 @@ layui.extend({
 		//加载 数据
 		var tableIns=table.render({
 			 elem: '#roleTable'
-		    ,url:'/william-role/getRolesList'
+		    ,url:'/william-role/getAllRoles'
 		    ,toolbar: '#roleToolBar' //开启头部工具栏，并为其绑定左侧模板
 		    ,title: '角色数据表'
 		    ,height:'full-110'
 		    ,page: true
 		    ,cols: [[
-		        {type : 'checkbox'},
-		       {field:'id', title:'ID',align:'center',sort:true}
-		      ,{field:'name', title:'角色名称',align:'center',edit:'text'}
-		      ,{field:'description', title:'角色备注',align:'center',edit:'text'}
+		       {type : 'checkbox'}
+		      ,{field:'roleId', title:'ID',align:'center',sort:true}
+              ,{field:'roleCode', title:'角色编号',align:'center',sort:true}
+		      ,{field:'roleName', title:'角色名称',align:'center',edit:'text'}
+		      ,{field:'roleDesc', title:'角色备注',align:'center',edit:'text'}
 		      ,{field:'status', title:'是否可用',align:'center',templet:function(d){
                     return d.status==1?'<font color=blue>可用</font>':'<font color=red>不可用</font>';
                 }}
-		      ,{field:'entTime', title:'创建时间',align:'center'}
+		      ,{field:'createTime', title:'创建时间',align:'center'}
 		      ,{fixed: 'right', title:'操作', toolbar: '#roleRowBar',align:'center'}
 		    ] ]
 		});

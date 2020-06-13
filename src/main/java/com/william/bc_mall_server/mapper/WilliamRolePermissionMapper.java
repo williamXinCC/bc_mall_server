@@ -28,4 +28,6 @@ public interface WilliamRolePermissionMapper {
     int updateByPrimaryKeySelective(WilliamRolePermission record);
 
     int updateByPrimaryKey(WilliamRolePermission record);
+
+    List<Integer> getPermissionListByRoleId(String roleCode);
 }

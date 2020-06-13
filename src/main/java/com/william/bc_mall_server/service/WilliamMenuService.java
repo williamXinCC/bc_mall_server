@@ -3,7 +3,7 @@ package com.william.bc_mall_server.service;
 import com.william.bcpojo.WilliamMenu;
 
 import java.util.List;
-import java.util.Set; /**
+/**
  * @author xinchuang
  * @version v1.0
  * @date 2020/6/5 17:58
@@ -11,5 +11,7 @@ import java.util.Set; /**
  */
 public interface WilliamMenuService {
 
-    List<WilliamMenu> getMenusByIds(Set<Integer> menuList,Integer type);
+    List<WilliamMenu> getMenusByType(Integer type);
+
+    List<WilliamMenu> getMenusByIds(List<Integer> menuList,Integer type);
 }

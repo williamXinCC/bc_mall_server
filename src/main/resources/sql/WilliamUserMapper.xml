@@ -3,14 +3,17 @@
 <mapper namespace="com.william.bc_mall_server.mapper.WilliamUserMapper" >
   <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamUser" >
     <id column="user_id" property="userId" jdbcType="CHAR" />
+    <result column="dept_id" property="deptId" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
     <result column="user_name" property="userName" jdbcType="CHAR" />
     <result column="user_phone" property="userPhone" jdbcType="CHAR" />
-    <result column="user_password" property="userPassword" jdbcType="CHAR" />
+    <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
     <result column="user_icon" property="userIcon" jdbcType="VARCHAR" />
     <result column="gender" property="gender" jdbcType="INTEGER" />
     <result column="birth" property="birth" jdbcType="DATE" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="work_num" property="workNum" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
@@ -76,8 +79,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_id, user_name, user_phone, user_password, user_icon, gender, birth, email, idcard, 
-    work_num, salt, status, tenant_id, client
+    william_user.user_id as user_id, william_user.dept_id as dept_id, william_user.user_type as user_type,
+    william_user.user_name as user_name, william_user.user_phone as user_phone, william_user.user_password as user_password,
+    william_user.user_icon as user_icon, william_user.gender as gender, william_user.birth as birth,
+    william_user.email as email, william_user.idcard as idcard, william_user.remark as remark,
+    william_user.work_num as work_num, william_user.salt as salt, william_user.status as status,
+    william_user.tenant_id as tenant_id, william_user.client as client
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamUserExample" >
     select
@@ -94,10 +101,10 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from william_user
-    where user_id = #{userId,jdbcType=CHAR}
+    where william_user.user_id = #{userId,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from william_user
@@ -110,22 +117,30 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.bcpojo.WilliamUser" >
-    insert into william_user (user_id, user_name, user_phone, 
-      user_password, user_icon, gender, 
-      birth, email, idcard, 
-      work_num, salt, status, 
-      tenant_id, client)
-    values (#{userId,jdbcType=CHAR}, #{userName,jdbcType=CHAR}, #{userPhone,jdbcType=CHAR}, 
-      #{userPassword,jdbcType=CHAR}, #{userIcon,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
-      #{birth,jdbcType=DATE}, #{email,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
-      #{workNum,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
+    insert into william_user (user_id, dept_id, user_type,
+    user_name, user_phone, user_password,
+    user_icon, gender, birth,
+    email, idcard, remark,
+    work_num, salt, status,
+    tenant_id, client)
+    values (#{userId,jdbcType=CHAR}, #{deptId,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER},
+    #{userName,jdbcType=CHAR}, #{userPhone,jdbcType=CHAR}, #{userPassword,jdbcType=VARCHAR},
+    #{userIcon,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{birth,jdbcType=DATE},
+    #{email,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+    #{workNum,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+    #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamUser" >
     insert into william_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="deptId != null" >
+        dept_id,
+      </if>
+      <if test="userType != null" >
+        user_type,
       </if>
       <if test="userName != null" >
         user_name,
@@ -151,6 +166,9 @@
       <if test="idcard != null" >
         idcard,
       </if>
+      <if test="remark != null" >
+        remark,
+      </if>
       <if test="workNum != null" >
         work_num,
       </if>
@@ -171,6 +189,12 @@
       <if test="userId != null" >
         #{userId,jdbcType=CHAR},
       </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
       <if test="userName != null" >
         #{userName,jdbcType=CHAR},
       </if>
@@ -178,7 +202,7 @@
         #{userPhone,jdbcType=CHAR},
       </if>
       <if test="userPassword != null" >
-        #{userPassword,jdbcType=CHAR},
+        #{userPassword,jdbcType=VARCHAR},
       </if>
       <if test="userIcon != null" >
         #{userIcon,jdbcType=VARCHAR},
@@ -194,6 +218,9 @@
       </if>
       <if test="idcard != null" >
         #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="workNum != null" >
         #{workNum,jdbcType=VARCHAR},
@@ -224,6 +251,12 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=CHAR},
       </if>
+      <if test="record.deptId != null" >
+        dept_id = #{record.deptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userType != null" >
+        user_type = #{record.userType,jdbcType=INTEGER},
+      </if>
       <if test="record.userName != null" >
         user_name = #{record.userName,jdbcType=CHAR},
       </if>
@@ -231,7 +264,7 @@
         user_phone = #{record.userPhone,jdbcType=CHAR},
       </if>
       <if test="record.userPassword != null" >
-        user_password = #{record.userPassword,jdbcType=CHAR},
+        user_password = #{record.userPassword,jdbcType=VARCHAR},
       </if>
       <if test="record.userIcon != null" >
         user_icon = #{record.userIcon,jdbcType=VARCHAR},
@@ -247,6 +280,9 @@
       </if>
       <if test="record.idcard != null" >
         idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.workNum != null" >
         work_num = #{record.workNum,jdbcType=VARCHAR},
@@ -271,19 +307,22 @@
   <update id="updateByExample" parameterType="map" >
     update william_user
     set user_id = #{record.userId,jdbcType=CHAR},
-      user_name = #{record.userName,jdbcType=CHAR},
-      user_phone = #{record.userPhone,jdbcType=CHAR},
-      user_password = #{record.userPassword,jdbcType=CHAR},
-      user_icon = #{record.userIcon,jdbcType=VARCHAR},
-      gender = #{record.gender,jdbcType=INTEGER},
-      birth = #{record.birth,jdbcType=DATE},
-      email = #{record.email,jdbcType=VARCHAR},
-      idcard = #{record.idcard,jdbcType=VARCHAR},
-      work_num = #{record.workNum,jdbcType=VARCHAR},
-      salt = #{record.salt,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=INTEGER},
-      tenant_id = #{record.tenantId,jdbcType=CHAR},
-      client = #{record.client,jdbcType=CHAR}
+    dept_id = #{record.deptId,jdbcType=INTEGER},
+    user_type = #{record.userType,jdbcType=INTEGER},
+    user_name = #{record.userName,jdbcType=CHAR},
+    user_phone = #{record.userPhone,jdbcType=CHAR},
+    user_password = #{record.userPassword,jdbcType=VARCHAR},
+    user_icon = #{record.userIcon,jdbcType=VARCHAR},
+    gender = #{record.gender,jdbcType=INTEGER},
+    birth = #{record.birth,jdbcType=DATE},
+    email = #{record.email,jdbcType=VARCHAR},
+    idcard = #{record.idcard,jdbcType=VARCHAR},
+    remark = #{record.remark,jdbcType=VARCHAR},
+    work_num = #{record.workNum,jdbcType=VARCHAR},
+    salt = #{record.salt,jdbcType=VARCHAR},
+    status = #{record.status,jdbcType=INTEGER},
+    tenant_id = #{record.tenantId,jdbcType=CHAR},
+    client = #{record.client,jdbcType=CHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -291,6 +330,12 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.william.bcpojo.WilliamUser" >
     update william_user
     <set >
+      <if test="deptId != null" >
+        dept_id = #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
       <if test="userName != null" >
         user_name = #{userName,jdbcType=CHAR},
       </if>
@@ -298,7 +343,7 @@
         user_phone = #{userPhone,jdbcType=CHAR},
       </if>
       <if test="userPassword != null" >
-        user_password = #{userPassword,jdbcType=CHAR},
+        user_password = #{userPassword,jdbcType=VARCHAR},
       </if>
       <if test="userIcon != null" >
         user_icon = #{userIcon,jdbcType=VARCHAR},
@@ -314,6 +359,9 @@
       </if>
       <if test="idcard != null" >
         idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="workNum != null" >
         work_num = #{workNum,jdbcType=VARCHAR},
@@ -335,26 +383,56 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamUser" >
     update william_user
-    set user_name = #{userName,jdbcType=CHAR},
-      user_phone = #{userPhone,jdbcType=CHAR},
-      user_password = #{userPassword,jdbcType=CHAR},
-      user_icon = #{userIcon,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=INTEGER},
-      birth = #{birth,jdbcType=DATE},
-      email = #{email,jdbcType=VARCHAR},
-      idcard = #{idcard,jdbcType=VARCHAR},
-      work_num = #{workNum,jdbcType=VARCHAR},
-      salt = #{salt,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      tenant_id = #{tenantId,jdbcType=CHAR},
-      client = #{client,jdbcType=CHAR}
+    set dept_id = #{deptId,jdbcType=INTEGER},
+    user_type = #{userType,jdbcType=INTEGER},
+    user_name = #{userName,jdbcType=CHAR},
+    user_phone = #{userPhone,jdbcType=CHAR},
+    user_password = #{userPassword,jdbcType=VARCHAR},
+    user_icon = #{userIcon,jdbcType=VARCHAR},
+    gender = #{gender,jdbcType=INTEGER},
+    birth = #{birth,jdbcType=DATE},
+    email = #{email,jdbcType=VARCHAR},
+    idcard = #{idcard,jdbcType=VARCHAR},
+    remark = #{remark,jdbcType=VARCHAR},
+    work_num = #{workNum,jdbcType=VARCHAR},
+    salt = #{salt,jdbcType=VARCHAR},
+    status = #{status,jdbcType=INTEGER},
+    tenant_id = #{tenantId,jdbcType=CHAR},
+    client = #{client,jdbcType=CHAR}
     where user_id = #{userId,jdbcType=CHAR}
   </update>
+  <select id="selectPage" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from william_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    limit #{pageSize} offset #{startPos}
 
+  </select>
+
+  <!-- 手机号查询用户-->
   <select id="getUserByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
     from william_user
     where user_phone = #{phone,jdbcType=CHAR}
+  </select>
+
+  <!-- 获取所有用户-->
+  <select id="getAllUser" resultType="com.william.bcpojo.bcresp.UserInfoResp">
+    select
+    <include refid="Base_Column_List" />,
+    william_dept.dept_name
+    from william_user
+    left join william_dept on william_dept.dept_id = william_user.dept_id
+    where william_user.status = 1
   </select>
 </mapper>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.william.bcpojo.WilliamRole;
 import com.william.bcpojo.WilliamRoleExample;
+import com.william.bcpojo.bcresp.UserRoleResp;
 import org.apache.ibatis.annotations.Param;
 
 public interface WilliamRoleMapper {
@@ -29,4 +30,8 @@ public interface WilliamRoleMapper {
 
     int updateByPrimaryKey(WilliamRole record);
 
+    // 查所有角色
+    List<UserRoleResp> getAllRoles();
+
+    List<UserRoleResp> getByUserId(String userId);
 }

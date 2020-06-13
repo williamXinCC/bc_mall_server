@@ -1,6 +1,9 @@
 package com.william.bc_mall_server.service;
 
 
+import com.william.bcpojo.vo.RoleVo;
+import com.william.pojo.Result;
+
 /**
  * @author xinchuang
  * @version v1.0
@@ -9,5 +12,9 @@ package com.william.bc_mall_server.service;
  */
 public interface WilliamRoleService {
 
+    Result getAllRoles(Integer page,Integer limit);
 
+    void addRole(RoleVo roleVo);
+
+    void updateByRoleId(RoleVo roleVo);
 }

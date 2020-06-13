@@ -1,6 +1,8 @@
 package com.william.bc_mall_server.service.impl;
 
+import com.william.bc_mall_server.mapper.WilliamRolePermissionMapper;
 import com.william.bc_mall_server.service.WilliamRolePermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,11 @@ import java.util.Set;
 @Service
 public class WilliamRolePermissionServiceImpl implements WilliamRolePermissionService {
 
+    @Autowired
+    private WilliamRolePermissionMapper williamRolePermissionMapper;
+
     @Override
     public List<Integer> getPermissionListByRoleId(String roleId) {
-        return null;
+        return williamRolePermissionMapper.getPermissionListByRoleId(roleId);
     }
 }

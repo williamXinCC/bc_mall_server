@@ -1,15 +1,13 @@
 package com.william.bc_mall_server.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.william.bc_mall_server.service.WilliamUserService;
+import com.william.bcpojo.WilliamUser;
 import com.william.constant.Constant;
-import com.william.constant.Consts;
-import com.william.pojo.WilliamSysNotice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,8 +20,8 @@ import java.util.List;
 @RequestMapping(value = "/index")
 public class IndexController {
 
-//    @Autowired
-//    private IWilliamUserService userService;
+    @Autowired
+    private WilliamUserService userService;
 //
 //    @Autowired
 //    private IWilliamUserRoleService userRoleService;
@@ -144,52 +142,6 @@ public class IndexController {
 //    public String toDeptRight(){return Constant.TO_SYSTEM + "dept/deptRight";}
 //
 //
-//    /**
-//     * 用户管理
-//     * @author     xinchuang
-//     * @param model :
-//     * @return : java.lang.String
-//     */
-//    @RequestMapping(value = "/toUserManager")
-//    public String toUserManager(Model model){
-//        // 获取所有领导
-//        QueryWrapper<WilliamUserRole> objectQueryWrapper = new QueryWrapper<>();
-//        objectQueryWrapper.eq("role_id", Consts.MANAGER_ROLE_ID);
-//        List<WilliamUserRole> list = userRoleService.list(objectQueryWrapper);
-//        List<String> userList = new ArrayList<>();
-//        for (WilliamUserRole williamUserRole : list) {
-//            userList.add(williamUserRole.getUserId());
-//        }
-//        QueryWrapper<WilliamUser> userQueryWrapper = new QueryWrapper<>();
-//        userQueryWrapper.in("id",userList);
-//        List<WilliamUser> managerUserList = userService.list(userQueryWrapper);
-//        model.addAttribute("managerList",managerUserList);
-//        return Constant.TO_SYSTEM + "user/userManager";
-//    }
-//
-//    // 权限
-//    @RequestMapping(value = "/toPermissionLeft")
-//    public String toPermissionLeft(){
-//        return Constant.TO_SYSTEM + "permission/permissionLeft";
-//    }
-//
-//    @RequestMapping(value = "/toPermissionRight")
-//    public String toPermissionRight(){
-//        return Constant.TO_SYSTEM + "permission/permissionRight";
-//    }
-//
-//    @RequestMapping(value = "/toPermissionManager")
-//    public String toPermissionManager(){
-//        return Constant.TO_SYSTEM + "permission/permissionManager";
-//    }
-//
-//
-//    // 配置角色
-//    @RequestMapping(value = "/toRole")
-//    public String toRole(){
-//        return Constant.TO_SYSTEM + "role/roleManager";
-//    }
-//
 
 //
 //
@@ -241,25 +193,6 @@ public class IndexController {
 //    }
 //
 
-    // 用户管理
-
-    @RequestMapping(value = "/toUserInfo")
-    public String toUserInfo(){
-        return Constant.TO_SYSTEM + "user/userInfo";
-    }
-
-
-    @RequestMapping(value = "/toAllUsers")
-    public String toAllUsers(){
-        return Constant.TO_SYSTEM + "user/allUsers";
-    }
-
-
-    @RequestMapping(value = "/toAddUser")
-    public String toAddUser(){
-        return Constant.TO_PAGE + "user/addUser";
-    }
-
 
     // 系统管理
 
@@ -307,33 +240,92 @@ public class IndexController {
     }
 
 
-    @RequestMapping(value = "/toChangePwd")
-    public String toChangePwd(){
-        return Constant.TO_SYSTEM + "user/changePwd";
+
+    /**
+     * 角色 权限 管理
+     * @author     xinchuang
+     * @return : java.lang.String
+     */
+    @RequestMapping(value = "/toRole")
+    public String toRole(){
+        return Constant.TO_SYSTEM + "role/roleManager";
     }
 
-    @RequestMapping(value = "/to404")
-    public String to404(){
-        return Constant.TO_SYSTEM + "index/404";
+    // 权限
+    @RequestMapping(value = "/toPermissionLeft")
+    public String toPermissionLeft(){
+        return Constant.TO_SYSTEM + "permission/permissionLeft";
     }
 
+    @RequestMapping(value = "/toPermissionRight")
+    public String toPermissionRight(){
+        return Constant.TO_SYSTEM + "permission/permissionRight";
+    }
+
+    @RequestMapping(value = "/toPermissionManager")
+    public String toPermissionManager(){
+        return Constant.TO_SYSTEM + "permission/permissionManager";
+    }
+
+
+    /**
+     * 用户管理
+     * @author     xinchuang
+     * @param model :
+     * @return : java.lang.String
+     */
+    @RequestMapping(value = "/toUserManager")
+    public String toUserManager(Model model){
+        return Constant.TO_SYSTEM + "user/userManager";
+    }
+
+    @RequestMapping(value = "/toUserInfo")
+    public String toUserInfo(){
+        return Constant.TO_SYSTEM + "user/userInfo";
+    }
+
+    @Deprecated
+    @RequestMapping(value = "/toAllUsers")
+    public String toAllUsers(){
+        return Constant.TO_SYSTEM + "user/allUsers";
+    }
+
+    @Deprecated
+    @RequestMapping(value = "/toAddUser")
+    public String toAddUser(){
+        return Constant.TO_PAGE + "user/addUser";
+    }
 
     // 登录
     @RequestMapping(value = "/toLogin")
     public String toLogin(){ return Constant.TO_SYSTEM + "index/login"; }
 
+    // 主页
     @RequestMapping(value = "/toMain")
     public String toMain(){
         return Constant.TO_SYSTEM + "index/main";
     }
 
+    // index页面
     @RequestMapping(value = "/toIndex")
     public String toIndex(Model model){
 //        List<WilliamSysNotice> sysNotices = noticeService.getSysNotices();
 //        model.addAttribute("notic",sysNotices.get(0));
         return Constant.TO_SYSTEM + "index/index"; }
 
-    // 菜单
+    // 修改密码页面
+    @RequestMapping(value = "/toChangePwd")
+    public String toChangePwd(){
+        return Constant.TO_SYSTEM + "user/changePwd";
+    }
+
+    // 404页面
+    @RequestMapping(value = "/to404")
+    public String to404(){
+        return Constant.TO_SYSTEM + "index/404";
+    }
+
+    // 菜单图标
     @RequestMapping(value = "/toIcon")
     public String toIcon(String id,Model model){
         model.addAttribute("id",id);

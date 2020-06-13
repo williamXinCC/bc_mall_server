@@ -37,22 +37,22 @@ layui.config({
 
     //添加验证规则
     form.verify({
-        oldPwd : function(value, item){
-            if(value != "123456"){
-                return "密码错误，请重新输入！";
-            }
-        },
-        newPwd : function(value, item){
-            if(value.length < 6){
-                return "密码长度不能小于6位";
-            }
-        },
+        // oldPwd : function(value, item){
+        //     if(value != "123456"){
+        //         return "密码错误，请重新输入！";
+        //     }
+        // },
+        // newPwd : function(value, item){
+        //     if(value.length < 6){
+        //         return "密码长度不能小于6位";
+        //     }
+        // },
         confirmPwd : function(value, item){
             if(!new RegExp($("#oldPwd").val()).test(value)){
                 return "两次输入密码不一致，请重新输入！";
             }
         }
-    })
+    });
 
     //判断是否修改过用户信息，如果修改过则填充修改后的信息
     if(window.sessionStorage.getItem('userInfo')){
@@ -132,16 +132,25 @@ layui.config({
             layer.msg("提交成功！");
         },2000);
     	return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-    })
+    });
 
     //修改密码
     form.on("submit(changePwd)",function(data){
     	var index = layer.msg('提交中，请稍候',{icon: 16,time:false,shade:0.8});
-        setTimeout(function(){
-            layer.close(index);
-            layer.msg("密码修改成功！");
-            $(".pwd").val('');
-        },2000);
+        $.post('/william-user/resetPwd',data.field,function(res){
+            if(res.code == 200){
+                layer.close(index);
+                layer.msg(res.msg,{icon:1,shade:0.8,time:1000});
+                $(".pwd").val('');
+            }else{
+                layer.close(index);
+                layer.msg(res.msg,{icon:1,shade:0.8,time:1000});
+            }
+        });
+        // setTimeout(function(){
+        //     layer.close(index);
+        //     layer.msg("密码修改成功！");
+        // },2000);
     	return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     })
 

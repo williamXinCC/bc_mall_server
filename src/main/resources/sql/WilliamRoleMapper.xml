@@ -203,7 +203,7 @@
     </if>
   </select>
 
-  <update id="updateByExampleSelective" parameterType="map" >
+    <update id="updateByExampleSelective" parameterType="map" >
     update william_role
     <set >
       <if test="record.roleId != null" >
@@ -320,4 +320,30 @@
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
 
+  <sql id="SQL_COLUMN">
+     william_role.role_id, william_role.role_code, william_role.role_name, william_role.role_desc, william_role.delete_type, william_role.create_id,
+     william_role.create_time, william_role.mod_id,william_role.status,
+     william_role.mod_time, william_role.status, william_role.tenant_id, william_role.client
+  </sql>
+
+  <!-- 查所有角色 -->
+  <select id="getAllRoles" resultType="com.william.bcpojo.bcresp.UserRoleResp">
+      select
+      <include refid="SQL_COLUMN"/>,
+      a.user_name as create_name,
+      b.user_name as mod_name
+      from william_role
+      left join william_user as a on a.user_id = create_id
+      left join william_user as b on b.user_id = mod_id
+      where william_role.status = 1
+  </select>
+
+  <!-- 查用户角色-->
+  <select id="getByUserId" resultType="com.william.bcpojo.bcresp.UserRoleResp">
+    select
+    <include refid="SQL_COLUMN"/>
+    from william_role
+    inner join william_user_role on william_user_role.role_code = william_role.role_code and william_user_role.user_id = #{userId}
+    and william_user_role.status = 1
+</select>
 </mapper>

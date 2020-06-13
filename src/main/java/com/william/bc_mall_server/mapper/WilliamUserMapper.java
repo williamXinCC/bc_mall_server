@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.william.bcpojo.WilliamUser;
 import com.william.bcpojo.WilliamUserExample;
+import com.william.bcpojo.bcresp.UserInfoResp;
 import org.apache.ibatis.annotations.Param;
 
 public interface WilliamUserMapper {
@@ -29,5 +30,9 @@ public interface WilliamUserMapper {
 
     int updateByPrimaryKey(WilliamUser record);
 
+    List<WilliamUser> selectPage(WilliamUserExample example);
+
     WilliamUser getUserByPhone(String phone);
+
+    List<UserInfoResp> getAllUser();
 }

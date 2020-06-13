@@ -182,6 +182,7 @@
       </if>
     </trim>
   </insert>
+
   <select id="countByExample" parameterType="com.william.bcpojo.WilliamUserRoleExample" resultType="java.lang.Integer" >
     select count(*) from william_user_role
     <if test="_parameter != null" >
@@ -290,8 +291,31 @@
   </update>
 
   <!-- 查角色列表-->
-  <select id="getRoleListByUid" resultType="java.lang.String">
+  <select id="getRoleCodeListByUid" resultType="java.lang.String">
     select role_code
     from william_user_role where user_id = #{userId}
   </select>
+
+
+  <!-- 批量插入-->
+  <insert id="inserBatch" useGeneratedKeys="true">
+    insert into william_user_role
+    (user_id,role_code,create_id,create_time)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+      #{userId},
+      #{item},
+      #{createId},
+      #{createTime}
+      )
+    </foreach>
+  </insert>
+
+  <!-- 删除 -->
+  <update id="deleteByUserId">
+       update william_user_role
+       set status = 2
+       where user_id = #{userId}
+  </update>
 </mapper>
