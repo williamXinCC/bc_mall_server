@@ -3,7 +3,6 @@
 <mapper namespace="com.william.bc_mall_server.mapper.WilliamRoleMapper" >
   <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamRole" >
     <id column="role_id" property="roleId" jdbcType="INTEGER" />
-    <result column="role_code" property="roleCode" jdbcType="CHAR" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
     <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
     <result column="delete_type" property="deleteType" jdbcType="INTEGER" />
@@ -23,7 +22,7 @@
             <foreach collection="criteria.criteria" item="criterion" >
               <choose >
                 <when test="criterion.noValue" >
-                  and ${criterion.condition}
+                   and ${criterion.condition}
                 </when>
                 <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
@@ -74,8 +73,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    role_id, role_code, role_name, role_desc, delete_type, create_id, create_time, mod_id, 
-    mod_time, status, tenant_id, client
+    william_role.role_id as role_id, william_role.role_name as role_name, william_role.role_desc as role_desc,
+    william_role.delete_type as delete_type, william_role.create_id as create_id, william_role.create_time as create_time,
+    william_role.mod_id as mod_id, william_role.mod_time as mod_time, william_role.status as status,
+    william_role.tenant_id as tenant_id, william_role.client as client
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamRoleExample" >
     select
@@ -92,10 +93,10 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from william_role
-    where role_id = #{roleId,jdbcType=INTEGER}
+    where william_role.role_id = #{roleId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from william_role
@@ -108,23 +109,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.bcpojo.WilliamRole" >
-    insert into william_role (role_id, role_code, role_name, 
-      role_desc, delete_type, create_id, 
-      create_time, mod_id, mod_time, 
-      status, tenant_id, client)
-    values (#{roleId,jdbcType=INTEGER}, #{roleCode,jdbcType=CHAR}, #{roleName,jdbcType=VARCHAR}, 
-      #{roleDesc,jdbcType=VARCHAR}, #{deleteType,jdbcType=INTEGER}, #{createId,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, #{modTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
+    insert into william_role (role_id, role_name, role_desc,
+    delete_type, create_id, create_time,
+    mod_id, mod_time, status,
+    tenant_id, client)
+    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{roleDesc,jdbcType=VARCHAR},
+    #{deleteType,jdbcType=INTEGER}, #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP},
+    #{modId,jdbcType=CHAR}, #{modTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+    #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamRole" >
     insert into william_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="roleId != null" >
         role_id,
-      </if>
-      <if test="roleCode != null" >
-        role_code,
       </if>
       <if test="roleName != null" >
         role_name,
@@ -160,9 +158,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="roleId != null" >
         #{roleId,jdbcType=INTEGER},
-      </if>
-      <if test="roleCode != null" >
-        #{roleCode,jdbcType=CHAR},
       </if>
       <if test="roleName != null" >
         #{roleName,jdbcType=VARCHAR},
@@ -202,15 +197,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-
-    <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map" >
     update william_role
     <set >
       <if test="record.roleId != null" >
         role_id = #{record.roleId,jdbcType=INTEGER},
-      </if>
-      <if test="record.roleCode != null" >
-        role_code = #{record.roleCode,jdbcType=CHAR},
       </if>
       <if test="record.roleName != null" >
         role_name = #{record.roleName,jdbcType=VARCHAR},
@@ -250,17 +241,16 @@
   <update id="updateByExample" parameterType="map" >
     update william_role
     set role_id = #{record.roleId,jdbcType=INTEGER},
-      role_code = #{record.roleCode,jdbcType=CHAR},
-      role_name = #{record.roleName,jdbcType=VARCHAR},
-      role_desc = #{record.roleDesc,jdbcType=VARCHAR},
-      delete_type = #{record.deleteType,jdbcType=INTEGER},
-      create_id = #{record.createId,jdbcType=CHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      mod_id = #{record.modId,jdbcType=CHAR},
-      mod_time = #{record.modTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=INTEGER},
-      tenant_id = #{record.tenantId,jdbcType=CHAR},
-      client = #{record.client,jdbcType=CHAR}
+    role_name = #{record.roleName,jdbcType=VARCHAR},
+    role_desc = #{record.roleDesc,jdbcType=VARCHAR},
+    delete_type = #{record.deleteType,jdbcType=INTEGER},
+    create_id = #{record.createId,jdbcType=CHAR},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    mod_id = #{record.modId,jdbcType=CHAR},
+    mod_time = #{record.modTime,jdbcType=TIMESTAMP},
+    status = #{record.status,jdbcType=INTEGER},
+    tenant_id = #{record.tenantId,jdbcType=CHAR},
+    client = #{record.client,jdbcType=CHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -268,9 +258,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.william.bcpojo.WilliamRole" >
     update william_role
     <set >
-      <if test="roleCode != null" >
-        role_code = #{roleCode,jdbcType=CHAR},
-      </if>
       <if test="roleName != null" >
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
@@ -306,22 +293,21 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamRole" >
     update william_role
-    set role_code = #{roleCode,jdbcType=CHAR},
-      role_name = #{roleName,jdbcType=VARCHAR},
-      role_desc = #{roleDesc,jdbcType=VARCHAR},
-      delete_type = #{deleteType,jdbcType=INTEGER},
-      create_id = #{createId,jdbcType=CHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      mod_id = #{modId,jdbcType=CHAR},
-      mod_time = #{modTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      tenant_id = #{tenantId,jdbcType=CHAR},
-      client = #{client,jdbcType=CHAR}
+    set role_name = #{roleName,jdbcType=VARCHAR},
+    role_desc = #{roleDesc,jdbcType=VARCHAR},
+    delete_type = #{deleteType,jdbcType=INTEGER},
+    create_id = #{createId,jdbcType=CHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    mod_id = #{modId,jdbcType=CHAR},
+    mod_time = #{modTime,jdbcType=TIMESTAMP},
+    status = #{status,jdbcType=INTEGER},
+    tenant_id = #{tenantId,jdbcType=CHAR},
+    client = #{client,jdbcType=CHAR}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
 
   <sql id="SQL_COLUMN">
-     william_role.role_id, william_role.role_code, william_role.role_name, william_role.role_desc, william_role.delete_type, william_role.create_id,
+     william_role.role_id, william_role.role_name, william_role.role_desc, william_role.delete_type, william_role.create_id,
      william_role.create_time, william_role.mod_id,william_role.status,
      william_role.mod_time, william_role.status, william_role.tenant_id, william_role.client
   </sql>
@@ -343,7 +329,7 @@
     select
     <include refid="SQL_COLUMN"/>
     from william_role
-    inner join william_user_role on william_user_role.role_code = william_role.role_code and william_user_role.user_id = #{userId}
+    inner join william_user_role on william_user_role.role_id = william_role.role_id and william_user_role.user_id = #{userId}
     and william_user_role.status = 1
 </select>
 </mapper>

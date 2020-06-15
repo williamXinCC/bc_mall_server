@@ -1,10 +1,14 @@
 package com.william.bc_mall_server.service.impl;
 
-import com.william.bc_mall_server.mapper.WilliamMenuMapper;
+import com.william.bc_mall_server.mapper.WilliamPermissionMapper;
+import com.william.bc_mall_server.mapper.WilliamPermissionMapper;
 import com.william.bc_mall_server.service.WilliamMenuService;
+import com.william.bc_mall_server.service.WilliamPermissionService;
 import com.william.bcconstant.BcConsts;
-import com.william.bcpojo.WilliamMenu;
-import com.william.bcpojo.WilliamMenuExample;
+import com.william.bcpojo.WilliamPermission;
+import com.william.bcpojo.WilliamPermissionExample;
+import com.william.bcpojo.WilliamPermission;
+import com.william.bcpojo.WilliamPermissionExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,25 +27,24 @@ import java.util.Set;
 public class WilliamMenuServiceImpl implements WilliamMenuService {
 
     @Autowired
-    private WilliamMenuMapper williamMenuMapper;
-
+    private WilliamPermissionMapper williamPermissionMapper;
 
     /**
      * 查所有
      * @author     xinchuang
      * @param type :
-     * @return : java.util.List<com.william.bcpojo.WilliamMenu>
+     * @return : java.util.List<com.william.bcpojo.WilliamPermission>
      */
     @Override
-    public List<WilliamMenu> getMenusByType(Integer type) {
-        WilliamMenuExample williamMenuExample = new WilliamMenuExample();
-        WilliamMenuExample.Criteria criteria = williamMenuExample.createCriteria();
+    public List<WilliamPermission> getMenusByType(Integer type) {
+        WilliamPermissionExample williamPermissionExample = new WilliamPermissionExample();
+        WilliamPermissionExample.Criteria criteria = williamPermissionExample.createCriteria();
         criteria.andTypeEqualTo(type);
         criteria.andStatusEqualTo(1);
         criteria.andShowFlagEqualTo(1);
-        criteria.andTenantIdEqualTo(BcConsts.TENANT_ID);
-        williamMenuExample.setOrderByClause("seq asc");
-        return williamMenuMapper.selectByExample(williamMenuExample);
+//        criteria.andTenantIdEqualTo(BcConsts.TENANT_ID);
+        williamPermissionExample.setOrderByClause("seq asc");
+        return williamPermissionMapper.selectByExample(williamPermissionExample);
     }
 
     /**
@@ -49,20 +52,63 @@ public class WilliamMenuServiceImpl implements WilliamMenuService {
      * @author     xinchuang
      * @param menuList :
      * @param type :
-     * @return : java.util.List<com.william.bcpojo.WilliamMenu>
+     * @return : java.util.List<com.william.bcpojo.WilliamPermission>
      */
     @Override
-    public List<WilliamMenu> getMenusByIds(List<Integer> menuList,Integer type) {
-        WilliamMenuExample williamMenuExample = new WilliamMenuExample();
-        WilliamMenuExample.Criteria criteria = williamMenuExample.createCriteria();
+    public List<WilliamPermission> getMenusByIds(List<Integer> menuList,Integer type) {
+        WilliamPermissionExample williamMenuExample = new WilliamPermissionExample();
+        WilliamPermissionExample.Criteria criteria = williamMenuExample.createCriteria();
         if(0 != type){
             criteria.andTypeEqualTo(type);
         }
         criteria.andStatusEqualTo(1);
         criteria.andShowFlagEqualTo(1);
         criteria.andTenantIdEqualTo(BcConsts.TENANT_ID);
-        criteria.andMenuIdIn(menuList);
+        criteria.andIdIn(menuList);
         williamMenuExample.setOrderByClause("seq asc");
-        return williamMenuMapper.selectByExample(williamMenuExample);
+        return williamPermissionMapper.selectByExample(williamMenuExample);
     }
+
+
+    /**
+     * 添加菜单
+     * @author     xinchuang
+     * @param williamPermission :
+     * @return : void
+     */
+    @Override
+    public void addMenu(WilliamPermission williamPermission) {
+        williamPermission.setType(BcConsts.PERMISSION_TYPE_MENU);
+        williamPermissionMapper.insertSelective(williamPermission);
+    }
+
+    @Override
+    public void updateMenuById(WilliamPermission williamPermission) {
+        williamPermissionMapper.updateByPrimaryKeySelective(williamPermission);
+    }
+
+
+    /**
+     * 查询当前菜单下是否有子菜单
+     * @author     xinchuang
+     * @param permission :
+     * @return : java.util.List<com.william.bcpojo.WilliamPermission>
+     */
+    @Override
+    public List<WilliamPermission> getMenuHasChildrenNode(WilliamPermission permission) {
+        return williamPermissionMapper.selectMenusByPid(permission.getPid());
+    }
+
+    /**
+     * 删除菜单
+     * @author     xinchuang
+     * @param williamPermission :
+     * @return : void
+     */
+    @Override
+    public void deleteMenuById(WilliamPermission williamPermission) {
+        williamPermission.setStatus(99);
+        williamPermissionMapper.updateByPrimaryKeySelective(williamPermission);
+    }
+
 }

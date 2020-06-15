@@ -3,7 +3,7 @@
 <mapper namespace="com.william.bc_mall_server.mapper.WilliamRolePermissionMapper" >
   <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamRolePermission" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="role_code" property="roleCode" jdbcType="CHAR" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="permission_id" property="permissionId" jdbcType="INTEGER" />
     <result column="create_id" property="createId" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -71,8 +71,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, role_code, permission_id, create_id, create_time, mod_id, mod_time, tenant_id, 
-    client
+    william_role_permission.id as id, william_role_permission.role_id as role_id, william_role_permission.permission_id as permission_id,
+    william_role_permission.create_id as create_id, william_role_permission.create_time as create_time,
+    william_role_permission.mod_id as mod_id, william_role_permission.mod_time as mod_time,
+    william_role_permission.tenant_id as tenant_id, william_role_permission.client as client
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamRolePermissionExample" >
     select
@@ -89,10 +91,10 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from william_role_permission
-    where id = #{id,jdbcType=INTEGER}
+    where william_role_permission.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from william_role_permission
@@ -105,14 +107,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.bcpojo.WilliamRolePermission" >
-    insert into william_role_permission (id, role_code, permission_id, 
-      create_id, create_time, mod_id, 
-      mod_time, tenant_id, client
-      )
-    values (#{id,jdbcType=INTEGER}, #{roleCode,jdbcType=CHAR}, #{permissionId,jdbcType=INTEGER}, 
-      #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, 
-      #{modTime,jdbcType=TIMESTAMP}, #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR}
-      )
+    insert into william_role_permission (id, role_id, permission_id,
+    create_id, create_time, mod_id,
+    mod_time, tenant_id, client
+    )
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER},
+    #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR},
+    #{modTime,jdbcType=TIMESTAMP}, #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamRolePermission" >
     insert into william_role_permission
@@ -120,8 +122,8 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="roleCode != null" >
-        role_code,
+      <if test="roleId != null" >
+        role_id,
       </if>
       <if test="permissionId != null" >
         permission_id,
@@ -149,8 +151,8 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="roleCode != null" >
-        #{roleCode,jdbcType=CHAR},
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
       </if>
       <if test="permissionId != null" >
         #{permissionId,jdbcType=INTEGER},
@@ -187,8 +189,8 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.roleCode != null" >
-        role_code = #{record.roleCode,jdbcType=CHAR},
+      <if test="record.roleId != null" >
+        role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
       <if test="record.permissionId != null" >
         permission_id = #{record.permissionId,jdbcType=INTEGER},
@@ -219,14 +221,14 @@
   <update id="updateByExample" parameterType="map" >
     update william_role_permission
     set id = #{record.id,jdbcType=INTEGER},
-      role_code = #{record.roleCode,jdbcType=CHAR},
-      permission_id = #{record.permissionId,jdbcType=INTEGER},
-      create_id = #{record.createId,jdbcType=CHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      mod_id = #{record.modId,jdbcType=CHAR},
-      mod_time = #{record.modTime,jdbcType=TIMESTAMP},
-      tenant_id = #{record.tenantId,jdbcType=CHAR},
-      client = #{record.client,jdbcType=CHAR}
+    role_id = #{record.roleId,jdbcType=INTEGER},
+    permission_id = #{record.permissionId,jdbcType=INTEGER},
+    create_id = #{record.createId,jdbcType=CHAR},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    mod_id = #{record.modId,jdbcType=CHAR},
+    mod_time = #{record.modTime,jdbcType=TIMESTAMP},
+    tenant_id = #{record.tenantId,jdbcType=CHAR},
+    client = #{record.client,jdbcType=CHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -234,8 +236,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.william.bcpojo.WilliamRolePermission" >
     update william_role_permission
     <set >
-      <if test="roleCode != null" >
-        role_code = #{roleCode,jdbcType=CHAR},
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
       </if>
       <if test="permissionId != null" >
         permission_id = #{permissionId,jdbcType=INTEGER},
@@ -263,20 +265,35 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamRolePermission" >
     update william_role_permission
-    set role_code = #{roleCode,jdbcType=CHAR},
-      permission_id = #{permissionId,jdbcType=INTEGER},
-      create_id = #{createId,jdbcType=CHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      mod_id = #{modId,jdbcType=CHAR},
-      mod_time = #{modTime,jdbcType=TIMESTAMP},
-      tenant_id = #{tenantId,jdbcType=CHAR},
-      client = #{client,jdbcType=CHAR}
+    set role_id = #{roleId,jdbcType=INTEGER},
+    permission_id = #{permissionId,jdbcType=INTEGER},
+    create_id = #{createId,jdbcType=CHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    mod_id = #{modId,jdbcType=CHAR},
+    mod_time = #{modTime,jdbcType=TIMESTAMP},
+    tenant_id = #{tenantId,jdbcType=CHAR},
+    client = #{client,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getPermissionListByRoleId" resultType="java.lang.Integer">
+
+  <!-- my -->
+    <select id="getPermissionListByRoleId" resultType="java.lang.Integer">
       select permission_id
       from william_role_permission
-      where role_code = #{roleCode}
+      where role_id = #{roleId}
   </select>
+
+  <!-- 批量添加 -->
+  <insert id="inserBatchRolePermission">
+        insert INTO william_role_permission
+          (role_id, permission_id,
+          create_time
+          )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+          (#{roleId,jdbcType=CHAR}, #{item,jdbcType=INTEGER},
+           #{createTime,jdbcType=TIMESTAMP}
+        </foreach>
+  </insert>
 </mapper>

@@ -1,10 +1,11 @@
 package com.william.bc_mall_server.shiroConfig;
 
+import com.william.bc_mall_server.mapper.WilliamPermissionMapper;
 import com.william.bc_mall_server.service.*;
 import com.william.bcpojo.ActiverUser;
-import com.william.bcpojo.WilliamMenu;
+import com.william.bcpojo.WilliamPermission;
+import com.william.bcpojo.WilliamPermissionExample;
 import com.william.bcpojo.WilliamUser;
-import com.william.utils.CollectionUtil;
 import com.william.utils.IdSaltUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -27,25 +28,18 @@ import java.util.*;
 public class UserRealm extends AuthorizingRealm{
 
     @Autowired
-//    @Lazy
+    @Lazy
     private WilliamUserService userService;
 
     @Autowired
-//    @Lazy
-    private WilliamMenuService menuService;
-
-    @Autowired
-//    @Lazy
-    private WilliamRoleService roleService;
+    @Lazy
+    private WilliamPermissionMapper permissionMapper;
 
     @Autowired
     private WilliamUserRoleService userRoleService;
 
     @Autowired
     private WilliamRolePermissionService williamRolePermissionService;
-
-    @Autowired
-    private WilliamPermissionMenuService williamPermissionMenuService;
 
     @Override
     public String getName() {
@@ -92,35 +86,44 @@ public class UserRealm extends AuthorizingRealm{
         if(Objects.nonNull(williamUser)){
             ActiverUser activerUser = new ActiverUser();
             activerUser.setWilliamUser(williamUser);
-            // uid + 角色 + 权限查询
             String uid = williamUser.getUserId();
             // 查询角色
-            List<String> currentRoleCodes = userRoleService.getRoleCodeListByUid(uid);
-            // 根据角色查询权限
-            Set<Integer> permissionsList = new HashSet<>();
-            for (String currentRoleCode : currentRoleCodes) {
-                List<Integer> userPermissions = williamRolePermissionService.getPermissionListByRoleId(currentRoleCode);
+            List<Integer> currentRoleIds = userRoleService.getRoleCodeListByUid(uid);
+            // 角色查询权限
+            Set<Integer> userPermissionsIds = new HashSet<>();
+            for (Integer currentRoleId : currentRoleIds) {
+                List<Integer> userPermissions = williamRolePermissionService.getPermissionListByRoleId(currentRoleId);
                 if(cn.hutool.core.collection.CollectionUtil.isNotEmpty(userPermissions)){
-                    permissionsList.addAll(userPermissions);
+                    userPermissionsIds.addAll(userPermissions);
                 }
             }
-            List<Integer> permissions = new ArrayList<>(permissionsList);
-            // 权限 查询菜单
-            Set<Integer> menuList = new HashSet<>();
-            if(permissionsList.size() > 0){
-                for (Integer permissionId : permissionsList) {
-                   List<Integer> menuIds = williamPermissionMenuService.getMenuListByPermissionId(permissionId);
-                   if(cn.hutool.core.collection.CollectionUtil.isNotEmpty(menuIds)){
-                       menuList.addAll(menuIds);
-                   }
+            // 权限
+            List<String> permissions = new ArrayList<>();
+            // 菜单
+            List<WilliamPermission> menus = new ArrayList<>();
+            List<Integer> upids = new ArrayList<>(userPermissionsIds);
+            WilliamPermissionExample williamPermissionExample = new WilliamPermissionExample();
+            WilliamPermissionExample.Criteria criteria = williamPermissionExample.createCriteria();
+            // 管理员
+            if(2 != williamUser.getUserType()){
+                criteria.andIdIn(upids);
+                criteria.andStatusEqualTo(1);
+            }
+            List<WilliamPermission> permissionList = permissionMapper.selectByExample(williamPermissionExample);
+            for (WilliamPermission williamPermission : permissionList) {
+                if(1 == williamPermission.getType()){
+                    menus.add(williamPermission);
+                }
+                if(2 == williamPermission.getType()){
+                    String percode = williamPermission.getPercode();
+                    permissions.add(percode);
                 }
             }
-            List<Integer> menus = new ArrayList<>(menuList);
             // 用户权限
             activerUser.setPermissions(permissions);
             // 用户角色
-            activerUser.setRoles(currentRoleCodes);
-            // 用户菜单
+            activerUser.setRoles(currentRoleIds);
+            // 惨淡
             activerUser.setMenus(menus);
             // 手机号 + 账号ID 为盐
             ByteSource credentialsSalt = IdSaltUtils.getSalt(williamUser.getUserPhone(), williamUser.getUserId());

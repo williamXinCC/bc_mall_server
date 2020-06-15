@@ -57,12 +57,15 @@ public class WilliamLoginController {
 
 
     @RequestMapping(value = "/login")
-    public Result bcLoginReq(@RequestBody BcLoginReq bcLoginReq, Model model){
+    public Result bcLoginReq(@RequestBody BcLoginReq bcLoginReq,@RequestParam(value="isRememberMe", defaultValue="0") Integer isRememberMe, Model model){
 //        boolean b = redisService.ishasKey(Constant.CAPTCHA + bcLoginReq.getCaptcha().toUpperCase());
 //        if(!b){
 //            return Result.getResult(RespCodeAndMsg.CAPTCH_ERROR);
 //        }
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(bcLoginReq.getUserPhone(), bcLoginReq.getPassword());
+        if (isRememberMe == 1) {
+            usernamePasswordToken.setRememberMe(true);
+        }
         Subject subject = SecurityUtils.getSubject();
         String token;
         try {

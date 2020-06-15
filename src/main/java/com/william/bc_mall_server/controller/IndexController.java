@@ -162,37 +162,6 @@ public class IndexController {
 ////        return Constant.TO_SYSTEM + "menu/menuList";}
 //
 //
-//    // 菜单 two
-//
-//    /**
-//     * 跳转到菜单管理
-//     *
-//     */
-//    @RequestMapping("/toMenuManager")
-//    public String toMenuManager() {
-//        return Constant.TO_SYSTEM + "menu/menuManager";
-//    }
-//
-//    /**
-//     * 跳转到菜单管理-left
-//     *
-//     */
-//    @RequestMapping("/toMenuLeft")
-//    public String toMenuLeft() {
-//        return Constant.TO_SYSTEM + "menu/menuLeft";
-//    }
-//
-//
-//    /**
-//     * 跳转到菜单管理--right
-//     *
-//     */
-//    @RequestMapping("/toMenuRight")
-//    public String toMenuRight() {
-//        return Constant.TO_SYSTEM + "menu/menuRight";
-//    }
-//
-
 
     // 系统管理
 
@@ -240,6 +209,35 @@ public class IndexController {
     }
 
 
+    // 菜单管理
+
+    /**
+     * 跳转到菜单管理
+     *
+     */
+    @RequestMapping("/toMenuManager")
+    public String toMenuManager() {
+        return Constant.TO_SYSTEM + "menu/menuManager";
+    }
+
+    /**
+     * 跳转到菜单管理-left
+     *
+     */
+    @RequestMapping("/toMenuLeft")
+    public String toMenuLeft() {
+        return Constant.TO_SYSTEM + "menu/menuLeft";
+    }
+
+
+    /**
+     * 跳转到菜单管理--right
+     *
+     */
+    @RequestMapping("/toMenuRight")
+    public String toMenuRight() {
+        return Constant.TO_SYSTEM + "menu/menuRight";
+    }
 
     /**
      * 角色 权限 管理

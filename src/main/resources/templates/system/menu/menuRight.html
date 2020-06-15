@@ -18,22 +18,23 @@
 
 </head>
 <body class="childrenBody">
-<blockquote class="layui-elem-quote">
-	<form action="" method="post" id="searchFrm" lay-filter="searchFrm" class="layui-form layui-form-pane">
-		<div class="layui-form-item">
-		    <div class="layui-inline">
-		      <label class="layui-form-label">菜单名称</label>
-		      <div class="layui-input-inline">
-		        <input type="text" name="title"  autocomplete="off" class="layui-input">
-		      </div>
-		      <div class="layui-input-inline">
-		       	<button type="button" class="layui-btn" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
-      			<button type="reset" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
-		      </div>
-		    </div>
-		  </div>
-	</form>
-</blockquote>
+<!-- 搜索 -->
+<!--<blockquote class="layui-elem-quote">-->
+	<!--<form action="" method="post" id="searchFrm" lay-filter="searchFrm" class="layui-form layui-form-pane">-->
+		<!--<div class="layui-form-item">-->
+		    <!--<div class="layui-inline">-->
+		      <!--<label class="layui-form-label">菜单名称</label>-->
+		      <!--<div class="layui-input-inline">-->
+		        <!--<input type="text" name="title"  autocomplete="off" class="layui-input">-->
+		      <!--</div>-->
+		      <!--<div class="layui-input-inline">-->
+		       	<!--<button type="button" class="layui-btn" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>-->
+      			<!--<button type="reset" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>-->
+		      <!--</div>-->
+		    <!--</div>-->
+		  <!--</div>-->
+	<!--</form>-->
+<!--</blockquote>-->
 <!-- 查询条件结束-->
 
 
@@ -86,7 +87,7 @@
 	    <div class="layui-inline">
 	      <label class="layui-form-label">TARGET</label>
 	      <div class="layui-input-inline">
-	       	   <input type="text" name="target"  autocomplete="off" placeholder="请输入菜单TARGET" class="layui-input">
+	       	   <input type="text" name="target"  autocomplete="off" placeholder="是否跳转_block否为空" class="layui-input">
 	      </div>
 	    </div>
 	  </div>
@@ -102,7 +103,7 @@
 	      <label class="layui-form-label">是否可用</label>
 	      <div class="layui-input-inline">
 	        <input type="radio" name="status" value="1" title="可用" checked="">
-	        <input type="radio" name="status" value="2" title="不可用" >
+	        <input type="radio" name="status" value="2" title="禁用" >
 	      </div>
 	    </div>
 	  </div>
@@ -223,9 +224,9 @@ layui.extend({
 					$("#pid").val("");
 					url="/william-menu/addMenu";
 					//初始化排序码
-					$.get("/william-menu/getMenuMaxOrderNum",function(res){
-						$("#seq").val(res.value);
-					});
+//					$.get("/william-menu/getMenuMaxOrderNum",function(res){
+//						$("#seq").val(res.value);
+//					});
 					selectTree.setSelectValue("");
 				}
 			});
@@ -246,7 +247,7 @@ layui.extend({
 					//选中之前父级的菜单  nodeId=data.pid;
 					dtree.dataInit("menuTree", data.pid);
    					dtree.setSelectValue("menuTree"); 
-					url="/william-menu/updateMenu";
+					url="/william-menu/updateMenuById";
 				}
 			});
 		}
@@ -268,12 +269,12 @@ layui.extend({
 
 		//删除
 		function deleteMenu(data){
-			$.post("/william-menu/getMenuHasChildrenNode",{id:data.id},function(result){
+			$.post("/william-menu/getMenuHasChildrenNode",{id:data.id,pid:data.pid},function(result){
 				if(result.value){
 					layer.msg("当前菜单节点有子菜单，请选择删除子菜单");
 				}else{
 					layer.confirm('你确定要删除【' + '<font color=red>'+ data.title + '</font>'+'】这条菜单吗?', {icon: 3, title:'提示',skin:'layui-layer-lan'}, function(index){
-						$.post("/william-menu/deleteMenu",{id:data.id},function(res){
+						$.post("/william-menu/deleteMenuById",{id:data.id},function(res){
 							if(res.code==200){
 								tableIns.reload();
 								//刷新下拉树

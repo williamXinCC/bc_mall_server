@@ -2,10 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.william.bc_mall_server.mapper.WilliamPermissionMapper" >
   <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamPermission" >
-    <id column="permission_id" property="permissionId" jdbcType="INTEGER" />
-    <result column="permission" property="permission" jdbcType="VARCHAR" />
-    <result column="permission_init" property="permissionInit" jdbcType="VARCHAR" />
-    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="percode" property="percode" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="icon_color" property="iconColor" jdbcType="VARCHAR" />
+    <result column="href" property="href" jdbcType="VARCHAR" />
+    <result column="spread" property="spread" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="menu_color" property="menuColor" jdbcType="VARCHAR" />
+    <result column="seq" property="seq" jdbcType="INTEGER" />
+    <result column="show_flag" property="showFlag" jdbcType="INTEGER" />
+    <result column="target" property="target" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_id" property="createId" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -73,8 +84,14 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    permission_id, permission, permission_init, sort, status, create_id, create_time, 
-    mod_id, mod_time, tenant_id, client
+    william_permission.id as id, william_permission.pid as pid, william_permission.title as title, 
+    william_permission.type as type, william_permission.percode as percode, william_permission.icon as icon, 
+    william_permission.icon_color as icon_color, william_permission.href as href, william_permission.spread as spread, 
+    william_permission.level as level, william_permission.menu_color as menu_color, william_permission.seq as seq, 
+    william_permission.show_flag as show_flag, william_permission.target as target, william_permission.remark as remark, 
+    william_permission.status as status, william_permission.create_id as create_id, william_permission.create_time as create_time, 
+    william_permission.mod_id as mod_id, william_permission.mod_time as mod_time, william_permission.tenant_id as tenant_id, 
+    william_permission.client as client
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamPermissionExample" >
     select
@@ -94,11 +111,11 @@
     select 
     <include refid="Base_Column_List" />
     from william_permission
-    where permission_id = #{permissionId,jdbcType=INTEGER}
+    where william_permission.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from william_permission
-    where permission_id = #{permissionId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.william.bcpojo.WilliamPermissionExample" >
     delete from william_permission
@@ -107,29 +124,70 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.bcpojo.WilliamPermission" >
-    insert into william_permission (permission_id, permission, permission_init, 
-      sort, status, create_id, 
-      create_time, mod_id, mod_time, 
-      tenant_id, client)
-    values (#{permissionId,jdbcType=INTEGER}, #{permission,jdbcType=VARCHAR}, #{permissionInit,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createId,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, #{modTime,jdbcType=TIMESTAMP}, 
-      #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
+    insert into william_permission (id, pid, title, 
+      type, percode, icon, 
+      icon_color, href, spread, 
+      level, menu_color, seq, 
+      show_flag, target, remark, 
+      status, create_id, create_time, 
+      mod_id, mod_time, tenant_id, 
+      client)
+    values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{percode,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{iconColor,jdbcType=VARCHAR}, #{href,jdbcType=VARCHAR}, #{spread,jdbcType=INTEGER}, 
+      #{level,jdbcType=VARCHAR}, #{menuColor,jdbcType=VARCHAR}, #{seq,jdbcType=INTEGER}, 
+      #{showFlag,jdbcType=INTEGER}, #{target,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modId,jdbcType=CHAR}, #{modTime,jdbcType=TIMESTAMP}, #{tenantId,jdbcType=CHAR}, 
+      #{client,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamPermission" >
     insert into william_permission
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="permissionId != null" >
-        permission_id,
+      <if test="id != null" >
+        id,
       </if>
-      <if test="permission != null" >
-        permission,
+      <if test="pid != null" >
+        pid,
       </if>
-      <if test="permissionInit != null" >
-        permission_init,
+      <if test="title != null" >
+        title,
       </if>
-      <if test="sort != null" >
-        sort,
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="percode != null" >
+        percode,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="iconColor != null" >
+        icon_color,
+      </if>
+      <if test="href != null" >
+        href,
+      </if>
+      <if test="spread != null" >
+        spread,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="menuColor != null" >
+        menu_color,
+      </if>
+      <if test="seq != null" >
+        seq,
+      </if>
+      <if test="showFlag != null" >
+        show_flag,
+      </if>
+      <if test="target != null" >
+        target,
+      </if>
+      <if test="remark != null" >
+        remark,
       </if>
       <if test="status != null" >
         status,
@@ -154,17 +212,50 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="permissionId != null" >
-        #{permissionId,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="permission != null" >
-        #{permission,jdbcType=VARCHAR},
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
       </if>
-      <if test="permissionInit != null" >
-        #{permissionInit,jdbcType=VARCHAR},
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
       </if>
-      <if test="sort != null" >
-        #{sort,jdbcType=INTEGER},
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="percode != null" >
+        #{percode,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="iconColor != null" >
+        #{iconColor,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null" >
+        #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="spread != null" >
+        #{spread,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="menuColor != null" >
+        #{menuColor,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="showFlag != null" >
+        #{showFlag,jdbcType=INTEGER},
+      </if>
+      <if test="target != null" >
+        #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -198,17 +289,50 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update william_permission
     <set >
-      <if test="record.permissionId != null" >
-        permission_id = #{record.permissionId,jdbcType=INTEGER},
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.permission != null" >
-        permission = #{record.permission,jdbcType=VARCHAR},
+      <if test="record.pid != null" >
+        pid = #{record.pid,jdbcType=INTEGER},
       </if>
-      <if test="record.permissionInit != null" >
-        permission_init = #{record.permissionInit,jdbcType=VARCHAR},
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.sort != null" >
-        sort = #{record.sort,jdbcType=INTEGER},
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.percode != null" >
+        percode = #{record.percode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null" >
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconColor != null" >
+        icon_color = #{record.iconColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.href != null" >
+        href = #{record.href,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spread != null" >
+        spread = #{record.spread,jdbcType=INTEGER},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuColor != null" >
+        menu_color = #{record.menuColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.seq != null" >
+        seq = #{record.seq,jdbcType=INTEGER},
+      </if>
+      <if test="record.showFlag != null" >
+        show_flag = #{record.showFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.target != null" >
+        target = #{record.target,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null" >
         status = #{record.status,jdbcType=INTEGER},
@@ -238,10 +362,21 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update william_permission
-    set permission_id = #{record.permissionId,jdbcType=INTEGER},
-      permission = #{record.permission,jdbcType=VARCHAR},
-      permission_init = #{record.permissionInit,jdbcType=VARCHAR},
-      sort = #{record.sort,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=INTEGER},
+      pid = #{record.pid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      percode = #{record.percode,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      icon_color = #{record.iconColor,jdbcType=VARCHAR},
+      href = #{record.href,jdbcType=VARCHAR},
+      spread = #{record.spread,jdbcType=INTEGER},
+      level = #{record.level,jdbcType=VARCHAR},
+      menu_color = #{record.menuColor,jdbcType=VARCHAR},
+      seq = #{record.seq,jdbcType=INTEGER},
+      show_flag = #{record.showFlag,jdbcType=INTEGER},
+      target = #{record.target,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
       create_id = #{record.createId,jdbcType=CHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -256,14 +391,47 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.william.bcpojo.WilliamPermission" >
     update william_permission
     <set >
-      <if test="permission != null" >
-        permission = #{permission,jdbcType=VARCHAR},
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=INTEGER},
       </if>
-      <if test="permissionInit != null" >
-        permission_init = #{permissionInit,jdbcType=VARCHAR},
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="sort != null" >
-        sort = #{sort,jdbcType=INTEGER},
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="percode != null" >
+        percode = #{percode,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="iconColor != null" >
+        icon_color = #{iconColor,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null" >
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="spread != null" >
+        spread = #{spread,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="menuColor != null" >
+        menu_color = #{menuColor,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="showFlag != null" >
+        show_flag = #{showFlag,jdbcType=INTEGER},
+      </if>
+      <if test="target != null" >
+        target = #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -287,13 +455,24 @@
         client = #{client,jdbcType=CHAR},
       </if>
     </set>
-    where permission_id = #{permissionId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamPermission" >
     update william_permission
-    set permission = #{permission,jdbcType=VARCHAR},
-      permission_init = #{permissionInit,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=INTEGER},
+    set pid = #{pid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      percode = #{percode,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      icon_color = #{iconColor,jdbcType=VARCHAR},
+      href = #{href,jdbcType=VARCHAR},
+      spread = #{spread,jdbcType=INTEGER},
+      level = #{level,jdbcType=VARCHAR},
+      menu_color = #{menuColor,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=INTEGER},
+      show_flag = #{showFlag,jdbcType=INTEGER},
+      target = #{target,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       create_id = #{createId,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -301,6 +480,45 @@
       mod_time = #{modTime,jdbcType=TIMESTAMP},
       tenant_id = #{tenantId,jdbcType=CHAR},
       client = #{client,jdbcType=CHAR}
-    where permission_id = #{permissionId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectPage" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamPermissionExample" >
+    select 
+<if test="distinct" > 
+distinct 
+</if> 
+<include refid="Base_Column_List" /> 
+from william_permission
+<if test="_parameter != null" > 
+<include refid="Example_Where_Clause" /> 
+</if> 
+<if test="orderByClause != null" > 
+order by ${orderByClause} 
+</if> 
+limit #{pageSize} offset #{startPos} 
+
+  </select>
+
+  <!-- 查所有权限和菜单-->
+  <select id="getAllPermissionAndMenus" resultType="com.william.bcpojo.WilliamPermission">
+     select
+     <include refid="Base_Column_List"/>
+     from william_permission where status = 1
+  </select>
+
+  <!-- 查所有权限-->
+  <select id="getAllPermission" resultType="com.william.bcpojo.WilliamPermission">
+    select
+    <include refid="Base_Column_List"/>
+    from william_permission where status != 99 and type = 2 and pid = #{id}
+    ORDER by seq asc
+  </select>
+
+  <!-- 查询当前菜单下 是否有子菜单-->
+  <select id="selectMenusByPid">
+     select
+     <include refid="Base_Column_List"/>
+      from william_permission
+      where pid = #{pid} and type = 1 and status = 1
+  </select>
 </mapper>

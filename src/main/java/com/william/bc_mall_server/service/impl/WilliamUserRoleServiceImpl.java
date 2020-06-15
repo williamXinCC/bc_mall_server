@@ -20,7 +20,7 @@ public class WilliamUserRoleServiceImpl implements WilliamUserRoleService {
     private WilliamUserRoleMapper williamUserRoleMapper;
 
     @Override
-    public List<String> getRoleCodeListByUid(String userId) {
+    public List<Integer> getRoleCodeListByUid(String userId) {
         return williamUserRoleMapper.getRoleCodeListByUid(userId);
     }
 }

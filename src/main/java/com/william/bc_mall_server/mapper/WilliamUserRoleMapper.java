@@ -31,7 +31,7 @@ public interface WilliamUserRoleMapper {
 
     int updateByPrimaryKey(WilliamUserRole record);
 
-    List<String> getRoleCodeListByUid(String userId);
+    List<Integer> getRoleCodeListByUid(String userId);
 
     void inserBatch(@Param("userId") String userId, @Param("list") List<String> strings, @Param("createId") String createId,@Param("createTime") Date date);
 

@@ -4,12 +4,16 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.william.bc_mall_server.mapper.WilliamRoleMapper;
 import com.william.bc_mall_server.service.WilliamRoleService;
+import com.william.bcpojo.WilliamRole;
+import com.william.bcpojo.WilliamRoleExample;
 import com.william.bcpojo.bcresp.UserRoleResp;
 import com.william.bcpojo.vo.RoleVo;
+import com.william.constant.Constant;
 import com.william.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -47,7 +51,20 @@ public class WilliamRoleServiceImpl implements WilliamRoleService {
 
     @Override
     public void updateByRoleId(RoleVo roleVo) {
-        williamRoleMapper.updateByPrimaryKey(roleVo);
+        williamRoleMapper.updateByPrimaryKeySelective(roleVo);
+    }
+
+    @Override
+    public void removeById(Integer roleId) {
+        WilliamRoleExample williamRoleExample = new WilliamRoleExample();
+        WilliamRoleExample.Criteria criteria = williamRoleExample.createCriteria();
+        criteria.andRoleIdEqualTo(roleId);
+        criteria.andDeleteTypeEqualTo(1);
+        WilliamRole williamRole = new WilliamRole();
+        williamRole.setModTime(new Date());
+        williamRole.setRoleId(roleId);
+        williamRole.setStatus(Constant.STATUS_TWO_UNUSE);
+        williamRoleMapper.updateByExampleSelective(williamRole,williamRoleExample);
     }
 
 }

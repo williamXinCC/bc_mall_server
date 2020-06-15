@@ -1,6 +1,6 @@
 package com.william.bc_mall_server.service;
 
-import com.william.bcpojo.WilliamMenu;
+import com.william.bcpojo.WilliamPermission;
 
 import java.util.List;
 /**
@@ -11,7 +11,15 @@ import java.util.List;
  */
 public interface WilliamMenuService {
 
-    List<WilliamMenu> getMenusByType(Integer type);
+    List<WilliamPermission> getMenusByType(Integer type);
 
-    List<WilliamMenu> getMenusByIds(List<Integer> menuList,Integer type);
+    List<WilliamPermission> getMenusByIds(List<Integer> menuList,Integer type);
+
+    void addMenu(WilliamPermission williamPermission);
+
+    void updateMenuById(WilliamPermission williamPermission);
+
+    List<WilliamPermission> getMenuHasChildrenNode(WilliamPermission permission);
+
+    void deleteMenuById(WilliamPermission williamPermission);
 }

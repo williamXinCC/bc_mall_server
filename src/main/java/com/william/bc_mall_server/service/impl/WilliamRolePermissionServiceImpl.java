@@ -5,8 +5,8 @@ import com.william.bc_mall_server.service.WilliamRolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author xinchuang
@@ -20,8 +20,27 @@ public class WilliamRolePermissionServiceImpl implements WilliamRolePermissionSe
     @Autowired
     private WilliamRolePermissionMapper williamRolePermissionMapper;
 
+    /**
+     * 角色id查询权限
+     * @author     xinchuang
+     * @param roleId :
+     * @return : java.util.List<java.lang.Integer>
+     */
+
     @Override
-    public List<Integer> getPermissionListByRoleId(String roleId) {
+    public List<Integer> getPermissionListByRoleId(Integer roleId) {
         return williamRolePermissionMapper.getPermissionListByRoleId(roleId);
+    }
+
+    /**
+     * 保存角色和权限
+     * @author     xinchuang
+     * @param roleId :
+     * @param ids :
+     * @return : void
+     */
+    @Override
+    public void saveRolePermission(String roleId, Integer[] ids) {
+        williamRolePermissionMapper.inserBatchRolePermission(roleId,new Date(),ids);
     }
 }

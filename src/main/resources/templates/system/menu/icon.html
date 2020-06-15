@@ -923,15 +923,15 @@
             console.log($("#menuId").val());
             console.log(data)
             layer.confirm('确认更换图标吗？',{icon:3, title:'提示信息'},function(index){
-               // 修改图标
-                var r = postAsyncFalse('/william-menu/updateMenuIcon',{icon : 'layui-icon ' + data,id : $("#menuId").val()});
-                if(r.code == 200){
-                    layer.close(index);
-                    // 关闭弹窗刷新父级页面
-                    window.parent.location.reload();
-                }else{
-                    layer.msg("修改失败! 返回码" + r.code)
-                }
+                $.post('/william-menu/updateMenuById',{icon : 'layui-icon ' + data,id : $("#menuId").val()},function(r){
+                    if(r.code == 200){
+                        layer.close(index);
+                        // 关闭弹窗刷新父级页面
+                        window.parent.location.reload();
+                    }else{
+                        layer.msg("修改失败! 返回码" + r.code)
+                    }
+                })
             });
         });
     });

@@ -17,4 +17,6 @@ public interface WilliamRoleService {
     void addRole(RoleVo roleVo);
 
     void updateByRoleId(RoleVo roleVo);
+
+    void removeById(Integer roleId);
 }

@@ -11,5 +11,8 @@ import java.util.Set;
  */
 public interface WilliamRolePermissionService {
 
-    List<Integer> getPermissionListByRoleId(String roleId);
+    List<Integer> getPermissionListByRoleId(Integer roleId);
+
+    void saveRolePermission(String roleId, Integer[] ids);
+
 }

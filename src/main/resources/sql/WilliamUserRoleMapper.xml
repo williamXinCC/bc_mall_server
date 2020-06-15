@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.william.bcpojo.WilliamUserRole" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="CHAR" />
-    <result column="role_code" property="roleCode" jdbcType="CHAR" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="create_id" property="createId" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="mod_id" property="modId" jdbcType="CHAR" />
@@ -72,8 +72,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, role_code, create_id, create_time, mod_id, mod_time, status, tenant_id, 
-    client
+    william_user_role.id as id, william_user_role.user_id as user_id, william_user_role.role_id as role_id,
+    william_user_role.create_id as create_id, william_user_role.create_time as create_time,
+    william_user_role.mod_id as mod_id, william_user_role.mod_time as mod_time, william_user_role.status as status,
+    william_user_role.tenant_id as tenant_id, william_user_role.client as client
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamUserRoleExample" >
     select
@@ -90,10 +92,10 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from william_user_role
-    where id = #{id,jdbcType=INTEGER}
+    where william_user_role.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from william_user_role
@@ -106,14 +108,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.bcpojo.WilliamUserRole" >
-    insert into william_user_role (id, user_id, role_code, 
-      create_id, create_time, mod_id, 
-      mod_time, status, tenant_id, 
-      client)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=CHAR}, #{roleCode,jdbcType=CHAR}, 
-      #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, 
-      #{modTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{tenantId,jdbcType=CHAR}, 
-      #{client,jdbcType=CHAR})
+    insert into william_user_role (id, user_id, role_id,
+    create_id, create_time, mod_id,
+    mod_time, status, tenant_id,
+    client)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=CHAR}, #{roleId,jdbcType=INTEGER},
+    #{createId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR},
+    #{modTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{tenantId,jdbcType=CHAR},
+    #{client,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.william.bcpojo.WilliamUserRole" >
     insert into william_user_role
@@ -124,8 +126,8 @@
       <if test="userId != null" >
         user_id,
       </if>
-      <if test="roleCode != null" >
-        role_code,
+      <if test="roleId != null" >
+        role_id,
       </if>
       <if test="createId != null" >
         create_id,
@@ -156,8 +158,8 @@
       <if test="userId != null" >
         #{userId,jdbcType=CHAR},
       </if>
-      <if test="roleCode != null" >
-        #{roleCode,jdbcType=CHAR},
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
       </if>
       <if test="createId != null" >
         #{createId,jdbcType=CHAR},
@@ -182,7 +184,6 @@
       </if>
     </trim>
   </insert>
-
   <select id="countByExample" parameterType="com.william.bcpojo.WilliamUserRoleExample" resultType="java.lang.Integer" >
     select count(*) from william_user_role
     <if test="_parameter != null" >
@@ -198,8 +199,8 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=CHAR},
       </if>
-      <if test="record.roleCode != null" >
-        role_code = #{record.roleCode,jdbcType=CHAR},
+      <if test="record.roleId != null" >
+        role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
       <if test="record.createId != null" >
         create_id = #{record.createId,jdbcType=CHAR},
@@ -230,15 +231,15 @@
   <update id="updateByExample" parameterType="map" >
     update william_user_role
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=CHAR},
-      role_code = #{record.roleCode,jdbcType=CHAR},
-      create_id = #{record.createId,jdbcType=CHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      mod_id = #{record.modId,jdbcType=CHAR},
-      mod_time = #{record.modTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=INTEGER},
-      tenant_id = #{record.tenantId,jdbcType=CHAR},
-      client = #{record.client,jdbcType=CHAR}
+    user_id = #{record.userId,jdbcType=CHAR},
+    role_id = #{record.roleId,jdbcType=INTEGER},
+    create_id = #{record.createId,jdbcType=CHAR},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    mod_id = #{record.modId,jdbcType=CHAR},
+    mod_time = #{record.modTime,jdbcType=TIMESTAMP},
+    status = #{record.status,jdbcType=INTEGER},
+    tenant_id = #{record.tenantId,jdbcType=CHAR},
+    client = #{record.client,jdbcType=CHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -249,8 +250,8 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=CHAR},
       </if>
-      <if test="roleCode != null" >
-        role_code = #{roleCode,jdbcType=CHAR},
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
       </if>
       <if test="createId != null" >
         create_id = #{createId,jdbcType=CHAR},
@@ -279,20 +280,36 @@
   <update id="updateByPrimaryKey" parameterType="com.william.bcpojo.WilliamUserRole" >
     update william_user_role
     set user_id = #{userId,jdbcType=CHAR},
-      role_code = #{roleCode,jdbcType=CHAR},
-      create_id = #{createId,jdbcType=CHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      mod_id = #{modId,jdbcType=CHAR},
-      mod_time = #{modTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      tenant_id = #{tenantId,jdbcType=CHAR},
-      client = #{client,jdbcType=CHAR}
+    role_id = #{roleId,jdbcType=INTEGER},
+    create_id = #{createId,jdbcType=CHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    mod_id = #{modId,jdbcType=CHAR},
+    mod_time = #{modTime,jdbcType=TIMESTAMP},
+    status = #{status,jdbcType=INTEGER},
+    tenant_id = #{tenantId,jdbcType=CHAR},
+    client = #{client,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectPage" resultMap="BaseResultMap" parameterType="com.william.bcpojo.WilliamUserRoleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from william_user_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    limit #{pageSize} offset #{startPos}
+
+  </select>
 
   <!-- 查角色列表-->
-  <select id="getRoleCodeListByUid" resultType="java.lang.String">
-    select role_code
+  <select id="getRoleCodeListByUid" resultType="java.lang.Integer">
+    select role_id
     from william_user_role where user_id = #{userId}
   </select>
 
@@ -300,7 +317,7 @@
   <!-- 批量插入-->
   <insert id="inserBatch" useGeneratedKeys="true">
     insert into william_user_role
-    (user_id,role_code,create_id,create_time)
+    (user_id,role_id,create_id,create_time)
     values
     <foreach collection="list" item="item" index="index" separator=",">
       (

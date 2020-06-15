@@ -11,7 +11,7 @@ public interface WilliamPermissionMapper {
 
     int deleteByExample(WilliamPermissionExample example);
 
-    int deleteByPrimaryKey(Integer permissionId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(WilliamPermission record);
 
@@ -19,7 +19,7 @@ public interface WilliamPermissionMapper {
 
     List<WilliamPermission> selectByExample(WilliamPermissionExample example);
 
-    WilliamPermission selectByPrimaryKey(Integer permissionId);
+    WilliamPermission selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") WilliamPermission record, @Param("example") WilliamPermissionExample example);
 
@@ -28,4 +28,12 @@ public interface WilliamPermissionMapper {
     int updateByPrimaryKeySelective(WilliamPermission record);
 
     int updateByPrimaryKey(WilliamPermission record);
+
+    List<WilliamPermission> selectPage(WilliamPermissionExample example);
+
+    List<WilliamPermission> getAllPermissionAndMenus();
+
+    List<WilliamPermission> getAllPermission(Integer id);
+
+    List<WilliamPermission> selectMenusByPid(Integer pid);
 }

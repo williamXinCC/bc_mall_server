@@ -76,7 +76,7 @@
 		<div class="layui-form-item">
 		    <label class="layui-form-label">角色名称</label>
 		    <div class="layui-input-block">
-		      <input type="hidden" name="id">
+		      <input type="hidden" name="roleId">
 		      <input type="text" name="roleName" lay-verify="required" autocomplete="off" placeholder="请输入角色名称" class="layui-input">
 		    </div>
  	   </div>
@@ -130,15 +130,14 @@ layui.extend({
 		    ,page: true
 		    ,cols: [[
 		       {type : 'checkbox'}
-		      ,{field:'roleId', title:'ID',align:'center',sort:true}
-              ,{field:'roleCode', title:'角色编号',align:'center',sort:true}
-		      ,{field:'roleName', title:'角色名称',align:'center',edit:'text'}
-		      ,{field:'roleDesc', title:'角色备注',align:'center',edit:'text'}
-		      ,{field:'status', title:'是否可用',align:'center',templet:function(d){
+		      ,{field:'roleId', title:'ID',align:'center',sort:true,width:'80'}
+		      ,{field:'roleName', title:'角色名称',align:'center',edit:'text',width:'120'}
+		      ,{field:'roleDesc', title:'角色备注',align:'center',edit:'text',width:'120'}
+		      ,{field:'status', title:'是否可用',align:'center',width:'100',templet:function(d){
                     return d.status==1?'<font color=blue>可用</font>':'<font color=red>不可用</font>';
                 }}
-		      ,{field:'createTime', title:'创建时间',align:'center'}
-		      ,{fixed: 'right', title:'操作', toolbar: '#roleRowBar',align:'center'}
+		      ,{field:'createTime', title:'创建时间',align:'center',width:'100'}
+		      ,{fixed: 'right', title:'操作', toolbar: '#roleRowBar',align:'center',width:'350'}
 		    ] ]
 		});
 
@@ -185,7 +184,7 @@ layui.extend({
             	,field = obj.field; //得到字段
 
             var reqData ={};
-            reqData["id"] = data.id;
+            reqData["roleId"] = data.roleId;
             reqData[field] = value;
             layer.confirm('请确认后修改!',function () {
                 postAsyncTrue("/william-role/updateRole",reqData);
@@ -238,8 +237,8 @@ layui.extend({
 		});
 		//删除
 		function deleteRole(data){
-			layer.confirm('你确定要删除【'+data.name+'】这条角色吗?', {icon: 3, title:'提示',skin: 'layui-layer-molv',}, function(index){
-				$.post("/william-role/deleteRole",{id:data.id},function(res){
+			layer.confirm('你确定要删除【'+data.roleName +'】这条角色吗?', {icon: 3, title:'提示',skin: 'layui-layer-molv',}, function(index){
+				$.post("/william-role/deleteRole",{roleId:data.roleId},function(res){
 					if(res.code==200){
 						tableIns.reload();
 					}
@@ -256,13 +255,13 @@ layui.extend({
 				type:1,
 				content:$("#selectRolePermissionDiv"),
 				area:['400px','600px'],
-				title:'分配【'+data.name+'】的权限',
+				title:'分配【'+ data.roleName +'】的权限',
 				btn: ['<span class=layui-icon>&#xe605;确认分配</span>', '<span class=layui-icon>&#x1006;关闭窗口</span>'],
 			    yes: function(index, layero){
 			    	//得到树选中的所有节点
 			    	var permissionData = dtree.getCheckbarNodesParam("permissionTree");
 			    	console.log(params);
-			    	var params="rid="+data.id;
+			    	var params="roleId="+data.roleId;
 			    	$.each(permissionData,function(index,item){
 			    		params+="&ids="+item.nodeId;
 			    	});
@@ -278,7 +277,7 @@ layui.extend({
 					//根据角色ID请求权限和菜单tree的json数据
 				   dtree.render({
 					  elem: "#permissionTree",
-					  url: "/william-role/initPermissionByRoleId?roleId="+data.id,
+					  url: "/william-role/initPermissionByRoleId?roleId="+data.roleId,
 					  dataStyle: "layuiStyle",  //使用layui风格的数据格式
 				      dataFormat: "list",  //配置data的风格为list
 				      response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
