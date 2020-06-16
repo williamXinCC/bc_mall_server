@@ -1,4 +1,4 @@
-package com.william.bc_mall_server.controller;
+package com.william.bc_mall_server.controller.sys;
 
 import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageHelper;
@@ -63,7 +63,7 @@ public class WilliamMenuController {
             String href = m.getHref();
             Integer seq = m.getSeq();
             Boolean spread = m.getSpread() == 1;
-            treeNodes.add(new TreeNode(id, pid, title, icon, href, spread,seq));
+            treeNodes.add(new TreeNode(id, pid, title, icon, href, spread,seq,m.getIconColor()));
         }
         //构造层级关系
         List<TreeNode> listResult = TreeNodeBuilder.build(treeNodes, 0);

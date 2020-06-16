@@ -1,4 +1,4 @@
-package com.william.bc_mall_server.controller;
+package com.william.bc_mall_server.controller.sys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;

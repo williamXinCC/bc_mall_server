@@ -1,4 +1,4 @@
-package com.william.bc_mall_server.controller;
+package com.william.bc_mall_server.controller.sys;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

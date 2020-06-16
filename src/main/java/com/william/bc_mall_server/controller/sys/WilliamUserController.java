@@ -1,4 +1,4 @@
-package com.william.bc_mall_server.controller;
+package com.william.bc_mall_server.controller.sys;
 
 
 import com.william.bc_mall_server.mapper.WilliamUserRoleMapper;

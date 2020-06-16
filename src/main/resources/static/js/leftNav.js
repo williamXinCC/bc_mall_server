@@ -17,9 +17,9 @@ function navBar(strData){
 			ulHtml += '<a href="javascript:;">';
 			if(data[i].icon != undefined && data[i].icon != ''){
 				if(data[i].icon.indexOf("icon-") != -1){
-					ulHtml += '<i class="'+data[i].icon+'"></i>';
+					ulHtml += '<i class="'+data[i].icon+'" style="color:' + data[i].iconColor +'"></i>';
 				}else{
-					ulHtml += '<i class="'+data[i].icon+'">'+data[i].icon+'</i>';
+					ulHtml += '<i class="'+data[i].icon+'" style="color:' + data[i].iconColor +'">'+data[i].icon+'</i>';
 				}
 			}
 			ulHtml += '<cite>'+data[i].title+'</cite>';
@@ -35,9 +35,10 @@ function navBar(strData){
 				}
 				if(data[i].children[j].icon != undefined && data[i].children[j].icon != ''){
 					if(data[i].children[j].icon.indexOf("icon-") != -1){
-						ulHtml += '<i class="'+data[i].children[j].icon+'"></i>';
+						// ulHtml += '<i class="'+data[i].children[j].icon+'"></i>';
+						ulHtml += '<i class="'+data[i].children[j].icon+'" style="color:' + data[i].children[j].iconColor +'"></i>';
 					}else{
-						ulHtml += '<i class="'+data[i].children[j].icon+'">'+data[i].children[j].icon+'</i>';
+						ulHtml += '<i class="'+data[i].children[j].icon+'" style="color:' + data[i].children[j].iconColor +'">'+data[i].children[j].icon+'</i>';
 					}
 				}
 				ulHtml += '<cite>'+data[i].children[j].title+'</cite></a></dd>';
@@ -51,9 +52,9 @@ function navBar(strData){
 			}
 			if(data[i].icon != undefined && data[i].icon != ''){
 				if(data[i].icon.indexOf("icon-") != -1){
-					ulHtml += '<i class="'+data[i].icon+'"></i>';
+					ulHtml += '<i class="'+data[i].icon+'" style="color:' + data[i].iconColor +'"></i>';
 				}else{
-					ulHtml += '<i class="'+data[i].icon+'">'+data[i].icon+'</i>';
+					ulHtml += '<i class="'+data[i].icon+'" style="color:' + data[i].iconColor +'">'+data[i].icon+'</i>';
 				}
 			}
 			ulHtml += '<cite>'+data[i].title+'</cite></a>';

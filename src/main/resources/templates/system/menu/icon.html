@@ -921,7 +921,7 @@
         $('.icon').on('click',function(e){
             var data = $(this).find('span').text();
             console.log($("#menuId").val());
-            console.log(data)
+            console.log(data);
             layer.confirm('确认更换图标吗？',{icon:3, title:'提示信息'},function(index){
                 $.post('/william-menu/updateMenuById',{icon : 'layui-icon ' + data,id : $("#menuId").val()},function(r){
                     if(r.code == 200){

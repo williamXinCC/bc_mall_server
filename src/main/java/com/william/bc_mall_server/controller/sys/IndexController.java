@@ -1,4 +1,4 @@
-package com.william.bc_mall_server.controller;
+package com.william.bc_mall_server.controller.sys;
 
 import com.william.bc_mall_server.service.WilliamUserService;
 import com.william.bcpojo.WilliamUser;
@@ -100,34 +100,7 @@ public class IndexController {
 //    // 客户管理页面
 //    @RequestMapping(value = "/toCustomerManager")
 //    public String toCustomerManager(){return Constant.TO_PAGE + "customer/customerManager";}
-//
-//    // 商品
-//    @RequestMapping(value = "/toGoodsLeft")
-//    public String toGoodsLeft(){return Constant.TO_PAGE + "goods/goodsLeft";}
-//
-//    @RequestMapping(value = "/toGoodsRight")
-//    public String toGoodsRight(){return Constant.TO_PAGE + "goods/goodsRight";}
-//
-//    @RequestMapping(value = "/toGoods")
-//    public String toGoods(){
-//        return Constant.TO_PAGE + "goods/goodsManager";
-//    }
-//
-//    // 商品分类
-//    @RequestMapping(value = "/toGoodsCategoryManager")
-//    public String toGoodsCategoryManager(){
-//        return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryManager";
-//    }
-//
-//    @RequestMapping(value = "/toGoodsCategoryRight")
-//    public String toGoodsCategoryRight(){
-//        return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryRight";
-//    }
-//
-//    @RequestMapping(value = "/toGoodsCategoryLeft")
-//    public String toGoodsCategoryLeft(){
-//        return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryLeft";
-//    }
+
 //
 //    // 部门管理
 //    @RequestMapping(value = "/toDept")
@@ -162,6 +135,36 @@ public class IndexController {
 ////        return Constant.TO_SYSTEM + "menu/menuList";}
 //
 //
+
+    // 商品
+    @RequestMapping(value = "/toGoodsLeft")
+    public String toGoodsLeft(){return Constant.TO_PAGE + "goods/goodsLeft";}
+
+    @RequestMapping(value = "/toGoodsRight")
+    public String toGoodsRight(){return Constant.TO_PAGE + "goods/goodsRight";}
+
+    @RequestMapping(value = "/toGoodsManager")
+    public String toGoods(){
+        return Constant.TO_PAGE + "goods/goodsManager";
+    }
+
+    // 商品分类
+    @RequestMapping(value = "/toGoodsCategoryManager")
+    public String toGoodsCategoryManager(){
+        return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryManager";
+    }
+
+    @RequestMapping(value = "/toGoodsCategoryRight")
+    public String toGoodsCategoryRight(){
+        return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryRight";
+    }
+
+    @RequestMapping(value = "/toGoodsCategoryLeft")
+    public String toGoodsCategoryLeft(){
+        return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryLeft";
+    }
+
+
 
     // 系统管理
 
