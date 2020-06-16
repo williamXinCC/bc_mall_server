@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 商品管理
@@ -45,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
         WilliamProductExample williamProductExample = new WilliamProductExample();
         WilliamProductExample.Criteria criteria = williamProductExample.createCriteria();
         // 分类
-        if(0 != productVo.getcId()){
+        if(Objects.nonNull(productVo.getcId()) && 0 != productVo.getcId()){
             criteria.andCIdEqualTo(productVo.getcId());
         }
         // 品牌

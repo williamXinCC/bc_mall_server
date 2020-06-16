@@ -2,10 +2,13 @@ package com.william.bc_mall_server.shiroConfig;
 
 import com.william.bc_mall_server.mapper.WilliamPermissionMapper;
 import com.william.bc_mall_server.service.*;
+import com.william.bcconstant.BcConsts;
 import com.william.bcpojo.ActiverUser;
 import com.william.bcpojo.WilliamPermission;
 import com.william.bcpojo.WilliamPermissionExample;
 import com.william.bcpojo.WilliamUser;
+import com.william.constant.Constant;
+import com.william.utils.CollectionUtil;
 import com.william.utils.IdSaltUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -55,20 +58,18 @@ public class UserRealm extends AuthorizingRealm{
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo authorizationInfo=new SimpleAuthorizationInfo();
-//        ActiverUser activerUser = (ActiverUser) principals.getPrimaryPrincipal();
-//        WilliamUser user = activerUser.getWilliamUser();
-//        // 获取用户角色列表
+        ActiverUser activerUser = (ActiverUser) principals.getPrimaryPrincipal();
+        WilliamUser user = activerUser.getWilliamUser();
+        // 获取用户角色列表
 //        List<String> roleList = williamUserRoleMapper.getRoleListByUid(user.getUserId());
-//        // 获取权限
-//        List<Integer> permissions = activerUser.getPermissions();
-//        // 顶级管理员
-//        if(Objects.equals(role.ge, Constant.USER_TYPE_SUPER)) {
-//            authorizationInfo.addStringPermission("*:*");
-//        }else {
-//            if(Objects.nonNull(permissions) && permissions.size()>0) {
-//                authorizationInfo.addStringPermissions(permissions);
-//            }
-//        }
+        // 获取权限
+        List<String> permissions = activerUser.getPermissions();
+        // 顶级管理员
+        if(Objects.equals(user.getUserType(), BcConsts.USER_TYPE_SUPER)) {
+            authorizationInfo.addStringPermission("*:*");
+        }else if(cn.hutool.core.collection.CollectionUtil.isNotEmpty(permissions)){
+            authorizationInfo.addStringPermissions(permissions);
+        }
         return authorizationInfo;
     }
 

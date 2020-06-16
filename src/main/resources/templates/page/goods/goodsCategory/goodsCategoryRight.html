@@ -53,24 +53,36 @@
 <!-- 添加和修改的弹出层开始 -->
 <div style="display: none;padding: 5px" id="addOrUpdateDiv">
 	<form action="" method="post" class="layui-form layui-form-pane" id="dataFrm" lay-filter="dataFrm">
+		<input type="hidden" name="pid" id="pid" >
+		<input type="hidden" name="id">
 		<div class="layui-form-item">
 		    <label class="layui-form-label">父级菜单</label>
 		    <div class="layui-input-block">
-		    	<input type="hidden" name="pid" id="pid" lay-verify="required">
-		    	<ul id="goodsCategoryTree" class="dtree" data-id="0"></ul>
+		    	<ul id="productCategoryTree" class="dtree" data-id="0"></ul>
 		    </div>
 	 	</div>
 		<div class="layui-form-item">
 		    <label class="layui-form-label">分类名称</label>
 		    <div class="layui-input-block">
-		      <input type="hidden" name="id">
-		      <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入菜单名称" class="layui-input">
+		      <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="分类名称" class="layui-input">
 		    </div>
  	   </div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">分类ICON</label>
+			<div class="layui-input-block">
+				<input type="text" name="icon" autocomplete="off" placeholder="分类ICON" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">分类图片</label>
+			<div class="layui-input-block">
+				<input type="text" name="image"  autocomplete="off" placeholder="分类图片" class="layui-input">
+			</div>
+		</div>
  	   <div class="layui-form-item">
 		    <label class="layui-form-label">分类描述</label>
 		    <div class="layui-input-block">
-		      <input type="text" name="describes" autocomplete="off" placeholder="请输入菜单地址" class="layui-input">
+		      <input type="text" name="describe" autocomplete="off" placeholder="请输入菜单地址" class="layui-input">
 		    </div>
  	   </div>
 	  <div class="layui-form-item">
@@ -92,7 +104,7 @@
 	   <div class="layui-form-item">
 		    <label class="layui-form-label">排序码</label>
 		    <div class="layui-input-inline">
-		      <input type="text" name="seq" id="seq" lay-verify="required|number"  autocomplete="off" placeholder="请输入排序码[>0]" class="layui-input">
+		      <input type="text" name="seq" id="seq" autocomplete="off" placeholder="请输入排序码[>0]" class="layui-input">
 		    </div>
  	   </div>
  	   <div class="layui-form-item">
@@ -120,7 +132,7 @@ layui.extend({
 		//加载 数据
 		 tableIns=table.render({
 			 elem: '#goodsCategoryTable'
-		    ,url:'/william-goods-category/getCategoryList'
+		    ,url:'/william-category/getCategoryList'
 		    ,toolbar: '#goodsCategoryToolBar' //开启头部工具栏，并为其绑定左侧模板
 		    ,title: '菜单数据表'
 		    ,height:'full-125'
@@ -128,8 +140,10 @@ layui.extend({
 		    ,cols: [ [
 		      {field:'id', title:'ID',align:'center'}
 		      ,{field:'pid', title:'父级菜单ID',align:'center'}
+			  ,{field:'icon', title:'icon',align:'center'}
+			  ,{field:'image', title:'图片',align:'center'}
 		      ,{field:'name', title:'分类名称',align:'center'}
-		      ,{field:'describes', title:'分类描述',align:'center'}
+		      ,{field:'describe', title:'分类描述',align:'center'}
 		      ,{field:'spread', title:'是否展开',align:'center',templet:function(d){
 		    	  return d.spread==1?'<font color=blue>展开</font>':'<font color=red>不展开</font>';
 		      }}
@@ -198,10 +212,11 @@ layui.extend({
 				title:'添加菜单',
 				success:function(){
 					$("#dataFrm")[0].reset();
+                    $("#id").val("");
 					$("#pid").val("");
-					url="/william-goods-category/addGoodsCategory";
+					url="/william-category/addCategory";
 					//初始化排序码
-//					$.get("/william-goods-category/getMenuMaxOrderNum",function(res){
+//					$.get("/william-category/getMenuMaxOrderNum",function(res){
 //						$("#seq").val(res.value);
 //					});
 					selectTree.setSelectValue("");
@@ -222,9 +237,9 @@ layui.extend({
 					//装载新的数据
 					form.val("dataFrm",data);
 					//选中之前父级的菜单  nodeId=data.pid;
-					dtree.dataInit("goodsCategoryTree", data.pid);
-   					dtree.setSelectValue("goodsCategoryTree"); 
-					url="/william-goods-category/updateGoodsCategory";
+					dtree.dataInit("productCategoryTree", data.pid);
+   					dtree.setSelectValue("productCategoryTree"); 
+					url="/william-category/updateCategory";
 				}
 			});
 		}
@@ -236,7 +251,7 @@ layui.extend({
 						//刷新下拉树
 						selectTree.reload();
 						//刷新左边的菜单树
-						window.parent.left.goodsCategoryTree.reload();
+						window.parent.left.productCategoryTree.reload();
 					}
 						layer.msg(res.msg);
 						layer.close(mainIndex);
@@ -246,18 +261,18 @@ layui.extend({
 
 		//删除
 		function deleteMenu(data){
-			$.post("/william-goods-category/getCategoryHasChildrenNode",{id:data.id},function(result){
+			$.post("/william-category/getCategoryHasChildrenNode",{id:data.id},function(result){
 				if(result.value){
-					layer.msg("当前菜单节点有子菜单，请选择删除子菜单");
+					layer.msg("当前菜单节点有子菜单，请先确认删除子菜单");
 				}else{
 					layer.confirm('你确定要删除【' + '<font color=red>'+ data.name + '</font>'+'】这条菜单吗?', {icon: 3, title:'提示',skin:'layui-layer-molv'}, function(index){
-						$.post("/william-goods-category/deleteGoodsCategory",{id:data.id},function(res){
+						$.post("/william-category/deleteCategoryById",{id:data.id},function(res){
 							if(res.code==200){
 								tableIns.reload();
 								//刷新下拉树
 								selectTree.reload();
 								//刷新左边的菜单树
-								window.parent.left.goodsCategoryTree.reload();
+								window.parent.left.productCategoryTree.reload();
 							}
 							layer.msg(res.msg);
 						})	
@@ -290,15 +305,15 @@ layui.extend({
 
 		//初始化下拉树
 		var selectTree=dtree.renderSelect({
-			  elem: "#goodsCategoryTree",
+			  elem: "#productCategoryTree",
 			  width: "100%", // 可以在这里指定树的宽度来填满div
 			  dataStyle: "layuiStyle",  //使用layui风格的数据格式
 		      dataFormat: "list",  //配置data的风格为list
 		      response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
-		      url: "/william-goods-category/getCategoryLeftTreeJson" // 使用url加载（可与data加载同时存在）
+		      url: "/william-category/getCategoryLeftTreeJson" // 使用url加载（可与data加载同时存在）
 			});
 		//监听点击的方法
-		dtree.on("node(goodsCategoryTree)" ,function(obj){
+		dtree.on("node(productCategoryTree)" ,function(obj){
 			$("#pid").val(obj.param.nodeId);
 			  console.log(obj.param.nodeId); // 点击当前节点传递的参数
 		});

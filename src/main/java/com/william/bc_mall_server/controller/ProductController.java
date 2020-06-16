@@ -2,14 +2,12 @@ package com.william.bc_mall_server.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.william.bc_mall_server.service.CategoryService;
 import com.william.bc_mall_server.service.ProductService;
 import com.william.bcpojo.vo.ProductVo;
 import com.william.constant.Constant;
 import com.william.constant.RespCodeAndMsg;
-import com.william.pojo.Result;
-import com.william.pojo.WilliamGoods;
-import com.william.pojo.WilliamGoodsCategory;
-import com.william.pojo.WilliamProduct;
+import com.william.pojo.*;
 import com.william.utils.ObjectId;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class ProductController {
     private ProductService productService;
 
     /**
-     * 商品列表
+     * 商品列表 分类 品牌 分页
      * @author     xinchuang
      * @return : com.william.pojo.Result
      */

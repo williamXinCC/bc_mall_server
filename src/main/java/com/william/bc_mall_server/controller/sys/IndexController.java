@@ -149,17 +149,17 @@ public class IndexController {
     }
 
     // 商品分类
-    @RequestMapping(value = "/toGoodsCategoryManager")
+    @RequestMapping(value = "/toCategoryManager")
     public String toGoodsCategoryManager(){
         return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryManager";
     }
 
-    @RequestMapping(value = "/toGoodsCategoryRight")
+    @RequestMapping(value = "/toCategoryRight")
     public String toGoodsCategoryRight(){
         return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryRight";
     }
 
-    @RequestMapping(value = "/toGoodsCategoryLeft")
+    @RequestMapping(value = "/toCategoryLeft")
     public String toGoodsCategoryLeft(){
         return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryLeft";
     }

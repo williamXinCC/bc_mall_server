@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.william.bc_mall_server.mapper.WilliamBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.william.pojo.WilliamBrand" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="c_id" property="cId" jdbcType="INTEGER" />
+    <result column="ch_name" property="chName" jdbcType="VARCHAR" />
+    <result column="en_name" property="enName" jdbcType="VARCHAR" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="website" property="website" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_id" property="createId" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="mod_id" property="modId" jdbcType="CHAR" />
+    <result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+    <result column="tenant_id" property="tenantId" jdbcType="CHAR" />
+    <result column="client" property="client" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, c_id, ch_name, en_name, describe, logo, website, status, create_id, create_time, 
+    mod_id, mod_time, tenant_id, client
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.pojo.WilliamBrandExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from william_brand
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from william_brand
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from william_brand
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.william.pojo.WilliamBrandExample" >
+    delete from william_brand
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.william.pojo.WilliamBrand" >
+    insert into william_brand (id, c_id, ch_name, 
+      en_name, describe, logo, 
+      website, status, create_id, 
+      create_time, mod_id, mod_time, 
+      tenant_id, client)
+    values (#{id,jdbcType=CHAR}, #{cId,jdbcType=INTEGER}, #{chName,jdbcType=VARCHAR}, 
+      #{enName,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+      #{website,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createId,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, #{modTime,jdbcType=TIMESTAMP}, 
+      #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.william.pojo.WilliamBrand" >
+    insert into william_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cId != null" >
+        c_id,
+      </if>
+      <if test="chName != null" >
+        ch_name,
+      </if>
+      <if test="enName != null" >
+        en_name,
+      </if>
+      <if test="describe != null" >
+        describe,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="website != null" >
+        website,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modId != null" >
+        mod_id,
+      </if>
+      <if test="modTime != null" >
+        mod_time,
+      </if>
+      <if test="tenantId != null" >
+        tenant_id,
+      </if>
+      <if test="client != null" >
+        client,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="cId != null" >
+        #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="chName != null" >
+        #{chName,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null" >
+        #{enName,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null" >
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null" >
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modId != null" >
+        #{modId,jdbcType=CHAR},
+      </if>
+      <if test="modTime != null" >
+        #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=CHAR},
+      </if>
+      <if test="client != null" >
+        #{client,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.william.pojo.WilliamBrandExample" resultType="java.lang.Integer" >
+    select count(*) from william_brand
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update william_brand
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.cId != null" >
+        c_id = #{record.cId,jdbcType=INTEGER},
+      </if>
+      <if test="record.chName != null" >
+        ch_name = #{record.chName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enName != null" >
+        en_name = #{record.enName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.describe != null" >
+        describe = #{record.describe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logo != null" >
+        logo = #{record.logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.website != null" >
+        website = #{record.website,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createId != null" >
+        create_id = #{record.createId,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modId != null" >
+        mod_id = #{record.modId,jdbcType=CHAR},
+      </if>
+      <if test="record.modTime != null" >
+        mod_time = #{record.modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tenantId != null" >
+        tenant_id = #{record.tenantId,jdbcType=CHAR},
+      </if>
+      <if test="record.client != null" >
+        client = #{record.client,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update william_brand
+    set id = #{record.id,jdbcType=CHAR},
+      c_id = #{record.cId,jdbcType=INTEGER},
+      ch_name = #{record.chName,jdbcType=VARCHAR},
+      en_name = #{record.enName,jdbcType=VARCHAR},
+      describe = #{record.describe,jdbcType=VARCHAR},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      website = #{record.website,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      create_id = #{record.createId,jdbcType=CHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      mod_id = #{record.modId,jdbcType=CHAR},
+      mod_time = #{record.modTime,jdbcType=TIMESTAMP},
+      tenant_id = #{record.tenantId,jdbcType=CHAR},
+      client = #{record.client,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.pojo.WilliamBrand" >
+    update william_brand
+    <set >
+      <if test="cId != null" >
+        c_id = #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="chName != null" >
+        ch_name = #{chName,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null" >
+        en_name = #{enName,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null" >
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null" >
+        website = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modId != null" >
+        mod_id = #{modId,jdbcType=CHAR},
+      </if>
+      <if test="modTime != null" >
+        mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tenantId != null" >
+        tenant_id = #{tenantId,jdbcType=CHAR},
+      </if>
+      <if test="client != null" >
+        client = #{client,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.william.pojo.WilliamBrand" >
+    update william_brand
+    set c_id = #{cId,jdbcType=INTEGER},
+      ch_name = #{chName,jdbcType=VARCHAR},
+      en_name = #{enName,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      website = #{website,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_id = #{createId,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      mod_id = #{modId,jdbcType=CHAR},
+      mod_time = #{modTime,jdbcType=TIMESTAMP},
+      tenant_id = #{tenantId,jdbcType=CHAR},
+      client = #{client,jdbcType=CHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>
