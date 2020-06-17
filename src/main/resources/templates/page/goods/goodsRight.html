@@ -28,7 +28,7 @@
 		      </div>
 				<label class="layui-form-label">品牌分类</label>
 				<div class="layui-input-inline">
-					<input type="text" name="code"  autocomplete="off" class="layui-input">
+					<input type="text" name="bChName"  autocomplete="off" class="layui-input">
 				</div>
 		      <div class="layui-input-inline">
 		       	<button type="button" class="layui-btn" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
@@ -91,8 +91,18 @@
 			<div class="layui-inline">
 				<label class="layui-form-label">商品分类</label>
 				<div class="layui-inline">
-					<input type="hidden" name="cId" id="cId" lay-verify="required" placeholder="请选择商品分类">
+					<input type="hidden" name="cId" id="cId" placeholder="请选择分类">
 					<ul id="productCategoryTree" class="dtree" data-id="0"></ul>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">商品品牌</label>
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<select name="bId" id="bid" >
+							<option value="">选择品牌</option>
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="layui-inline">
@@ -164,30 +174,29 @@
 		</div>
 		<!-- 商品列表图片-->
 		<div class="layui-form-item layui-inline">
-			<div class="layui-form-item layui-inline">
-				<input class="layui-form-item" type="hidden" name="listImage" id="listImage">
-				<button type="button" class="layui-btn" id="test1">商品列表图片</button>
-				<div class="layui-upload-list">
-					<img class="layui-upload-img" id="demo1" name="imgs" style="height: 200px;width: 200px"/>
-					<p id="demoText"></p>
-				</div>
+			<label class="layui-form-label" style="width: auto">商品列表图片</label>
+			<div class="layui-input-inline">
+				<input type="text" placeholder="商品列表图片" name="listImage" class="layui-input" style="width: auto">
 			</div>
-			<div class="layui-form-item layui-inline">
-				<input class="layui-form-item" type="hidden" name="imgs" id="bannerImageOne">
-				<button type="button" class="layui-btn" id="bannerButton">商品详情轮播图</button>
-				<div class="layui-upload-list">
-					<img class="layui-upload-img" id="bannerImage" style="height: 200px;width: 200px"/>
-					<p id="bannerImageText"></p>
-				</div>
+			<div class="layui-input-inline">
+				<img id="showImage" style="height: 200px;width: 200px"/>
 			</div>
-			<div class="layui-form-item layui-inline">
-				<input class="layui-form-item" type="hidden" name="imgs" id="bannerImageTwo">
-				<button type="button" class="layui-btn" style="visibility:hidden; display:block"></button>
-				<div class="layui-upload-list">
-					<img class="layui-upload-img" id="bannerImage1" style="height: 200px;width: 200px"/>
-					<p id="bannerImageText1"></p>
-				</div>
-			</div>
+			<!--<div class="layui-form-item layui-inline">-->
+				<!--<input class="layui-form-item" type="hidden" name="imgs" id="bannerImageOne">-->
+				<!--<button type="button" class="layui-btn" id="bannerButton">商品详情轮播图</button>-->
+				<!--<div class="layui-upload-list">-->
+					<!--<img class="layui-upload-img" id="bannerImage" style="height: 200px;width: 200px"/>-->
+					<!--<p id="bannerImageText"></p>-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div class="layui-form-item layui-inline">-->
+				<!--<input class="layui-form-item" type="hidden" name="imgs" id="bannerImageTwo">-->
+				<!--<button type="button" class="layui-btn" style="visibility:hidden; display:block"></button>-->
+				<!--<div class="layui-upload-list">-->
+					<!--<img class="layui-upload-img" id="bannerImage1" style="height: 200px;width: 200px"/>-->
+					<!--<p id="bannerImageText1"></p>-->
+				<!--</div>-->
+			<!--</div>-->
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">商品详情</label>
@@ -221,7 +230,23 @@ layui.extend({
     	var tinymce = layui.tinymce;
     	var edit;
 
+		$(function () {
+			$.ajax({
+			type: "POST",
+			url: "/william-brand/getAllBrand",
+			datatype: "json",//“xml”, “html”, “script”, “json”, “jsonp”, “text”.
+			success: function (res) {
+			    console.log(res)
+				$.each(res.data, function (index, item) {
+				    console.log(item)
+					$("#bId").append(new Option(item.chName, item.id));// 下拉菜单里添加元素
+				});
+				form.render("select");
+			},error:function() {
 
+				}
+			});
+		});
 		// 富文本编辑器
 //    var layedit = layui.layedit;
 //    var content = layedit.build('edit'); //建立编辑器这里的ID是上面的id
@@ -234,11 +259,13 @@ layui.extend({
 			,title: '商品数据表'
 			,height:'full-125'
 			,page: true
+            ,even:true
+            ,skin: 'row'
 			,cols: [ [
 				{field:'id', title:'ID',align:'center',width:'80'}
                 ,{field:'listImage', title:'列表图片',align:'center',width:'120',event: 'openImg',templet:function (d) {
 //                    var imHtml = '<img name="imgs" style="height: 50px;width: 50px" src="/images/goods/goodsList/'+ d.imgs +'"/>'
-                    var imHtml = '<img name="imgs" style="height: 50px;width: 50px" src="'+ d.listImage +'"/>';
+                    var imHtml = '<img name="listImage" style="height: 50px;width: 50px" src="'+ d.listImage +'"/>';
                     return imHtml;
                 }}
 				,{field:'name', title:'商品名称',align:'center',width:'120'}
@@ -279,6 +306,16 @@ layui.extend({
 						}
 					});
 				}
+                // 隔行换色
+//                var that = this.elem.next()
+//                res.data.forEach(function (item,index) {
+//                    if(index % 2 == 0){
+//                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color","#caf9fb");
+//                    }
+//						else{
+//                            var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color","blue");
+//						}
+//                })
 			}
 		});
 		
@@ -307,27 +344,27 @@ layui.extend({
 			 var data = obj.data; //获得当前行数据
 			 switch(obj.event){
 			    case 'update':
-			   		openUpdateMenuLayer(data);
+			   		updateProduct(data);
 			    break;
 			    case 'delete':
-                    deleteGoods(data);
+                    deleteProduct(data);
 			    break;
 			    case 'info':
-					deleteGoods(data);
+					deleteProduct(data);
 				break;
 				 case 'openImg':
 				     openImg(data);
 					 break;
 			  }
 		});
-		
+
 		var mainIndex;
 		var url;
 
 
 		// 查看大图
 		function openImg(data){
-			var imHtml = '<img name="imgs" src="'+ data.imgs +'"/>';
+			var imHtml = '<img name="listImage" src="'+ data.listImage +'"/>';
 			layer.open({
 				skin: 'layui-layer-molv',
 				type:1,
@@ -368,7 +405,7 @@ layui.extend({
                     	});
                     url="/william-product/addProduct";
 //					//初始化排序码
-//					$.get("/william-menu/getGoodsMaxOrderNum",function(res){
+//					$.get("/william-menu/getProductMaxOrderNum",function(res){
 //						$("#seq").val(res.value);
 //					});
 					selectTree.setSelectValue("");
@@ -378,7 +415,7 @@ layui.extend({
 
 
 		//打开修改的弹出层
-		function openUpdateMenuLayer(data){
+		function updateProduct(data){
 			mainIndex=layer.open({
                 skin: 'layui-layer-molv',
 				type:1,
@@ -386,6 +423,8 @@ layui.extend({
                 area:['100%','100%'],
 				title:'商品修改',
 				success:function(){
+                    console.log(data)
+                    $('#showImage').attr('src',data.listImage);
                     edit = tinymce.render({
                         elem: "#detail",
                         convert_urls: false
@@ -399,13 +438,11 @@ layui.extend({
                         fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',
                         images_upload_url: '/editImageUpload'
                     });
-					$("#dataFrm")[0].reset();
 					//装载新的数据
 					form.val("dataFrm",data);
-					//选中之前菜单  nodeId=data.pid;
 					dtree.dataInit("productCategoryTree", data.cId);
    					dtree.setSelectValue("productCategoryTree");
-					url="/william-product/updateGoods";
+					url="/william-product/updateProduct";
 				}
 			});
 		}
@@ -432,9 +469,9 @@ layui.extend({
 
 
 		//删除商品
-		function deleteGoods(data){
+		function deleteProduct(data){
 			layer.confirm('你确定要删除【'+data.name+'】吗?', {icon: 3, title:'提示',skin : 'layui-layer-molv'}, function(index){
-				$.post("/william-product/deleteGoods",{id:data.id},function(res){
+				$.post("/william-product/deleteProduct",{id:data.id},function(res){
 					if(res.code == 200){
 						tableIns.reload();
 						//刷新下拉树
@@ -446,7 +483,7 @@ layui.extend({
 			});
 		}
 
-		//初始化下拉树
+		//初始化 -- 分类 --下拉树
 		var selectTree = dtree.renderSelect({
 			  elem: "#productCategoryTree",
 			  width: "100%", // 可以在这里指定树的宽度来填满div
@@ -463,9 +500,10 @@ layui.extend({
 		});
 
 
+
 //     	var uploadInst = upload.render({
 //			elem: '#test1',
-//			url: '/william-product/addGoods',
+//			url: '/william-product/addProduct',
 //			auto: false,//选择文件后不自动上传
 //			bindAction: '#doSubmit',
 //			//上传前的回调

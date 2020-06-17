@@ -6,7 +6,6 @@ import com.william.bcpojo.vo.CategoryVo;
 import com.william.constant.RespCodeAndMsg;
 import com.william.pojo.Result;
 import com.william.pojo.WilliamCategory;
-import com.william.pojo.WilliamGoodsCategory;
 import com.william.tree.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

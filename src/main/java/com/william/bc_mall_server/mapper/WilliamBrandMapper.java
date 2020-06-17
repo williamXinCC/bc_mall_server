@@ -28,4 +28,6 @@ public interface WilliamBrandMapper {
     int updateByPrimaryKeySelective(WilliamBrand record);
 
     int updateByPrimaryKey(WilliamBrand record);
+
+    List<WilliamBrand> getAllBrand();
 }

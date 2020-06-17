@@ -17,24 +17,34 @@ layui.config({
 	//更换皮肤
 	function skins(){
 		var skin = window.sessionStorage.getItem("skin");
+		console.log('更换皮肤 ==',skin)
 		if(skin){  //如果更换过皮肤
 			if(window.sessionStorage.getItem("skinValue") != "自定义"){
+				console.log('非自定义');
 				$("body").addClass(window.sessionStorage.getItem("skin"));
-				// $(".layui-footer").addClass("layui-bg-" + window.sessionStorage.getItem("skin"));
-				// $(".layui-side").addClass("layui-bg-" + window.sessionStorage.getItem("skin"));
+				$(".layui-footer").addClass("layui-bg-" + window.sessionStorage.getItem("skin"));
+				$(".layui-side").addClass("layui-bg-" + window.sessionStorage.getItem("skin"));
+
+                // $(".layui-layout-admin .layui-header").css("background-color",skin);
+                // $(".layui-bg-black").css("background-color",skin);
+                // $(".hideMenu").css("background-color",skin);
+                // $(".layui-nav .layui-nav-tree").css("background-color",skin)
 			}else{
 				$(".layui-layout-admin .layui-header").css("background-color",skin.split(',')[0]);
 				$(".layui-bg-black").css("background-color",skin.split(',')[1]);
 				$(".hideMenu").css("background-color",skin.split(',')[2]);
-				// $(".layui-nav .layui-nav-tree").css("background-color",skin.)
+				$(".layui-nav .layui-nav-tree").css("background-color",skin.split(',')[3])
 			}
 		}
 	}
+
 	skins();
+
 	$(".changeSkin").click(function(){
 		layer.open({
 			title : "更换皮肤",
 			area : ["310px","280px"],
+			skin: 'layui-layer-lan',
 			type : "1",
 			content : '<div class="skins_box">'+
 						'<form class="layui-form">'+
@@ -55,8 +65,9 @@ layui.config({
 							'</div>'+
 						'</form>'+
 					'</div>',
-			success : function(index, layero){
+				success : function(index, layero){
 				var skin = window.sessionStorage.getItem("skin");
+				console.log('弹窗更换皮肤',skin)
 				if(window.sessionStorage.getItem("skinValue")){
 					$(".skins_box input[value="+window.sessionStorage.getItem("skinValue")+"]").attr("checked","checked");
 				};
@@ -118,7 +129,7 @@ layui.config({
 				});
 
 				form.on("submit(noChangeSkin)",function(){
-					$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
+					$("body").removeAttr("class").addClass("main_body "+ window.sessionStorage.getItem("skin")+"");
 					$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
 					skins();
 					layer.closeAll("page");

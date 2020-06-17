@@ -137,6 +137,7 @@ public class IndexController {
 //
 
     // 商品
+
     @RequestMapping(value = "/toGoodsLeft")
     public String toGoodsLeft(){return Constant.TO_PAGE + "goods/goodsLeft";}
 
@@ -164,6 +165,21 @@ public class IndexController {
         return Constant.TO_PAGE + "goods/goodsCategory/goodsCategoryLeft";
     }
 
+    // 品牌
+    @RequestMapping(value = "/toBrandManager")
+    public String toBrandManager(){
+        return Constant.TO_PAGE + "goods/brand/brandManager";
+    }
+
+    @RequestMapping(value = "/toBrandLeft")
+    public String toBrandLeft(){
+        return Constant.TO_PAGE + "goods/brand/brandLeft";
+    }
+
+    @RequestMapping(value = "/toBrandRight")
+    public String toBrandRight(){
+        return Constant.TO_PAGE + "goods/brand/brandRight";
+    }
 
 
     // 系统管理

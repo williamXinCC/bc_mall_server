@@ -13,4 +13,8 @@ public interface ProductService {
     void addProduct(WilliamProduct williamProduct);
 
     Result getProductList(ProductVo productVo);
+
+    void updateProduct(WilliamProduct williamProduct);
+
+    void deleteProduct(WilliamProduct williamProduct);
 }

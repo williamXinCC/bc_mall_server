@@ -164,6 +164,8 @@ layui.extend({
 		    ,title: '菜单数据表'
 		    ,height:'full-125'
 		    ,page: true
+             ,even:true
+             ,skin: 'row'
 		    ,cols: [ [
 		      {field:'id', title:'ID',align:'center'}
 		      ,{field:'pid', title:'父级菜单ID',align:'center'}
@@ -183,13 +185,23 @@ layui.extend({
 		      ,{fixed: 'right', title:'操作', toolbar: '#menuRowBar',width:'200',align:'center'}
 		    ] ]
 		      ,done: function(res, curr, count){ //处理删除某一页最后一条数据的BUG
-			        if(res.data.length==0&&curr!=1){
+			        if(res.data.length == 0 && curr !=1){
 			        	tableIns.reload({
 			        		page:{
 			        			curr:(curr-1)
 			        		}
 			        	});
 			        }
+					 // 隔行换色
+//					 var that = this.elem.next()
+//					 res.data.forEach(function (item,index) {
+//						 if(index % 2 == 0){
+//							 var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color","#caf9fb");
+//						 }
+		//						else{
+		//                            var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color","blue");
+		//						}
+//					 })
 			    }
 		});
 		

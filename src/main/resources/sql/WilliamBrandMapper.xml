@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.william.bc_mall_server.mapper.WilliamBrandMapper" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.bc_mall_server.mapper.WilliamBrandMapper">
   <resultMap id="BaseResultMap" type="com.william.pojo.WilliamBrand" >
     <id column="id" property="id" jdbcType="CHAR" />
     <result column="c_id" property="cId" jdbcType="INTEGER" />
     <result column="ch_name" property="chName" jdbcType="VARCHAR" />
     <result column="en_name" property="enName" jdbcType="VARCHAR" />
-    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="describes" property="describes" jdbcType="VARCHAR" />
     <result column="logo" property="logo" jdbcType="VARCHAR" />
     <result column="website" property="website" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
@@ -76,8 +76,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, c_id, ch_name, en_name, describe, logo, website, status, create_id, create_time, 
-    mod_id, mod_time, tenant_id, client
+    william_brand.id as id, william_brand.c_id as c_id, william_brand.ch_name as ch_name,
+    william_brand.en_name as en_name, william_brand.describes as describes, william_brand.logo as logo,
+    william_brand.website as website, william_brand.status as status, william_brand.create_id as create_id,
+    william_brand.create_time as create_time, william_brand.mod_id as mod_id, william_brand.mod_time as mod_time,
+    william_brand.tenant_id as tenant_id, william_brand.client as client
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.william.pojo.WilliamBrandExample" >
     select
@@ -94,10 +97,10 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from william_brand
-    where id = #{id,jdbcType=CHAR}
+    where william_brand.id = #{id,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from william_brand
@@ -110,16 +113,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.pojo.WilliamBrand" >
-    insert into william_brand (id, c_id, ch_name, 
-      en_name, describe, logo, 
-      website, status, create_id, 
-      create_time, mod_id, mod_time, 
-      tenant_id, client)
-    values (#{id,jdbcType=CHAR}, #{cId,jdbcType=INTEGER}, #{chName,jdbcType=VARCHAR}, 
-      #{enName,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
-      #{website,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createId,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, #{modTime,jdbcType=TIMESTAMP}, 
-      #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
+    insert into william_brand (id, c_id, ch_name,
+    en_name, describes, logo,
+    website, status, create_id,
+    create_time, mod_id, mod_time,
+    tenant_id, client)
+    values (#{id,jdbcType=CHAR}, #{cId,jdbcType=INTEGER}, #{chName,jdbcType=VARCHAR},
+    #{enName,jdbcType=VARCHAR}, #{describes,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR},
+    #{website,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createId,jdbcType=CHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{modId,jdbcType=CHAR}, #{modTime,jdbcType=TIMESTAMP},
+    #{tenantId,jdbcType=CHAR}, #{client,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.william.pojo.WilliamBrand" >
     insert into william_brand
@@ -136,8 +139,8 @@
       <if test="enName != null" >
         en_name,
       </if>
-      <if test="describe != null" >
-        describe,
+      <if test="describes != null" >
+        describes,
       </if>
       <if test="logo != null" >
         logo,
@@ -180,8 +183,8 @@
       <if test="enName != null" >
         #{enName,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null" >
-        #{describe,jdbcType=VARCHAR},
+      <if test="describes != null" >
+        #{describes,jdbcType=VARCHAR},
       </if>
       <if test="logo != null" >
         #{logo,jdbcType=VARCHAR},
@@ -233,8 +236,8 @@
       <if test="record.enName != null" >
         en_name = #{record.enName,jdbcType=VARCHAR},
       </if>
-      <if test="record.describe != null" >
-        describe = #{record.describe,jdbcType=VARCHAR},
+      <if test="record.describes != null" >
+        describes = #{record.describes,jdbcType=VARCHAR},
       </if>
       <if test="record.logo != null" >
         logo = #{record.logo,jdbcType=VARCHAR},
@@ -271,19 +274,19 @@
   <update id="updateByExample" parameterType="map" >
     update william_brand
     set id = #{record.id,jdbcType=CHAR},
-      c_id = #{record.cId,jdbcType=INTEGER},
-      ch_name = #{record.chName,jdbcType=VARCHAR},
-      en_name = #{record.enName,jdbcType=VARCHAR},
-      describe = #{record.describe,jdbcType=VARCHAR},
-      logo = #{record.logo,jdbcType=VARCHAR},
-      website = #{record.website,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=INTEGER},
-      create_id = #{record.createId,jdbcType=CHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      mod_id = #{record.modId,jdbcType=CHAR},
-      mod_time = #{record.modTime,jdbcType=TIMESTAMP},
-      tenant_id = #{record.tenantId,jdbcType=CHAR},
-      client = #{record.client,jdbcType=CHAR}
+    c_id = #{record.cId,jdbcType=INTEGER},
+    ch_name = #{record.chName,jdbcType=VARCHAR},
+    en_name = #{record.enName,jdbcType=VARCHAR},
+    describes = #{record.describes,jdbcType=VARCHAR},
+    logo = #{record.logo,jdbcType=VARCHAR},
+    website = #{record.website,jdbcType=VARCHAR},
+    status = #{record.status,jdbcType=INTEGER},
+    create_id = #{record.createId,jdbcType=CHAR},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    mod_id = #{record.modId,jdbcType=CHAR},
+    mod_time = #{record.modTime,jdbcType=TIMESTAMP},
+    tenant_id = #{record.tenantId,jdbcType=CHAR},
+    client = #{record.client,jdbcType=CHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -300,8 +303,8 @@
       <if test="enName != null" >
         en_name = #{enName,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null" >
-        describe = #{describe,jdbcType=VARCHAR},
+      <if test="describes != null" >
+        describes = #{describes,jdbcType=VARCHAR},
       </if>
       <if test="logo != null" >
         logo = #{logo,jdbcType=VARCHAR},
@@ -336,18 +339,27 @@
   <update id="updateByPrimaryKey" parameterType="com.william.pojo.WilliamBrand" >
     update william_brand
     set c_id = #{cId,jdbcType=INTEGER},
-      ch_name = #{chName,jdbcType=VARCHAR},
-      en_name = #{enName,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR},
-      logo = #{logo,jdbcType=VARCHAR},
-      website = #{website,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      create_id = #{createId,jdbcType=CHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      mod_id = #{modId,jdbcType=CHAR},
-      mod_time = #{modTime,jdbcType=TIMESTAMP},
-      tenant_id = #{tenantId,jdbcType=CHAR},
-      client = #{client,jdbcType=CHAR}
+    ch_name = #{chName,jdbcType=VARCHAR},
+    en_name = #{enName,jdbcType=VARCHAR},
+    describes = #{describes,jdbcType=VARCHAR},
+    logo = #{logo,jdbcType=VARCHAR},
+    website = #{website,jdbcType=VARCHAR},
+    status = #{status,jdbcType=INTEGER},
+    create_id = #{createId,jdbcType=CHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    mod_id = #{modId,jdbcType=CHAR},
+    mod_time = #{modTime,jdbcType=TIMESTAMP},
+    tenant_id = #{tenantId,jdbcType=CHAR},
+    client = #{client,jdbcType=CHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
+
+
+  <!--  查询所有分类 -->
+  <select id="getAllBrand" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from william_brand
+    where status = 1
+  </select>
 </mapper>

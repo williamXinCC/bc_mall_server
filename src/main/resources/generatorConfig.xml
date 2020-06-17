@@ -59,7 +59,8 @@
 		<!--<table tableName="william_permission_menu" domainObjectName="WilliamPermissionMenu"></table>-->
 		<!--<table tableName="william_menu" domainObjectName="WilliamMenu"></table>-->
 		<!--<table tableName="william_category" domainObjectName="WilliamCategory"></table>-->
-		<table tableName="william_product" domainObjectName="WilliamProduct"></table>
+		<!--<table tableName="william_product" domainObjectName="WilliamProduct"></table>-->
+		<table tableName="william_brand" domainObjectName="WilliamBrand"></table>
 		<!--<table tableName="william_brand" domainObjectName="WilliamBrand"></table>-->
 		<!--<table tableName="william_goods" domainObjectName="WilliamGoods">-->
 			<!--&lt;!&ndash; tinyint 生成int&ndash;&gt;-->

@@ -58,4 +58,14 @@ public class ProductServiceImpl implements ProductService {
         PageInfo<WilliamProduct> pageInfo = new PageInfo<>(williamProducts);
         return new Result(pageInfo.getTotal(),williamProducts);
     }
+
+    @Override
+    public void updateProduct(WilliamProduct williamProduct) {
+        productMapper.updateByPrimaryKeySelective(williamProduct);
+    }
+
+    @Override
+    public void deleteProduct(WilliamProduct williamProduct) {
+        this.updateProduct(williamProduct);
+    }
 }
