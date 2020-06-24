@@ -1,12 +1,10 @@
 package com.william.bc_mall_server.controller;
 
-import cn.hutool.json.JSONUtil;
 import com.william.bc_mall_server.service.BrandService;
 import com.william.bcpojo.vo.BrandVo;
 import com.william.constant.RespCodeAndMsg;
 import com.william.pojo.Result;
 import com.william.pojo.WilliamBrand;
-import com.william.tree.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +27,17 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
+    /**
+     * 所有品牌,没有条件
+     * @author     xinchuang
+     * @return : com.william.pojo.Result
+     */
     @PostMapping(value = "/getAllBrand")
     public Result getAllBrand(){
         List<WilliamBrand> allBrand = brandService.getAllBrand();
         return new Result(allBrand);
     }
+
     /**
      * 删除分类
      * @author     xinchuang

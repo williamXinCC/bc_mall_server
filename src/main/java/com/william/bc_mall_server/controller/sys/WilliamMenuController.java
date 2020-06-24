@@ -100,7 +100,7 @@ public class WilliamMenuController {
     @RequestMapping("/getAllMenu")
     public Result getAllMenu(PermissionVo permissionVo) {
         PageHelper.startPage(permissionVo.getPage(),permissionVo.getLimit());
-        List<WilliamPermission> menusByType = williamMenuService.getMenusByType(BcConsts.PERMISSION_TYPE_MENU);
+        List<WilliamPermission> menusByType = williamMenuService.getMenusByCondition(permissionVo);
         PageInfo<WilliamPermission> pageInfo = new PageInfo<>(menusByType);
         return new Result(pageInfo.getTotal(),menusByType);
     }

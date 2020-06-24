@@ -236,8 +236,10 @@ layui.extend({
 		}
 		
 		form.on("submit(doSubmit)",function(data){
+            $('#doSubmit').attr('disabled', 'disabled');
 			  $.post(url,data.field,function(res){
 					if(res.code==200){
+                        $('#doSubmit').removeAttr('disabled');
 						tableIns.reload();
 					}
 						layer.msg(res.msg);

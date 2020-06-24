@@ -137,6 +137,8 @@ public class IndexController {
 //
 
     // 商品
+    @RequestMapping(value = "/toAddProduct")
+    public String toAddProduct(){return Constant.TO_PAGE + "goods/addProduct";}
 
     @RequestMapping(value = "/toGoodsLeft")
     public String toGoodsLeft(){return Constant.TO_PAGE + "goods/goodsLeft";}
@@ -147,6 +149,22 @@ public class IndexController {
     @RequestMapping(value = "/toGoodsManager")
     public String toGoods(){
         return Constant.TO_PAGE + "goods/goodsManager";
+    }
+
+    // 商品属性
+    @RequestMapping(value = "/toAttrManager")
+    public String toAttrManager(){
+        return Constant.TO_PAGE + "goods/attr/attrManager";
+    }
+
+    @RequestMapping(value = "/toAttrLeft")
+    public String toAttrLeft(){
+        return Constant.TO_PAGE + "goods/attr/attrLeft";
+    }
+
+    @RequestMapping(value = "/toAttrRight")
+    public String toAttrRight(){
+        return Constant.TO_PAGE + "goods/attr/attrRight";
     }
 
     // 商品分类

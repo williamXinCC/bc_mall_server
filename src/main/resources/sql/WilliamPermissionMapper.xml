@@ -515,7 +515,7 @@ limit #{pageSize} offset #{startPos}
   </select>
 
   <!-- 查询当前菜单下 是否有子菜单-->
-  <select id="selectMenusByPid">
+  <select id="selectMenusByPid" resultType="com.william.bcpojo.WilliamPermission">
      select
      <include refid="Base_Column_List"/>
       from william_permission

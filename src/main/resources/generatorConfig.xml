@@ -58,9 +58,11 @@
 		<!--<table tableName="william_permission" domainObjectName="WilliamPermission"></table>-->
 		<!--<table tableName="william_permission_menu" domainObjectName="WilliamPermissionMenu"></table>-->
 		<!--<table tableName="william_menu" domainObjectName="WilliamMenu"></table>-->
-		<!--<table tableName="william_category" domainObjectName="WilliamCategory"></table>-->
-		<!--<table tableName="william_product" domainObjectName="WilliamProduct"></table>-->
-		<table tableName="william_brand" domainObjectName="WilliamBrand"></table>
+		<table tableName="william_attr_name" domainObjectName="WilliamAttrName"></table>
+		<!--<table tableName="william_attr_value" domainObjectName="WilliamAttrValue"></table>-->
+		<!--<table tableName="william_attr_category" domainObjectName="WilliamAttrCategory"></table>-->
+		<!--<table tableName="william_base_attr" domainObjectName="WilliamBaseAttr"></table>-->
+		<!--<table tableName="william_brand" domainObjectName="WilliamBrand"></table>-->
 		<!--<table tableName="william_brand" domainObjectName="WilliamBrand"></table>-->
 		<!--<table tableName="william_goods" domainObjectName="WilliamGoods">-->
 			<!--&lt;!&ndash; tinyint 生成int&ndash;&gt;-->

@@ -1,6 +1,7 @@
 package com.william.bc_mall_server.service;
 
 import com.william.bcpojo.WilliamPermission;
+import com.william.bcpojo.vo.PermissionVo;
 
 import java.util.List;
 /**
@@ -22,4 +23,7 @@ public interface WilliamMenuService {
     List<WilliamPermission> getMenuHasChildrenNode(WilliamPermission permission);
 
     void deleteMenuById(WilliamPermission williamPermission);
+
+    // 条件查询菜单
+    List<WilliamPermission> getMenusByCondition(PermissionVo permissionVo);
 }

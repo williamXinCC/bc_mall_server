@@ -9,13 +9,11 @@ import com.william.bcpojo.WilliamPermission;
 import com.william.bcpojo.WilliamPermissionExample;
 import com.william.bcpojo.WilliamPermission;
 import com.william.bcpojo.WilliamPermissionExample;
+import com.william.bcpojo.vo.PermissionVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author xinchuang
@@ -96,7 +94,7 @@ public class WilliamMenuServiceImpl implements WilliamMenuService {
      */
     @Override
     public List<WilliamPermission> getMenuHasChildrenNode(WilliamPermission permission) {
-        return williamPermissionMapper.selectMenusByPid(permission.getPid());
+        return williamPermissionMapper.selectMenusByPid(permission.getId());
     }
 
     /**
@@ -109,6 +107,24 @@ public class WilliamMenuServiceImpl implements WilliamMenuService {
     public void deleteMenuById(WilliamPermission williamPermission) {
         williamPermission.setStatus(99);
         williamPermissionMapper.updateByPrimaryKeySelective(williamPermission);
+    }
+
+    @Override
+    public List<WilliamPermission> getMenusByCondition(PermissionVo permissionVo) {
+        WilliamPermissionExample williamPermissionExample = new WilliamPermissionExample();
+        WilliamPermissionExample.Criteria criteria = williamPermissionExample.createCriteria();
+        WilliamPermissionExample.Criteria criteriaA = williamPermissionExample.createCriteria();
+        if(Objects.nonNull(permissionVo.getId())){
+            criteria.andIdEqualTo(permissionVo.getId());
+            criteriaA.andPidEqualTo(permissionVo.getId());
+            williamPermissionExample.or(criteriaA);
+        }
+        criteria.andTypeEqualTo(BcConsts.PERMISSION_TYPE_MENU);
+        criteria.andStatusEqualTo(1);
+        criteria.andShowFlagEqualTo(1);
+//        criteria.andTenantIdEqualTo(BcConsts.TENANT_ID);
+        williamPermissionExample.setOrderByClause("seq asc");
+        return williamPermissionMapper.selectByExample(williamPermissionExample);
     }
 
 }
